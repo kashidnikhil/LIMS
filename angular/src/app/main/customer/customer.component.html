@@ -1,0 +1,40 @@
+<div [@routerTransition]>
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+        <div class="kt-subheader kt-grid__item">
+            <div class="kt-container ">
+                <div class="kt-subheader__main">
+                    <h3 class="kt-subheader__title">
+                        <span>{{"Customer" | localize}}</span>
+                    </h3>
+                    <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                    <span class="kt-subheader__desc">
+                        {{"EditTenantHeaderInfo" | localize}}
+                    </span>
+                </div>
+                <div class="kt-subheader__toolbar">
+                    <div class="kt-subheader__wrapper">
+                        <button class="btn btn-primary" (click)="createcustomerModal.show()"><i class="fa fa-plus"></i>
+                            {{"CreateNewCustomer" | localize}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="kt-container kt-grid__item kt-grid__item--fluid">
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body  kt-portlet__body--fit">
+                    <h3>{{"AllPeople" | localize}}</h3>
+                    <div class="row kt-row--no-padding align-items-center" *ngFor="let customer of people">
+                        <div class="col">
+                            <h4>{{customer.name}}</h4><br>
+                            <span>{{customer .emailId}}</span><br>
+                            <span>{{customer .address}}</span>
+                            <span>{{customer .registrationDate}}</span>
+
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <createcustomerModal #createcustomerModal (modalSave)="getPeople()"></createcustomerModal>
+        </div>
+    </div>
+</div>
