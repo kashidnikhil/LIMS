@@ -8,6 +8,17 @@ using MyTraining1101Demo.Chat;
 using MyTraining1101Demo.Customer;
 using MyTraining1101Demo.Editions;
 using MyTraining1101Demo.Friendships;
+using MyTraining1101Demo.LIMS.Library.Container;
+using MyTraining1101Demo.LIMS.Library.Customers.Source;
+using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank;
+using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges;
+using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax;
+using MyTraining1101Demo.LIMS.Library.Personnel;
+using MyTraining1101Demo.LIMS.Library.Tests.Application;
+using MyTraining1101Demo.LIMS.Library.Tests.StandardReference;
+using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark;
+using MyTraining1101Demo.LIMS.Library.Tests.Technique;
+using MyTraining1101Demo.LIMS.Library.Tests.Unit;
 using MyTraining1101Demo.MultiTenancy;
 using MyTraining1101Demo.MultiTenancy.Accounting;
 using MyTraining1101Demo.MultiTenancy.Payments;
@@ -42,6 +53,28 @@ namespace MyTraining1101Demo.EntityFrameworkCore
         public virtual DbSet<SubscriptionPaymentExtensionData> SubscriptionPaymentExtensionDatas { get; set; }
 
         public virtual DbSet<UserDelegation> UserDelegations { get; set; }
+
+        public virtual DbSet<Applications> Applications { get; set; }
+
+        public virtual DbSet<StandardRemark> StandardRemarks { get; set; }
+
+        public virtual DbSet<StandardReference> StandardReferences { get; set; }
+
+        public virtual DbSet<Technique> Techniques { get; set; }
+
+        public virtual DbSet<Unit> Units { get; set; }
+
+        public virtual DbSet<Source> Sources { get; set; }
+
+        public virtual DbSet<Bank> Banks { get; set; }
+
+        public virtual DbSet<Charges> Charges { get; set; }
+
+        public virtual DbSet<Tax> Tax { get; set; }
+
+        public virtual DbSet<Personnel> Personnels { get; set; }
+
+        public virtual DbSet<Container> Containers { get; set; }
 
         public MyTraining1101DemoDbContext(DbContextOptions<MyTraining1101DemoDbContext> options)
             : base(options)

@@ -1144,5 +1144,12 @@
     <text name="WebhookPageInfo">Webhooks allow external services to be notified when certain events happen. When the specified events happen, we’ll send a POST request to each of the URLs you provide.</text>
     <text name="UiCustomization_DarkMode">Dark Mode</text>
     <text name="Theme_Theme13">Theme 13</text>
+	  <!-- Application section-->
+	  <text name="Applications">Applications</text>
+	  <text name="ApplicationsHeaderInfo">Manage applications.</text>
+	  <text name="CreateNewApplication">Create new application</text>
+	  <text name="EditApplication">Edit application</text>
+	  <text name="Description">Description</text>
+	  
   </texts>
 </localizationDictionary>
