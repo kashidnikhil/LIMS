@@ -1,14 +1,14 @@
 <div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'Techniques' | localize" [description]="'TechniquesHeaderInfo' | localize">
+        <sub-header [title]="'Units' | localize" [description]="'UnitsHeaderInfo' | localize">
             <div role="actions">
                 <button
-                    (click)="createTechnique()"
+                    (click)="createUnit()"
                     class="btn btn-primary"
                 >
                 <!-- *ngIf="'Pages.Administration.Users.Create' | permission" -->
                     <i class="fa fa-plus"></i>
-                    {{ 'CreateNewTechnique' | localize }}
+                    {{ 'CreateNewUnit' | localize }}
                 </button>
             </div>
         </sub-header>
@@ -29,7 +29,7 @@
                                                 [placeholder]="l('SearchWithThreeDot')"
                                                 type="text"
                                             />
-                                            <button (click)="getTechniques()" class="btn btn-primary" type="submit">
+                                            <button (click)="getUnits()" class="btn btn-primary" type="submit">
                                                 <i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i>
                                             </button>
                                         </div>
@@ -45,7 +45,7 @@
                             <p-table
                                 #dataTable
                                 sortMode="multiple"
-                                (onLazyLoad)="getTechniques($event)"
+                                (onLazyLoad)="getUnits($event)"
                                 [value]="primengTableHelper.records"
                                 rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
                                 [paginator]="false"
@@ -119,7 +119,7 @@
                                                         <a
                                                             href="javascript:;"
                                                             class="dropdown-item"
-                                                            (click)="createOrEditTechniqueModal.show(record.id)"
+                                                            (click)="createOrEditUnitModal.show(record.id)"
                                                         >
                                                             {{ 'Edit' | localize }}
                                                         </a>
@@ -162,7 +162,7 @@
                                 <p-paginator
                                     [rows]="primengTableHelper.defaultRecordsCountPerPage"
                                     #paginator
-                                    (onPageChange)="getTechniques($event)"
+                                    (onPageChange)="getUnits($event)"
                                     [totalRecords]="primengTableHelper.totalRecordsCount"
                                     [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
                                     [showCurrentPageReport]="true"
@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-technique-modal #createOrEditTechniqueModal (modalSave)="getTechniques()"></create-edit-technique-modal>
+        <create-edit-unit-modal #createOrEditUnitModal (modalSave)="getUnits()"></create-edit-unit-modal>
     </div>
 </div>

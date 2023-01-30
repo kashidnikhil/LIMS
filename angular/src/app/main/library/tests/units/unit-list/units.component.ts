@@ -2,24 +2,21 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import {
-    ApplicationsDto,
-    ApplicationsServiceProxy
-} from '@shared/service-proxies/service-proxies';
+import { UnitDto, UnitServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
-import { CreateOrEditApplicationModalComponent } from '../create-edit-application/create-or-edit-application-modal.component';
 import { finalize } from 'rxjs/operators';
+import { CreateOrEditUnitModalComponent } from '../create-edit-unit/create-or-edit-unit-modal.component';
 
 @Component({
-    templateUrl: './applications.component.html',
+    templateUrl: './units.component.html',
     encapsulation: ViewEncapsulation.None,
-    styleUrls: ['./applications.component.less'],
+    styleUrls: ['./units.component.less'],
     animations: [appModuleAnimation()],
 })
-export class ApplicationsComponent extends AppComponentBase implements AfterViewInit {
-    @ViewChild('createOrEditAppicationModal', { static: true }) createOrEditAppicationModal: CreateOrEditApplicationModalComponent;
+export class UnitsComponent extends AppComponentBase implements AfterViewInit {
+    @ViewChild('createOrEditUnitModal', { static: true }) createOrEditUnitModal: CreateOrEditUnitModalComponent;
     @ViewChild('dataTable', { static: true }) dataTable: Table;
     @ViewChild('paginator', { static: true }) paginator: Paginator;
     
@@ -28,7 +25,7 @@ export class ApplicationsComponent extends AppComponentBase implements AfterView
 
     constructor(
         injector: Injector,
-        private _applicationService : ApplicationsServiceProxy,
+        private _unitService: UnitServiceProxy,
         private _activatedRoute: ActivatedRoute
     ) {
         super(injector);
@@ -39,15 +36,15 @@ export class ApplicationsComponent extends AppComponentBase implements AfterView
         this.primengTableHelper.adjustScroll(this.dataTable);
     }
 
-    getApplications(event?: LazyLoadEvent) {
+    getUnits(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
         }
 
         this.primengTableHelper.showLoadingIndicator();
-        this._applicationService
-            .getApplications(
+        this._unitService
+            .getUnits(
                     this.filterText,
                     this.primengTableHelper.getSorting(this.dataTable),
                     this.primengTableHelper.getMaxResultCount(this.paginator, event),
@@ -65,14 +62,14 @@ export class ApplicationsComponent extends AppComponentBase implements AfterView
         this.paginator.changePage(this.paginator.getPage());
     }
 
-    createApplication(): void {
-        this.createOrEditAppicationModal.show();
+    createUnit(): void {
+        this.createOrEditUnitModal.show();
     }
 
-    deleteApplication(application: ApplicationsDto): void {
-        this.message.confirm(this.l('UserDeleteWarningMessage', application.name), this.l('AreYouSure'), (isConfirmed) => {
+    deleteTechnique(unit: UnitDto): void {
+        this.message.confirm(this.l('UnitDeleteWarningMessage', unit.name), this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
-                this._applicationService.deleteApplication(application.id).subscribe(() => {
+                this._unitService.deleteUnit(unit.id).subscribe(() => {
                     this.reloadPage();
                     this.notify.success(this.l('SuccessfullyDeleted'));
                 });
