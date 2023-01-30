@@ -22,7 +22,35 @@ import { RouterModule } from '@angular/router';
                         path: 'customer',
                         loadChildren: () => import('./customer/customer.module').then(m => m.customerModule)
                     },
-                                      
+                    {
+                        path: 'applications',
+                        loadChildren: () => import('./library/tests/applications/applications.module').then(m => m.ApplicationsModule)
+                    },
+                    ,
+                    {
+                        path: 'standard-remarks',
+                        loadChildren: () => import('./library/tests/standard-remarks/standard-remarks.module').then(m => m.StandardRemarksModule)
+                    },
+                    {
+                        path: 'standard-references',
+                        loadChildren: () => import('./library/tests/standard-references/standard-references.module').then(m => m.StandardReferencesModule)
+                    },
+                    {
+                        path: 'techniques',
+                        loadChildren: () => import('./library/tests/techniques/techniques.module').then(m => m.TechniquesModule)
+                    },
+                    // {
+                    //     path: 'tests',
+                    //     loadChildren: () => import('./library/tes').then(m => m.customerModule)
+                    // },
+                    // {
+                    //     path: 'test-plans',
+                    //     loadChildren: () => import('./customer/customer.module').then(m => m.customerModule)
+                    // },
+                    {
+                        path: 'units',
+                        loadChildren: () => import('./library/tests/units/units.module').then(m => m.UnitsModule)
+                    },                  
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                     { path: '**', redirectTo: 'dashboard' },
                 ],
