@@ -32,7 +32,10 @@ import { RouterModule } from '@angular/router';
                         path: 'sources',
                         loadChildren: () => import('./library/customer/source/source.module').then(m => m.SourceModule)
                     },
-                    
+                    {
+                        path: 'banks',
+                        loadChildren: () => import('./library/invoice-and-receipts/bank/bank.module').then(m => m.BankModule)
+                    },
                     // {
                     //     path: 'tests',
                     //     loadChildren: () => import('./library/tes').then(m => m.customerModule)

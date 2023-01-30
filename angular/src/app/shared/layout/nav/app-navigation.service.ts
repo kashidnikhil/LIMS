@@ -60,7 +60,7 @@ export class AppNavigationService {
                         '',
                         [],
                         [
-                            new AppMenuItem('Bank', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                            new AppMenuItem('Banks', 'Pages.Administration.Users', 'flaticon-users', '/app/main/banks'),
                             new AppMenuItem('Charges', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
                             new AppMenuItem('Tax', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
                         ]
