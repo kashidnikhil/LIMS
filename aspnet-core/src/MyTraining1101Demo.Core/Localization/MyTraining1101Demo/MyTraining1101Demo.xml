@@ -1179,6 +1179,48 @@
 	  <text name="CreateNewUnit">Create new unit</text>
 	  <text name="EditUnit">Edit unit</text>
 	  <text name="UnitDeleteWarningMessage">Unit {0} will be deleted.</text>
+
+	  <!-- Source section-->
+	  <text name="Sources">Sources</text>
+	  <text name="SourcesHeaderInfo">Manage sources.</text>
+	  <text name="CreateNewSource">Create new source</text>
+	  <text name="EditSource">Edit source</text>
+	  <text name="SourceDeleteWarningMessage">Source {0} will be deleted.</text>
+
+	  <!-- Bank section-->
+	  <text name="Banks">Banks</text>
+	  <text name="BanksHeaderInfo">Manage banks.</text>
+	  <text name="CreateNewBank">Create new bank</text>
+	  <text name="EditBank">Edit bank</text>
+	  <text name="BankDeleteWarningMessage">Bank {0} will be deleted.</text>
+
+	  <!-- Charges section-->
+	  <text name="Vharges">Charges</text>
+	  <text name="ChargessHeaderInfo">Manage charges.</text>
+	  <text name="CreateNewCharges">Create new charges</text>
+	  <text name="EditCharges">Edit charges</text>
+	  <text name="ChargesDeleteWarningMessage">Charges {0} will be deleted.</text>
+
+	  <!-- Tax section-->
+	  <text name="Taxes">Taxes</text>
+	  <text name="TaxesHeaderInfo">Manage taxes.</text>
+	  <text name="CreateNewTax">Create new tax</text>
+	  <text name="EditTax">Edit tax</text>
+	  <text name="TaxDeleteWarningMessage">Tax {0} will be deleted.</text>
+
+	  <!-- Personnel section-->
+	  <text name="Personnels">Personnels</text>
+	  <text name="PersonnelsHeaderInfo">Manage personnels.</text>
+	  <text name="CreateNewPersonnel">Create new personnel</text>
+	  <text name="EditPersonnel">Edit personnel</text>
+	  <text name="PersonnelDeleteWarningMessage">Personnel {0} will be deleted.</text>
+
+	  <!-- Container section-->
+	  <text name="Containers">Containers</text>
+	  <text name="ContainersHeaderInfo">Manage containers.</text>
+	  <text name="CreateNewContainer">Create new container</text>
+	  <text name="EditContainer">Edit container</text>
+	  <text name="ContainerDeleteWarningMessage">Container {0} will be deleted.</text>
 	  
 	  
   </texts>

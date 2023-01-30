@@ -28,6 +28,11 @@ import { RouterModule } from '@angular/router';
                         path: 'techniques',
                         loadChildren: () => import('./library/tests/techniques/techniques.module').then(m => m.TechniquesModule)
                     },
+                    {
+                        path: 'sources',
+                        loadChildren: () => import('./library/customer/source/source.module').then(m => m.SourceModule)
+                    },
+                    
                     // {
                     //     path: 'tests',
                     //     loadChildren: () => import('./library/tes').then(m => m.customerModule)

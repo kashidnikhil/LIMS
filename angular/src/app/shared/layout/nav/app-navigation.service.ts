@@ -50,7 +50,7 @@ export class AppNavigationService {
                         [],
                         [
                             new AppMenuItem('Customer', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
-                            new AppMenuItem('Source', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                            new AppMenuItem('Source', 'Pages.Administration.Users', 'flaticon-users', '/app/main/sources'),
                         ]
                         ),
                     new AppMenuItem(
