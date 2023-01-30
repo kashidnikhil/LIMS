@@ -1144,12 +1144,42 @@
     <text name="WebhookPageInfo">Webhooks allow external services to be notified when certain events happen. When the specified events happen, we’ll send a POST request to each of the URLs you provide.</text>
     <text name="UiCustomization_DarkMode">Dark Mode</text>
     <text name="Theme_Theme13">Theme 13</text>
+	<text name="Description">Description</text>
 	  <!-- Application section-->
 	  <text name="Applications">Applications</text>
 	  <text name="ApplicationsHeaderInfo">Manage applications.</text>
 	  <text name="CreateNewApplication">Create new application</text>
 	  <text name="EditApplication">Edit application</text>
-	  <text name="Description">Description</text>
+	  <text name="ApplicationDeleteWarningMessage">Application {0} will be deleted.</text>
+
+	  <!-- Standard References section-->
+	  <text name="StandardReferences">Standard References</text>
+	  <text name="StandardReferencesHeaderInfo">Manage standard references.</text>
+	  <text name="CreateNewStandardReference">Create new standard reference</text>
+	  <text name="EditStandardReference">Edit standard reference</text>
+	  <text name="StandardReferenceDeleteWarningMessage">Application {0} will be deleted.</text>
+
+	  <!-- Standard Remarks  section-->
+	  <text name="StandardRemarks">Standard Remarks</text>
+	  <text name="StandardRemarksHeaderInfo">Manage standard remarks.</text>
+	  <text name="CreateNewStandardRemark">Create new standard remark</text>
+	  <text name="EditStandardRemark">Edit standard remark</text>
+	  <text name="StandardRemarkDeleteWarningMessage">Standard remark {0} will be deleted.</text>
+
+	  <!-- Technique section-->
+	  <text name="Techniques">Techniques</text>
+	  <text name="TechniquesHeaderInfo">Manage techniques.</text>
+	  <text name="CreateNewTechnique">Create new technique</text>
+	  <text name="EditTechnique">Edit technique</text>
+	  <text name="TechniqueDeleteWarningMessage">Technique {0} will be deleted.</text>
+
+	  <!-- Units section-->
+	  <text name="Units">Units</text>
+	  <text name="UnitsHeaderInfo">Manage units.</text>
+	  <text name="CreateNewUnit">Create new unit</text>
+	  <text name="EditUnit">Edit unit</text>
+	  <text name="UnitDeleteWarningMessage">Unit {0} will be deleted.</text>
+	  
 	  
   </texts>
 </localizationDictionary>

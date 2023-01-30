@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { AppSharedModule } from "@app/shared/app-shared.module";
-import { DynamicEntityPropertyManagerModule } from "@app/shared/common/dynamic-entity-property-manager/dynamic-entity-property-manager.module";
 import { SubheaderModule } from "@app/shared/common/sub-header/subheader.module";
 import { ApplicationRoutingModule } from "./application-routing.module";
 import { ApplicationsComponent } from "./application-list/applications.component";
@@ -14,8 +13,7 @@ import { CreateOrEditApplicationModalComponent } from "./create-edit-application
     ],
     imports: [
         AppSharedModule,  
-        ApplicationRoutingModule, 
-        DynamicEntityPropertyManagerModule,
+        ApplicationRoutingModule,
         SubheaderModule
     ],
     providers: [ApplicationsService],
