@@ -26,7 +26,6 @@ import { RouterModule } from '@angular/router';
                         path: 'applications',
                         loadChildren: () => import('./library/tests/applications/applications.module').then(m => m.ApplicationsModule)
                     },
-                    ,
                     {
                         path: 'standard-remarks',
                         loadChildren: () => import('./library/tests/standard-remarks/standard-remarks.module').then(m => m.StandardRemarksModule)

@@ -1,6 +1,6 @@
 <div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'Applications' | localize" [description]="'ApplicationsHeaderInfo' | localize">
+        <sub-header [title]="'StandardReferences' | localize" [description]="'StandardReferencesHeaderInfo' | localize">
             <div role="actions">
                 <button
                     (click)="createApplication()"
@@ -8,7 +8,7 @@
                 >
                 <!-- *ngIf="'Pages.Administration.Users.Create' | permission" -->
                     <i class="fa fa-plus"></i>
-                    {{ 'CreateNewApplication' | localize }}
+                    {{ 'CreateNewStandardReference' | localize }}
                 </button>
             </div>
         </sub-header>
