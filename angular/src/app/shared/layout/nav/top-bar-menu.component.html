@@ -33,23 +33,24 @@
 </div>
 <!-- END: Horizontal Menu -->
 
-<ng-template #kt_menu let-item="item" let-parentItem="parentItem" let-depth="depth">
+<ng-template #kt_menu let-item="item" let-parentItem="parentItem" let-depth="depth" let-subChild="childMenu">
     <div
         attr.aria-haspopup="true"
         [attr.data-kt-menu-toggle]="item.items.length ? 'click' : null"
         class="{{ getItemCssClasses(item, parentItem, depth) }} me-lg-1"
         *ngIf="showMenuItem(item)"
-        [attr.data-kt-menu-trigger]="item.items.length ? 'click': null"
-        [attr.data-kt-menu-placement]="item.items.length ? 'bottom-start' : null"
+        [attr.data-kt-menu-trigger]="item.items.length? 'hover' : null"
+        [attr.data-kt-menu-placement]="item.items.length && subChild ? 'auto-start' : 'bottom-start'"
     >
         <!-- if item has submenu -->
         <ng-container *ngIf="item.items.length">
             <span class="{{ getAnchorItemCssClasses(item, parentItem) }}">
-                <ng-container
-                    [ngTemplateOutlet]="kt_menu_item_inner"
+                 <ng-container
+                    [ngTemplateOutlet]=" kt_menu_item_inner"
                     [ngTemplateOutletContext]="{ item: item, parentItem: parentItem, depth: depth + 1 }"
-                ></ng-container>
-
+                > 
+                </ng-container>
+                
                 <i *ngIf="item.items.length && !parentItem" class="la la-angle-down ms-2"></i>
                 <i *ngIf="item.items.length && parentItem" class="la la-angle-right"></i>
             </span>
@@ -84,14 +85,15 @@
 
         <!-- if menu item has submenu child then recursively call new menu item component -->
         <ng-container *ngIf="item.items.length">
-            <div class="{{ getSubmenuCssClasses(item, parentItem, depth) }}" data-kt-menu-dismiss="true">
+            <div class="{{ getSubmenuCssClasses(item, parentItem, depth) }}" data-kt-menu-dismiss="item.items.length">
                 <span class="menu-arrow" [ngClass]="{ 'menu-arrow-adjust': !parentItem }"></span>
                 <div *ngIf="item.items.length" class="menu-subnav">
                     <ng-container *ngFor="let child of item.items">
-                        <ng-container
+                         <ng-container
                             [ngTemplateOutlet]="kt_menu"
-                            [ngTemplateOutletContext]="{ item: child, parentItem: item, depth: depth + 1 }"
-                        ></ng-container>
+                            [ngTemplateOutletContext]="{ item: child, parentItem: item, depth: depth + 1, childMenu: true }"
+                        >
+                        </ng-container>
                     </ng-container>
                 </div>
             </div>
@@ -100,7 +102,7 @@
 </ng-template>
 
 <!-- item inner -->
-<ng-template #kt_menu_item_inner let-item="item" let-parentItem="parentItem">
+<ng-template #kt_menu_item_inner let-item="item" let-parentItem="parentItem" let-depth="depth">
     <!-- if menu item has icon -->
     <i *ngIf="item.icon" class="menu-icon" [ngClass]="item.icon"></i>
 
