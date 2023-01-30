@@ -17,8 +17,6 @@ export class StandardReferencesService {
         private _authService: AppAuthService
     ) {}
 
-
-
     impersonateTenant(userId: number, tenantId?: number): void {
         const input = new ImpersonateTenantInput();
         input.userId = userId;
