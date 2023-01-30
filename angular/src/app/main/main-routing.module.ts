@@ -12,16 +12,6 @@ import { RouterModule } from '@angular/router';
                         loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
                         data: { permission: 'Pages.Tenant.Dashboard' },
                     },
-                
-                    {
-                        path: 'phonebook',
-                        loadChildren: () => import('./phonebook/phonebook.module').then(m => m.PhoneBookModule),
-                        data: { permission: 'Pages.Tenant.PhoneBook' }
-                    },
-                    {
-                        path: 'customer',
-                        loadChildren: () => import('./customer/customer.module').then(m => m.customerModule)
-                    },
                     {
                         path: 'applications',
                         loadChildren: () => import('./library/tests/applications/applications.module').then(m => m.ApplicationsModule)

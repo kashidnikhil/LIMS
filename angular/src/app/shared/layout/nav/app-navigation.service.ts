@@ -79,12 +79,7 @@ export class AppNavigationService {
                     )
                 ]
             ),
-            new AppMenuItem('Transaction', '', 'flaticon-line-graph', '',[],[
-
-            ]),
-            new AppMenuItem("Utilities", null, "flaticon-book", "/app/main/customer"),
             // new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
-            new AppMenuItem("PhoneBook", 'Pages.Tenant.PhoneBook', "flaticon-book", "/app/main/phonebook"),
             // new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(
                 'Administration',
@@ -158,13 +153,13 @@ export class AppNavigationService {
                     ),
                 ]
             )
-            ,
-            new AppMenuItem(
-                'DemoUiComponents',
-                'Pages.DemoUiComponents',
-                'flaticon-shapes',
-                '/app/admin/demo-ui-components'
-            ),
+            // ,
+            // new AppMenuItem(
+            //     'DemoUiComponents',
+            //     'Pages.DemoUiComponents',
+            //     'flaticon-shapes',
+            //     '/app/admin/demo-ui-components'
+            // ),
         ]);
     }
 
