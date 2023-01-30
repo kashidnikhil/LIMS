@@ -20,11 +20,72 @@ export class AppNavigationService {
                 'flaticon-line-graph',
                 '/app/admin/hostDashboard'
             ),
-            new AppMenuItem('Dashboard', 'Pages.Tenant.Dashboard', 'flaticon-line-graph', '/app/main/dashboard'),
-            new AppMenuItem("Customer", null, "flaticon-book", "/app/main/customer"),
-            new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
+            new AppMenuItem(
+                'Library',
+                null,
+                'flaticon-interface-8',
+                '',
+                [],
+                [
+                    new AppMenuItem(
+                        'Tests', 
+                        null, 
+                        'flaticon-suitcase', 
+                        null,
+                        null,
+                        [
+                            new AppMenuItem('Application', 'Pages.Administration.Users', 'flaticon-users', '/app/main/applications'),
+                            new AppMenuItem('Standard Remarks', 'Pages.Administration.Users', 'flaticon-users', '/app/main/standard-remarks'),
+                            new AppMenuItem('Standard Reference', 'Pages.Administration.Users', 'flaticon-users', '/app/main/standard-references'),
+                            new AppMenuItem('Technique', 'Pages.Administration.Users', 'flaticon-users', '/app/main/techniques'),
+                            // new AppMenuItem('Test', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                            // new AppMenuItem('Test Plans', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                            new AppMenuItem('Unit', 'Pages.Administration.Users', 'flaticon-users', '/app/main/units'),
+                        ]),
+                    new AppMenuItem(
+                        'Customer', 
+                        null, 
+                        'flaticon-users', 
+                        '',
+                        [],
+                        [
+                            new AppMenuItem('Customer', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                            new AppMenuItem('Source', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                        ]
+                        ),
+                    new AppMenuItem(
+                        'Invoice & Receipt',
+                        '',
+                        'flaticon-tabs',
+                        '',
+                        [],
+                        [
+                            new AppMenuItem('Bank', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                            new AppMenuItem('Charges', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                            new AppMenuItem('Tax', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                        ]
+                    ),
+                    new AppMenuItem(
+                        'Personnel',
+                        'Pages.Administration.AuditLogs',
+                        'flaticon-folder-1',
+                        '/app/admin/auditLogs'
+                    ),
+                    new AppMenuItem(
+                        'Container',
+                        'Pages.Administration.Host.Maintenance',
+                        'flaticon-lock',
+                        '/app/admin/maintenance'
+                    )
+                ]
+            ),
+            new AppMenuItem('Transaction', '', 'flaticon-line-graph', '',[],[
+
+            ]),
+            new AppMenuItem("Utilities", null, "flaticon-book", "/app/main/customer"),
+            // new AppMenuItem('Tenants', 'Pages.Tenants', 'flaticon-list-3', '/app/admin/tenants'),
             new AppMenuItem("PhoneBook", 'Pages.Tenant.PhoneBook', "flaticon-book", "/app/main/phonebook"),
-            new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
+            // new AppMenuItem('Editions', 'Pages.Editions', 'flaticon-app', '/app/admin/editions'),
             new AppMenuItem(
                 'Administration',
                 '',
@@ -96,7 +157,8 @@ export class AppNavigationService {
                         '/app/admin/tenantSettings'
                     ),
                 ]
-            ),
+            )
+            ,
             new AppMenuItem(
                 'DemoUiComponents',
                 'Pages.DemoUiComponents',
