@@ -75,14 +75,4 @@ export class CreateOrEditApplicationModalComponent extends AppComponentBase {
         this.active = false;
         this.modal.hide();
     }
-
-
-    isSMTPSettingsProvided(): boolean {
-        return !(
-            this.s('Abp.Net.Mail.DefaultFromAddress') === '' ||
-            this.s('Abp.Net.Mail.Smtp.Host') === '' ||
-            this.s('Abp.Net.Mail.Smtp.UserName') === '' ||
-            this.s('Abp.Net.Mail.Smtp.Password') === ''
-        );
-    }
 }

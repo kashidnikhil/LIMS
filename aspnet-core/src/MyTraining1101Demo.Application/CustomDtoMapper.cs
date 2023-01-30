@@ -34,6 +34,26 @@ using MyTraining1101Demo.Editions.Dto;
 using MyTraining1101Demo.Friendships;
 using MyTraining1101Demo.Friendships.Cache;
 using MyTraining1101Demo.Friendships.Dto;
+using MyTraining1101Demo.LIMS.Library.Container;
+using MyTraining1101Demo.LIMS.Library.Container.Dto;
+using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank;
+using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank.Dto;
+using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges;
+using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges.Dto;
+using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax;
+using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax.Dto;
+using MyTraining1101Demo.LIMS.Library.Personnel;
+using MyTraining1101Demo.LIMS.Library.Personnel.Dto;
+using MyTraining1101Demo.LIMS.Library.Tests.Application;
+using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
+using MyTraining1101Demo.LIMS.Library.Tests.StandardReference;
+using MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto;
+using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark;
+using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark.Dto;
+using MyTraining1101Demo.LIMS.Library.Tests.Technique;
+using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
+using MyTraining1101Demo.LIMS.Library.Tests.Unit;
+using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
 using MyTraining1101Demo.Localization.Dto;
 using MyTraining1101Demo.MultiTenancy;
 using MyTraining1101Demo.MultiTenancy.Dto;
@@ -96,7 +116,7 @@ namespace MyTraining1101Demo
             configuration.CreateMap<Role, RoleListDto>();
             configuration.CreateMap<UserRole, UserListRoleDto>();
 
-            
+
 
             //Edition
             configuration.CreateMap<EditionEditDto, SubscribableEdition>().ReverseMap();
@@ -179,9 +199,42 @@ namespace MyTraining1101Demo
             configuration.CreateMap<DynamicEntityPropertyDto, DynamicEntityProperty>();
 
             configuration.CreateMap<DynamicEntityPropertyValue, DynamicEntityPropertyValueDto>().ReverseMap();
-            
+
             //User Delegations
             configuration.CreateMap<CreateUserDelegationDto, UserDelegation>();
+
+
+            configuration.CreateMap<Container, ContainerInputDto>().ReverseMap();
+            configuration.CreateMap<Container, ContainerDto>().ReverseMap();
+
+            configuration.CreateMap<Bank, BankDto>().ReverseMap();
+            configuration.CreateMap<Bank, BankInputDto>().ReverseMap();
+
+            configuration.CreateMap<Charges, ChargesDto>().ReverseMap();
+            configuration.CreateMap<Charges, ChargesInputDto>().ReverseMap();
+
+            configuration.CreateMap<Tax, TaxDto>().ReverseMap();
+            configuration.CreateMap<Tax, TaxInputDto>().ReverseMap();
+
+
+            configuration.CreateMap<Personnel, PersonnelDto>().ReverseMap();
+            configuration.CreateMap<Personnel, PersonnelInputDto>().ReverseMap();
+
+            configuration.CreateMap<Applications, ApplicationsDto>().ReverseMap();
+            configuration.CreateMap<Applications, ApplicationInputDto>().ReverseMap();
+
+
+            configuration.CreateMap<StandardReference, StandardReferenceDto>().ReverseMap();
+            configuration.CreateMap<StandardReference, StandardReferenceInputDto>().ReverseMap();
+
+            configuration.CreateMap<StandardRemark, StandardRemarkDto>().ReverseMap();
+            configuration.CreateMap<StandardRemark, StandardRemarkInputDto>().ReverseMap();
+
+            configuration.CreateMap<Technique, TechniqueDto>().ReverseMap();
+            configuration.CreateMap<Technique, TechniqueInputDto>().ReverseMap();
+
+            configuration.CreateMap<Unit, UnitDto>().ReverseMap();
+            configuration.CreateMap<Unit, UnitInputDto>().ReverseMap();
 
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
         }
