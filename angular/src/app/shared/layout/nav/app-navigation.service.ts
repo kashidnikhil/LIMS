@@ -69,13 +69,13 @@ export class AppNavigationService {
                         'Personnel',
                         'Pages.Administration.AuditLogs',
                         'flaticon-folder-1',
-                        '/app/admin/auditLogs'
+                        '/app/main/personnels'
                     ),
                     new AppMenuItem(
                         'Container',
                         'Pages.Administration.Host.Maintenance',
                         'flaticon-lock',
-                        '/app/admin/maintenance'
+                        '/app/main/containers'
                     )
                 ]
             ),

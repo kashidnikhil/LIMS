@@ -39,9 +39,18 @@ import { RouterModule } from '@angular/router';
                     {
                         path: 'charges',
                         loadChildren: () => import('./library/invoice-and-receipts/charges/charges.module').then(m => m.ChargesModule)
-                    },{
+                    },
+                    {
                         path: 'taxes',
                         loadChildren: () => import('./library/invoice-and-receipts/tax/tax.module').then(m => m.TaxModule)
+                    },
+                    {
+                        path: 'personnels',
+                        loadChildren: () => import('./library/personnel/personnel.module').then(m => m.PersonnelModule)
+                    },
+                    {
+                        path: 'containers',
+                        loadChildren: () => import('./library/container/container.module').then(m => m.ContainerModule)
                     },
                     // {
                     //     path: 'tests',
