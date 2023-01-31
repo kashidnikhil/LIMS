@@ -35,6 +35,9 @@ import { RouterModule } from '@angular/router';
                     {
                         path: 'banks',
                         loadChildren: () => import('./library/invoice-and-receipts/bank/bank.module').then(m => m.BankModule)
+                    },{
+                        path: 'charges',
+                        loadChildren: () => import('./library/invoice-and-receipts/charges/charges.module').then(m => m.ChargesModule)
                     },
                     // {
                     //     path: 'tests',

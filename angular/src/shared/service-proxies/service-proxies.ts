@@ -18969,7 +18969,7 @@ export interface IChargesDto {
 export class ChargesInputDto implements IChargesInputDto {
     id!: string | undefined;
     name!: string | undefined;
-    desciption!: string | undefined;
+    description!: string | undefined;
 
     constructor(data?: IChargesInputDto) {
         if (data) {
@@ -18984,7 +18984,7 @@ export class ChargesInputDto implements IChargesInputDto {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
-            this.desciption = _data["desciption"];
+            this.description = _data["description"];
         }
     }
 
@@ -18999,7 +18999,7 @@ export class ChargesInputDto implements IChargesInputDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
-        data["desciption"] = this.desciption;
+        data["description"] = this.description;
         return data;
     }
 }
@@ -19007,7 +19007,7 @@ export class ChargesInputDto implements IChargesInputDto {
 export interface IChargesInputDto {
     id: string | undefined;
     name: string | undefined;
-    desciption: string | undefined;
+    description: string | undefined;
 }
 
 export enum ChartDateInterval {
