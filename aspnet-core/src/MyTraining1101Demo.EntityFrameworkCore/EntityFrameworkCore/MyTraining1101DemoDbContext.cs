@@ -17,6 +17,7 @@ using MyTraining1101Demo.LIMS.Library.Personnel;
 using MyTraining1101Demo.LIMS.Library.Tests.Application;
 using MyTraining1101Demo.LIMS.Library.Tests.StandardReference;
 using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark;
+using MyTraining1101Demo.LIMS.Library.Tests.SubApplications;
 using MyTraining1101Demo.LIMS.Library.Tests.Technique;
 using MyTraining1101Demo.LIMS.Library.Tests.Unit;
 using MyTraining1101Demo.MultiTenancy;
@@ -75,6 +76,8 @@ namespace MyTraining1101Demo.EntityFrameworkCore
         public virtual DbSet<Personnel> Personnels { get; set; }
 
         public virtual DbSet<Container> Containers { get; set; }
+
+        public virtual DbSet<SubApplication> SubApplications { get; set; }
 
         public MyTraining1101DemoDbContext(DbContextOptions<MyTraining1101DemoDbContext> options)
             : base(options)

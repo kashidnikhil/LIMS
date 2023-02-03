@@ -50,6 +50,8 @@ using MyTraining1101Demo.LIMS.Library.Tests.StandardReference;
 using MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto;
 using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark;
 using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark.Dto;
+using MyTraining1101Demo.LIMS.Library.Tests.SubApplications;
+using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
 using MyTraining1101Demo.LIMS.Library.Tests.Technique;
 using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
 using MyTraining1101Demo.LIMS.Library.Tests.Unit;
@@ -235,6 +237,14 @@ namespace MyTraining1101Demo
 
             configuration.CreateMap<Unit, UnitDto>().ReverseMap();
             configuration.CreateMap<Unit, UnitInputDto>().ReverseMap();
+
+
+            configuration.CreateMap<SubApplication, SubApplicationDto>()
+                   .ForMember(dto => dto.ApplicationName, options => options.MapFrom(x => x.Applications.Name))
+                   .ReverseMap();
+            configuration.CreateMap<SubApplication, SubApplicationInputDto>()
+                   .ForMember(dto => dto.ApplicationId, options => options.MapFrom(x => x.ApplicationId))
+                   .ReverseMap();
 
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
         }
