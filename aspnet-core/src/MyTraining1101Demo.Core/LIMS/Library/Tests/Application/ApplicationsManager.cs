@@ -51,7 +51,6 @@
                 Logger.Error(ex.Message, ex);
                 throw ex;
             }
-           
         }
 
         [UnitOfWork]
@@ -104,6 +103,23 @@
                 Logger.Error(ex.Message, ex);
                 throw ex;
             }
+        }
+
+        public async Task<IList<ApplicationsDto>> GetApplicationsListFromDB()
+        {
+            try
+            {
+                var applicationsQuery = this._applicationsRepository.GetAll()
+                    .Where(x => !x.IsDeleted);
+          
+                return new List<ApplicationsDto>(ObjectMapper.Map<List<ApplicationsDto>>(applicationsQuery));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+
         }
     }
 }

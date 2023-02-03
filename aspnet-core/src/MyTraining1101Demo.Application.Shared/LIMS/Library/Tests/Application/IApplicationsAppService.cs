@@ -4,6 +4,7 @@
     using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
     using System.Threading.Tasks;
     using System;
+    using System.Collections.Generic;
 
     public interface IApplicationsAppService
     {
@@ -13,5 +14,7 @@
         Task<bool> DeleteApplication(Guid applicationId);
 
         Task<ApplicationsDto> GetApplicationById(Guid applicationId);
+
+        Task<IList<ApplicationsDto>> GetApplicationList();
     }
 }

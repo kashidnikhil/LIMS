@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyTraining1101Demo.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ using MyTraining1101Demo.EntityFrameworkCore;
 namespace MyTraining1101Demo.Migrations
 {
     [DbContext(typeof(MyTraining1101DemoDbContext))]
-    partial class MyTraining1101DemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230203102534_Added_SubApplication")]
+    partial class Added_SubApplication
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2201,6 +2203,9 @@ namespace MyTraining1101Demo.Migrations
                     b.Property<Guid?>("ApplicationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ApplicationsId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -2212,9 +2217,6 @@ namespace MyTraining1101Demo.Migrations
 
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -2231,7 +2233,7 @@ namespace MyTraining1101Demo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationId");
+                    b.HasIndex("ApplicationsId");
 
                     b.ToTable("SubApplications");
                 });
@@ -2906,11 +2908,11 @@ namespace MyTraining1101Demo.Migrations
 
             modelBuilder.Entity("MyTraining1101Demo.LIMS.Library.Tests.SubApplications.SubApplication", b =>
                 {
-                    b.HasOne("MyTraining1101Demo.LIMS.Library.Tests.Application.Applications", "Application")
+                    b.HasOne("MyTraining1101Demo.LIMS.Library.Tests.Application.Applications", "Applications")
                         .WithMany()
-                        .HasForeignKey("ApplicationId");
+                        .HasForeignKey("ApplicationsId");
 
-                    b.Navigation("Application");
+                    b.Navigation("Applications");
                 });
 
             modelBuilder.Entity("MyTraining1101Demo.MultiTenancy.Payments.SubscriptionPayment", b =>

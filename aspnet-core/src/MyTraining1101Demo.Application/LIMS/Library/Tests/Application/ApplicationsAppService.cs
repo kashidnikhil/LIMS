@@ -3,6 +3,7 @@
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class ApplicationsAppService : MyTraining1101DemoAppServiceBase, IApplicationsAppService
@@ -63,6 +64,20 @@
             try
             {
                 var response = await this._applicationsManager.GetApplicationByIdFromDB(applicationId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<IList<ApplicationsDto>> GetApplicationList()
+        {
+            try
+            {
+                var response = await this._applicationsManager.GetApplicationsListFromDB();
                 return response;
             }
             catch (Exception ex)

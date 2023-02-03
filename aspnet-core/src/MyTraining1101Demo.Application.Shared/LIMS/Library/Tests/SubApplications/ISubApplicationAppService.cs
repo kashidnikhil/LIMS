@@ -7,7 +7,7 @@
 
     public interface ISubApplicationAppService
     {
-        Task<PagedResultDto<SubApplicationDto>> GetSubApplications(SubApplicationSearchDto input);
+        Task<PagedResultDto<SubApplicationListDto>> GetSubApplications(SubApplicationSearchDto input);
 
         Task<Guid> InsertOrUpdateSubApplication(SubApplicationInputDto input);
 

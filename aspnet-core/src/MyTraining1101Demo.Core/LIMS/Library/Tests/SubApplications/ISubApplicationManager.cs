@@ -8,7 +8,7 @@
 
     public interface ISubApplicationManager : IDomainService
     {
-        Task<PagedResultDto<SubApplicationDto>> GetPaginatedSubApplicationsListFromDB(SubApplicationSearchDto input);
+        Task<PagedResultDto<SubApplicationListDto>> GetPaginatedSubApplicationsListFromDB(SubApplicationSearchDto input);
 
         Task<Guid> InsertOrUpdateSubApplicationIntoDB(SubApplicationInputDto input);
 

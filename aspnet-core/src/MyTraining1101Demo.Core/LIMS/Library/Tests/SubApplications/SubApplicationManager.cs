@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
+    using PayPalCheckoutSdk.Orders;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -31,21 +32,21 @@
         }
 
 
-        public async Task<PagedResultDto<SubApplicationDto>> GetPaginatedSubApplicationsListFromDB(SubApplicationSearchDto input)
+        public async Task<PagedResultDto<SubApplicationListDto>> GetPaginatedSubApplicationsListFromDB(SubApplicationSearchDto input)
         {
             try
             {
-                var subApplicationQuery = this._subApplicationsRepository.GetAllIncluding(x=> x.Applications)
-                   // .Include(x=> x.Applications)
+                var subApplicationQuery = this._subApplicationsRepository.GetAllIncluding(x=> x.Application)
+                // .Include(x=> x.Applications)
                     .Where(x => !x.IsDeleted)
-                    .WhereIf(!input.SearchString.IsNullOrWhiteSpace(), item => item.Name.ToLower().Contains(input.SearchString.ToLower()));
+                    .WhereIf(!input.SearchString.IsNullOrWhiteSpace(), item => item.Name.ToLower().Contains(input.SearchString.ToLower()) || item.Application.Name.ToLower().Contains(input.SearchString.ToLower()));
 
                 var totalCount = await subApplicationQuery.CountAsync();
                 var items = await subApplicationQuery.OrderBy(input.Sorting).PageBy(input).ToListAsync();
 
-                return new PagedResultDto<SubApplicationDto>(
+                return new PagedResultDto<SubApplicationListDto>(
                 totalCount,
-                ObjectMapper.Map<List<SubApplicationDto>>(items));
+                ObjectMapper.Map<List<SubApplicationListDto>>(items));
             }
             catch (Exception ex)
             {
@@ -106,5 +107,6 @@
                 throw ex;
             }
         }
+    
     }
 }

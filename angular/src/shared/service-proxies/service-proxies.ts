@@ -936,6 +936,64 @@ export class ApplicationsServiceProxy {
         }
         return _observableOf<ApplicationsDto>(null as any);
     }
+
+    /**
+     * @return Success
+     */
+    getApplicationList(): Observable<ApplicationsDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Applications/GetApplicationList";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetApplicationList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetApplicationList(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ApplicationsDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ApplicationsDto[]>;
+        }));
+    }
+
+    protected processGetApplicationList(response: HttpResponseBase): Observable<ApplicationsDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ApplicationsDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ApplicationsDto[]>(null as any);
+    }
 }
 
 @Injectable()
@@ -12327,7 +12385,7 @@ export class SubApplicationServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getSubApplications(searchString: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfSubApplicationDto> {
+    getSubApplications(searchString: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfSubApplicationListDto> {
         let url_ = this.baseUrl + "/api/services/app/SubApplication/GetSubApplications?";
         if (searchString === null)
             throw new Error("The parameter 'searchString' cannot be null.");
@@ -12362,14 +12420,14 @@ export class SubApplicationServiceProxy {
                 try {
                     return this.processGetSubApplications(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<PagedResultDtoOfSubApplicationDto>;
+                    return _observableThrow(e) as any as Observable<PagedResultDtoOfSubApplicationListDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<PagedResultDtoOfSubApplicationDto>;
+                return _observableThrow(response_) as any as Observable<PagedResultDtoOfSubApplicationListDto>;
         }));
     }
 
-    protected processGetSubApplications(response: HttpResponseBase): Observable<PagedResultDtoOfSubApplicationDto> {
+    protected processGetSubApplications(response: HttpResponseBase): Observable<PagedResultDtoOfSubApplicationListDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -12380,7 +12438,7 @@ export class SubApplicationServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PagedResultDtoOfSubApplicationDto.fromJS(resultData200);
+            result200 = PagedResultDtoOfSubApplicationListDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -12388,7 +12446,7 @@ export class SubApplicationServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfSubApplicationDto>(null as any);
+        return _observableOf<PagedResultDtoOfSubApplicationListDto>(null as any);
     }
 
     /**
@@ -28079,11 +28137,11 @@ export interface IPagedResultDtoOfStandardRemarkDto {
     items: StandardRemarkDto[] | undefined;
 }
 
-export class PagedResultDtoOfSubApplicationDto implements IPagedResultDtoOfSubApplicationDto {
+export class PagedResultDtoOfSubApplicationListDto implements IPagedResultDtoOfSubApplicationListDto {
     totalCount!: number;
-    items!: SubApplicationDto[] | undefined;
+    items!: SubApplicationListDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfSubApplicationDto) {
+    constructor(data?: IPagedResultDtoOfSubApplicationListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -28098,14 +28156,14 @@ export class PagedResultDtoOfSubApplicationDto implements IPagedResultDtoOfSubAp
             if (Array.isArray(_data["items"])) {
                 this.items = [] as any;
                 for (let item of _data["items"])
-                    this.items!.push(SubApplicationDto.fromJS(item));
+                    this.items!.push(SubApplicationListDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfSubApplicationDto {
+    static fromJS(data: any): PagedResultDtoOfSubApplicationListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfSubApplicationDto();
+        let result = new PagedResultDtoOfSubApplicationListDto();
         result.init(data);
         return result;
     }
@@ -28122,9 +28180,9 @@ export class PagedResultDtoOfSubApplicationDto implements IPagedResultDtoOfSubAp
     }
 }
 
-export interface IPagedResultDtoOfSubApplicationDto {
+export interface IPagedResultDtoOfSubApplicationListDto {
     totalCount: number;
-    items: SubApplicationDto[] | undefined;
+    items: SubApplicationListDto[] | undefined;
 }
 
 export class PagedResultDtoOfSubscriptionPaymentListDto implements IPagedResultDtoOfSubscriptionPaymentListDto {
@@ -30484,10 +30542,106 @@ export interface IStripePaymentResultOutput {
 export class SubApplicationDto implements ISubApplicationDto {
     id!: string;
     name!: string | undefined;
-    applicationName!: string | undefined;
+    applicationId!: string;
     description!: string | undefined;
 
     constructor(data?: ISubApplicationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.applicationId = _data["applicationId"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): SubApplicationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SubApplicationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["applicationId"] = this.applicationId;
+        data["description"] = this.description;
+        return data;
+    }
+}
+
+export interface ISubApplicationDto {
+    id: string;
+    name: string | undefined;
+    applicationId: string;
+    description: string | undefined;
+}
+
+export class SubApplicationInputDto implements ISubApplicationInputDto {
+    id!: string;
+    applicationId!: string;
+    name!: string | undefined;
+    description!: string | undefined;
+
+    constructor(data?: ISubApplicationInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.applicationId = _data["applicationId"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): SubApplicationInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SubApplicationInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["applicationId"] = this.applicationId;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        return data;
+    }
+}
+
+export interface ISubApplicationInputDto {
+    id: string;
+    applicationId: string;
+    name: string | undefined;
+    description: string | undefined;
+}
+
+export class SubApplicationListDto implements ISubApplicationListDto {
+    id!: string;
+    name!: string | undefined;
+    applicationName!: string | undefined;
+    description!: string | undefined;
+
+    constructor(data?: ISubApplicationListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -30505,9 +30659,9 @@ export class SubApplicationDto implements ISubApplicationDto {
         }
     }
 
-    static fromJS(data: any): SubApplicationDto {
+    static fromJS(data: any): SubApplicationListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new SubApplicationDto();
+        let result = new SubApplicationListDto();
         result.init(data);
         return result;
     }
@@ -30522,54 +30676,10 @@ export class SubApplicationDto implements ISubApplicationDto {
     }
 }
 
-export interface ISubApplicationDto {
+export interface ISubApplicationListDto {
     id: string;
     name: string | undefined;
     applicationName: string | undefined;
-    description: string | undefined;
-}
-
-export class SubApplicationInputDto implements ISubApplicationInputDto {
-    applicationId!: string;
-    name!: string | undefined;
-    description!: string | undefined;
-
-    constructor(data?: ISubApplicationInputDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.applicationId = _data["applicationId"];
-            this.name = _data["name"];
-            this.description = _data["description"];
-        }
-    }
-
-    static fromJS(data: any): SubApplicationInputDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new SubApplicationInputDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["applicationId"] = this.applicationId;
-        data["name"] = this.name;
-        data["description"] = this.description;
-        return data;
-    }
-}
-
-export interface ISubApplicationInputDto {
-    applicationId: string;
-    name: string | undefined;
     description: string | undefined;
 }
 

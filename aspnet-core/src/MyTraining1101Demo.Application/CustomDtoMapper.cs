@@ -238,9 +238,11 @@ namespace MyTraining1101Demo
             configuration.CreateMap<Unit, UnitDto>().ReverseMap();
             configuration.CreateMap<Unit, UnitInputDto>().ReverseMap();
 
-
             configuration.CreateMap<SubApplication, SubApplicationDto>()
-                   .ForMember(dto => dto.ApplicationName, options => options.MapFrom(x => x.Applications.Name))
+                   .ForMember(dto => dto.ApplicationId, options => options.MapFrom(x => x.ApplicationId))
+                   .ReverseMap();
+            configuration.CreateMap<SubApplication, SubApplicationListDto>()
+                   .ForMember(dto => dto.ApplicationName, options => options.MapFrom(x => x.Application.Name))
                    .ReverseMap();
             configuration.CreateMap<SubApplication, SubApplicationInputDto>()
                    .ForMember(dto => dto.ApplicationId, options => options.MapFrom(x => x.ApplicationId))

@@ -52,6 +52,10 @@ import { RouterModule } from '@angular/router';
                         path: 'containers',
                         loadChildren: () => import('./library/container/container.module').then(m => m.ContainerModule)
                     },
+                    {
+                        path: 'sub-applications',
+                        loadChildren: () => import('./library/tests/sub-applications/sub-applications.module').then(m => m.SubApplicationsModule)
+                    },
                     // {
                     //     path: 'tests',
                     //     loadChildren: () => import('./library/tes').then(m => m.customerModule)

@@ -19,7 +19,7 @@
         }
 
 
-        public async Task<PagedResultDto<SubApplicationDto>> GetSubApplications(SubApplicationSearchDto
+        public async Task<PagedResultDto<SubApplicationListDto>> GetSubApplications(SubApplicationSearchDto
             input)
         {
             try

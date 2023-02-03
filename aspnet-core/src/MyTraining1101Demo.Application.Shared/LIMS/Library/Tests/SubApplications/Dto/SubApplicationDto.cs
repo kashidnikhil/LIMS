@@ -8,7 +8,7 @@
         
         public string Name { get; set; }
 
-        public string ApplicationName { get; set; }
+        public Guid ApplicationId { get; set; }
         public string Description { get; set; }
     }
 }

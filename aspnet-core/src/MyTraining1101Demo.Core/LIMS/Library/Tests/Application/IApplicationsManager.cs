@@ -4,6 +4,7 @@
     using Abp.Domain.Services;
     using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IApplicationsManager : IDomainService
@@ -14,6 +15,8 @@
         Task<bool> DeleteApplicationFromDB(Guid applicationId);
 
         Task<ApplicationsDto> GetApplicationByIdFromDB(Guid applicationId);
+
+        Task<IList<ApplicationsDto>> GetApplicationsListFromDB();
 
     }
 }
