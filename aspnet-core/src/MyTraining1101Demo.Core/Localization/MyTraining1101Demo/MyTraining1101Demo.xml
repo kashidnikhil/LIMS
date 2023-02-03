@@ -1221,6 +1221,13 @@
 	  <text name="CreateNewContainer">Create new container</text>
 	  <text name="EditContainer">Edit container</text>
 	  <text name="ContainerDeleteWarningMessage">Container {0} will be deleted.</text>
+
+	  <!-- Sub application section-->
+	  <text name="SubApplications">Sub Applications</text>
+	  <text name="SubApplicationHeaderInfo">Manage sub applications.</text>
+	  <text name="CreateNewSubApplication">Create new sub application</text>
+	  <text name="EditSubApplication">Edit sub application</text>
+	  <text name="SubApplicationDeleteWarningMessage">Sub application {0} will be deleted.</text>
 	  
 	  
   </texts>
