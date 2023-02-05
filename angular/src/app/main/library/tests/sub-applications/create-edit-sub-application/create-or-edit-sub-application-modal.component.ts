@@ -45,6 +45,7 @@ export class CreateOrEditApplicationModalComponent extends AppComponentBase {
     }
 
     async loadApplicationsList(){
+        this.applicationList = [];
         await this._applicationService.getApplicationList()
        .subscribe((response : ApplicationsDto[]) =>{
             this.applicationList = response;

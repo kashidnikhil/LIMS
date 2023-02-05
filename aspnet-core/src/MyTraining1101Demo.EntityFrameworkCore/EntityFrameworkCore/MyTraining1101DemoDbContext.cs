@@ -34,7 +34,7 @@ namespace MyTraining1101Demo.EntityFrameworkCore
 
         public virtual DbSet<Person> Persons { get; set; }
 
-        public virtual DbSet<customer> customers { get; set; }
+        //public virtual DbSet<customer> customers { get; set; }
 
         public virtual DbSet<Phone> Phones { get; set; }
         public virtual DbSet<BinaryObject> BinaryObjects { get; set; }

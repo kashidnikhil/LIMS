@@ -25,8 +25,6 @@ using MyTraining1101Demo.Authorization.Users.Importing.Dto;
 using MyTraining1101Demo.Authorization.Users.Profile.Dto;
 using MyTraining1101Demo.Chat;
 using MyTraining1101Demo.Chat.Dto;
-using MyTraining1101Demo.Customer;
-using MyTraining1101Demo.Customer.Dto;
 using MyTraining1101Demo.Dto;
 using MyTraining1101Demo.DynamicEntityProperties.Dto;
 using MyTraining1101Demo.Editions;
@@ -96,14 +94,6 @@ namespace MyTraining1101Demo
             configuration.CreateMap<CreatePersonInput, Person>();
             configuration.CreateMap<Person, GetPersonForEditOutput>();
             configuration.CreateMap<Phone, PhoneInPersonListDto>();
-
-            // Customer Dto (we will comment out other lines when the new DTOs are added)
-            configuration.CreateMap<customer, CustomerListDto>();
-            //configuration.CreateMap<AddPhoneInput, Phone>();
-            configuration.CreateMap<CreateCustomerInput, customer>();
-            //configuration.CreateMap<Person, GetPersonForEditOutput>();
-            // configuration.CreateMap<Phone, PhoneInPersonListDto>();
-
 
             //Chat
             configuration.CreateMap<ChatMessage, ChatMessageDto>();

@@ -54,7 +54,6 @@ import { ZeroTemplateHttpConfigurationService } from './zero-template-http-confi
         ApiServiceProxies.DynamicEntityPropertyValueServiceProxy,
         ApiServiceProxies.TwitterServiceProxy,
         ApiServiceProxies.PersonServiceProxy,
-        ApiServiceProxies.CustomerServiceProxy,
         ApiServiceProxies.ContainerServiceProxy,
         ApiServiceProxies.SourceServiceProxy,
         ApiServiceProxies.BankServiceProxy,
