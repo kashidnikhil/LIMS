@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyTraining1101Demo.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ using MyTraining1101Demo.EntityFrameworkCore;
 namespace MyTraining1101Demo.Migrations
 {
     [DbContext(typeof(MyTraining1101DemoDbContext))]
-    partial class MyTraining1101DemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230205131837_Added_Customer_Address_Table")]
+    partial class Added_Customer_Address_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1954,114 +1956,6 @@ namespace MyTraining1101Demo.Migrations
                     b.ToTable("CustomerAddress");
                 });
 
-            modelBuilder.Entity("MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerContactPerson", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Designation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DirectLine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmailId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("MobileNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("ContactPerson");
-                });
-
-            modelBuilder.Entity("MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerPO", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("CloseDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("POCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PODate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("CustomerPO");
-                });
-
             modelBuilder.Entity("MyTraining1101Demo.LIMS.Library.Customers.Source.Source", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3097,24 +2991,6 @@ namespace MyTraining1101Demo.Migrations
                 });
 
             modelBuilder.Entity("MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerAddress", b =>
-                {
-                    b.HasOne("MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerContactPerson", b =>
-                {
-                    b.HasOne("MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerPO", b =>
                 {
                     b.HasOne("MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Customer", "Customer")
                         .WithMany()

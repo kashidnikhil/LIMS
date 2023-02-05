@@ -79,6 +79,15 @@ namespace MyTraining1101Demo.EntityFrameworkCore
 
         public virtual DbSet<Customer> Customers { get; set; }
 
+        public virtual DbSet<CustomerAddress> CustomerAddresses { get; set; }
+
+        public virtual DbSet<CustomerPO> CustomerPO { get; set; }
+
+        public virtual DbSet<CustomerContactPerson> CustomerContactPersons { get; set; }
+        
+
+
+
         public MyTraining1101DemoDbContext(DbContextOptions<MyTraining1101DemoDbContext> options)
             : base(options)
         {
