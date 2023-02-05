@@ -1,5 +1,4 @@
-﻿using MyTraining1101Demo.Customer;
-using MyTraining1101Demo.EntityFrameworkCore;
+﻿using MyTraining1101Demo.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,11 +5,11 @@ using MyTraining1101Demo.Authorization.Delegation;
 using MyTraining1101Demo.Authorization.Roles;
 using MyTraining1101Demo.Authorization.Users;
 using MyTraining1101Demo.Chat;
-using MyTraining1101Demo.Customer;
 using MyTraining1101Demo.Editions;
 using MyTraining1101Demo.Friendships;
 using MyTraining1101Demo.LIMS.Library.Container;
 using MyTraining1101Demo.LIMS.Library.Customers.Source;
+using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax;
@@ -33,8 +33,6 @@ namespace MyTraining1101Demo.EntityFrameworkCore
         /* Define an IDbSet for each entity of the application */
 
         public virtual DbSet<Person> Persons { get; set; }
-
-        //public virtual DbSet<customer> customers { get; set; }
 
         public virtual DbSet<Phone> Phones { get; set; }
         public virtual DbSet<BinaryObject> BinaryObjects { get; set; }
@@ -78,6 +76,8 @@ namespace MyTraining1101Demo.EntityFrameworkCore
         public virtual DbSet<Container> Containers { get; set; }
 
         public virtual DbSet<SubApplication> SubApplications { get; set; }
+
+        public virtual DbSet<Customer> Customers { get; set; }
 
         public MyTraining1101DemoDbContext(DbContextOptions<MyTraining1101DemoDbContext> options)
             : base(options)
