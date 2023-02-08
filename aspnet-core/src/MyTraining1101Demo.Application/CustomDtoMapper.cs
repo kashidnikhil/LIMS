@@ -34,6 +34,8 @@ using MyTraining1101Demo.Friendships.Cache;
 using MyTraining1101Demo.Friendships.Dto;
 using MyTraining1101Demo.LIMS.Library.Container;
 using MyTraining1101Demo.LIMS.Library.Container.Dto;
+using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster;
+using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank.Dto;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges;
