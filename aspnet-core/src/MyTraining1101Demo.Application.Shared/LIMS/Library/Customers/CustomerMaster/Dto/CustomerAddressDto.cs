@@ -10,6 +10,6 @@
 
         public string State { get; set; }
 
-        public Guid? CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
     }
 }

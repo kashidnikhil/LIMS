@@ -36,6 +36,7 @@ using MyTraining1101Demo.LIMS.Library.Container;
 using MyTraining1101Demo.LIMS.Library.Container.Dto;
 using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster;
 using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
+using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerContactPersons;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank.Dto;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges;
@@ -245,6 +246,9 @@ namespace MyTraining1101Demo
             //This dto to dto mapper is required when we get the data from the front-end. Input dto works with input and update operations in the database
             configuration.CreateMap<CustomerAddressDto, CustomerAddressInputDto>().ReverseMap();
 
+            configuration.CreateMap<CustomerContactPerson, ContactPersonDto>().ReverseMap();
+            configuration.CreateMap<CustomerContactPerson, ContactPersonInputDto>().ReverseMap();
+            configuration.CreateMap<ContactPersonDto, ContactPersonInputDto>().ReverseMap();
 
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
         }
