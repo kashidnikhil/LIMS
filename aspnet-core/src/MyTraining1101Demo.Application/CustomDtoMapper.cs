@@ -238,6 +238,12 @@ namespace MyTraining1101Demo
                    .ForMember(dto => dto.ApplicationId, options => options.MapFrom(x => x.ApplicationId))
                    .ReverseMap();
 
+            configuration.CreateMap<CustomerAddress, CustomerAddressDto>().ReverseMap();
+            configuration.CreateMap<CustomerAddress, CustomerAddressInputDto>().ReverseMap();
+            //This dto to dto mapper is required when we get the data from the front-end. Input dto works with input and update operations in the database
+            configuration.CreateMap<CustomerAddressDto, CustomerAddressInputDto>().ReverseMap();
+
+
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
         }
     }
