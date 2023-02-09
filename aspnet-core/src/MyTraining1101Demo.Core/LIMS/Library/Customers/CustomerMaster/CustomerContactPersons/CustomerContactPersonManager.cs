@@ -2,18 +2,14 @@
 using Abp.Domain.Uow;
 using Microsoft.Extensions.Configuration;
 using MyTraining1101Demo.Configuration;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerAddresses;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerContactPersons;
-using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerContactPersons
 {
+    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerContactPersons;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public class CustomerContactPersonManager : MyTraining1101DemoDomainServiceBase, ICustomerContactPersonManager
     {
         private readonly IRepository<CustomerContactPerson, Guid> _contactPersonRepository;
