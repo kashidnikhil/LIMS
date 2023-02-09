@@ -1,14 +1,14 @@
-﻿using Abp.Domain.Repositories;
-using Abp.Domain.Uow;
-using Microsoft.Extensions.Configuration;
-using MyTraining1101Demo.Configuration;
-namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerContactPersons
+﻿namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerContactPersons
 {
     using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerContactPersons;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Abp.Domain.Repositories;
+    using Abp.Domain.Uow;
+    using Microsoft.Extensions.Configuration;
+    using MyTraining1101Demo.Configuration;
 
     public class CustomerContactPersonManager : MyTraining1101DemoDomainServiceBase, ICustomerContactPersonManager
     {

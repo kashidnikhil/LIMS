@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerPOs
 {
 
-    public class CustomerPOManager : MyTraining1101DemoDomainServiceBase //, ICustomerContactPersonManager
+    public class CustomerPOManager : MyTraining1101DemoDomainServiceBase, ICustomerPOManager
     {
         private readonly IRepository<CustomerPO, Guid> _customerPORepository;
         private readonly IConfigurationRoot _appConfiguration;
