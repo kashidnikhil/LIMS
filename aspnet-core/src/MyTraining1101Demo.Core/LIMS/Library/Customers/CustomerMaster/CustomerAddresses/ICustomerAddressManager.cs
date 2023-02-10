@@ -11,8 +11,8 @@
     {
         Task<IList<CustomerAddressDto>> GetCustomerAddressListFromDB(Guid customerId);
 
-        Task<bool> DeleteCustomerAddressFromDB(Guid customerAddressId);
+        Task<bool> BulkDeleteCustomerAddresses(Guid customerId);
 
-        Task<Guid> InsertOrUpdateCustomerAddressIntoDB(ApplicationInputDto input);
+        Task<Guid> BulkInsertOrUpdateCustomerAddresses(List<CustomerAddressInputDto> customerAddressInputList);
     }
 }

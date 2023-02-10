@@ -8,9 +8,9 @@
 
     public interface ICustomerPOManager : IDomainService
     {
-        Task<Guid> InsertOrUpdateCustomerPOIntoDB(CustomerPOInputDto input);
+        Task<Guid> BulkInsertOrUpdateCustomerPOs(List<CustomerPOInputDto> customerPOInputList);
 
-        Task<bool> DeleteCustomerPOFromDB(Guid customerPOId);
+        Task<bool> BulkDeleteCustomerPOs(Guid customerId);
 
         Task<IList<CustomerPODto>> GetCustomerPOListFromDB(Guid customerId);
 

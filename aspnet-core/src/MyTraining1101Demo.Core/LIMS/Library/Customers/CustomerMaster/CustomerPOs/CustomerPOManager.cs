@@ -1,18 +1,14 @@
-﻿using Abp.Domain.Repositories;
-using Abp.Domain.Uow;
-using Microsoft.Extensions.Configuration;
-using MyTraining1101Demo.Configuration;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerContactPersons;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerContactPersons;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerPOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerPOs
+﻿namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerPOs
 {
+    using Abp.Domain.Repositories;
+    using Abp.Domain.Uow;
+    using Microsoft.Extensions.Configuration;
+    using MyTraining1101Demo.Configuration;
+    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerPOs;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class CustomerPOManager : MyTraining1101DemoDomainServiceBase, ICustomerPOManager
     {
@@ -29,15 +25,30 @@ namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerPOs
             _appConfiguration = configurationAccessor.Configuration;
         }
 
+        public async Task<Guid> BulkInsertOrUpdateCustomerPOs(List<CustomerPOInputDto> customerPOInputList) {
+            try
+            {
+                Guid customerPOId = Guid.Empty;
+                for (int i = 0;i< customerPOInputList.Count; i++) {
+                    customerPOId = (Guid)customerPOInputList[i].CustomerId;
+                    await this.InsertOrUpdateCustomerPOIntoDB(customerPOInputList[i]);
+                }
+                return customerPOId;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateCustomerPOIntoDB(CustomerPOInputDto input)
+        private async Task InsertOrUpdateCustomerPOIntoDB(CustomerPOInputDto input)
         {
             try
             {
                 var mappedCustomerPOItem = ObjectMapper.Map<CustomerPO>(input);
                 var customerPOId = await this._customerPORepository.InsertOrUpdateAndGetIdAsync(mappedCustomerPOItem);
                 await CurrentUnitOfWork.SaveChangesAsync();
-                return customerPOId;
             }
             catch (Exception ex)
             {
@@ -45,9 +56,31 @@ namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerPOs
                 throw ex;
             }
         }
+        public async Task<bool> BulkDeleteCustomerPOs(Guid customerId)
+        {
+
+            try
+            {
+                var customerPOs = await this.GetCustomerPOListFromDB(customerId);
+
+                if (customerPOs.Count > 0)
+                {
+                    for (int i = 0; i < customerPOs.Count; i++)
+                    {
+                        await this.DeleteCustomerPOFromDB(customerPOs[i].Id);
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         [UnitOfWork]
-        public async Task<bool> DeleteCustomerPOFromDB(Guid customerPOId)
+        private async Task<bool> DeleteCustomerPOFromDB(Guid customerPOId)
         {
             try
             {

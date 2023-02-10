@@ -2877,6 +2877,259 @@ export class ContainerServiceProxy {
 }
 
 @Injectable()
+export class CustomerMasterServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param searchString (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @return Success
+     */
+    getCustomers(searchString: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfCustomerMasterDto> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerMaster/GetCustomers?";
+        if (searchString === null)
+            throw new Error("The parameter 'searchString' cannot be null.");
+        else if (searchString !== undefined)
+            url_ += "SearchString=" + encodeURIComponent("" + searchString) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCustomers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCustomers(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PagedResultDtoOfCustomerMasterDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PagedResultDtoOfCustomerMasterDto>;
+        }));
+    }
+
+    protected processGetCustomers(response: HttpResponseBase): Observable<PagedResultDtoOfCustomerMasterDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfCustomerMasterDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfCustomerMasterDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    insertOrUpdateCustomer(body: CustomerMasterInputDto | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerMaster/InsertOrUpdateCustomer";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processInsertOrUpdateCustomer(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processInsertOrUpdateCustomer(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string>;
+        }));
+    }
+
+    protected processInsertOrUpdateCustomer(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(null as any);
+    }
+
+    /**
+     * @param customerId (optional) 
+     * @return Success
+     */
+    deleteCustomerData(customerId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerMaster/DeleteCustomerData?";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "customerId=" + encodeURIComponent("" + customerId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteCustomerData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteCustomerData(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processDeleteCustomerData(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
+    }
+
+    /**
+     * @param customerId (optional) 
+     * @return Success
+     */
+    getCustomerById(customerId: string | undefined): Observable<CustomerMasterDto> {
+        let url_ = this.baseUrl + "/api/services/app/CustomerMaster/GetCustomerById?";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "customerId=" + encodeURIComponent("" + customerId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCustomerById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCustomerById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<CustomerMasterDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<CustomerMasterDto>;
+        }));
+    }
+
+    protected processGetCustomerById(response: HttpResponseBase): Observable<CustomerMasterDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CustomerMasterDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CustomerMasterDto>(null as any);
+    }
+}
+
+@Injectable()
 export class DashboardCustomizationServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -19413,6 +19666,134 @@ export interface IComboboxItemDto {
     isSelected: boolean;
 }
 
+export class ContactPersonDto implements IContactPersonDto {
+    id!: string;
+    name!: string | undefined;
+    designation!: string | undefined;
+    department!: string | undefined;
+    directLine!: string | undefined;
+    mobileNumber!: number;
+    emailId!: string | undefined;
+    customerId!: string;
+
+    constructor(data?: IContactPersonDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.designation = _data["designation"];
+            this.department = _data["department"];
+            this.directLine = _data["directLine"];
+            this.mobileNumber = _data["mobileNumber"];
+            this.emailId = _data["emailId"];
+            this.customerId = _data["customerId"];
+        }
+    }
+
+    static fromJS(data: any): ContactPersonDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContactPersonDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["designation"] = this.designation;
+        data["department"] = this.department;
+        data["directLine"] = this.directLine;
+        data["mobileNumber"] = this.mobileNumber;
+        data["emailId"] = this.emailId;
+        data["customerId"] = this.customerId;
+        return data;
+    }
+}
+
+export interface IContactPersonDto {
+    id: string;
+    name: string | undefined;
+    designation: string | undefined;
+    department: string | undefined;
+    directLine: string | undefined;
+    mobileNumber: number;
+    emailId: string | undefined;
+    customerId: string;
+}
+
+export class ContactPersonInputDto implements IContactPersonInputDto {
+    id!: string | undefined;
+    name!: string | undefined;
+    designation!: string | undefined;
+    department!: string | undefined;
+    directLine!: string | undefined;
+    mobileNumber!: number;
+    emailId!: string | undefined;
+    customerId!: string | undefined;
+
+    constructor(data?: IContactPersonInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.designation = _data["designation"];
+            this.department = _data["department"];
+            this.directLine = _data["directLine"];
+            this.mobileNumber = _data["mobileNumber"];
+            this.emailId = _data["emailId"];
+            this.customerId = _data["customerId"];
+        }
+    }
+
+    static fromJS(data: any): ContactPersonInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContactPersonInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["designation"] = this.designation;
+        data["department"] = this.department;
+        data["directLine"] = this.directLine;
+        data["mobileNumber"] = this.mobileNumber;
+        data["emailId"] = this.emailId;
+        data["customerId"] = this.customerId;
+        return data;
+    }
+}
+
+export interface IContactPersonInputDto {
+    id: string | undefined;
+    name: string | undefined;
+    designation: string | undefined;
+    department: string | undefined;
+    directLine: string | undefined;
+    mobileNumber: number;
+    emailId: string | undefined;
+    customerId: string | undefined;
+}
+
 export class ContainerDto implements IContainerDto {
     id!: string;
     name!: string | undefined;
@@ -20162,6 +20543,494 @@ export interface ICurrentUserProfileEditDto {
     timezone: string | undefined;
     qrCodeSetupImageUrl: string | undefined;
     isGoogleAuthenticatorEnabled: boolean;
+}
+
+export class CustomerAddressDto implements ICustomerAddressDto {
+    id!: string;
+    addressLine1!: string | undefined;
+    addressLine2!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    customerId!: string;
+
+    constructor(data?: ICustomerAddressDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.addressLine1 = _data["addressLine1"];
+            this.addressLine2 = _data["addressLine2"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.customerId = _data["customerId"];
+        }
+    }
+
+    static fromJS(data: any): CustomerAddressDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerAddressDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["addressLine1"] = this.addressLine1;
+        data["addressLine2"] = this.addressLine2;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["customerId"] = this.customerId;
+        return data;
+    }
+}
+
+export interface ICustomerAddressDto {
+    id: string;
+    addressLine1: string | undefined;
+    addressLine2: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    customerId: string;
+}
+
+export class CustomerAddressInputDto implements ICustomerAddressInputDto {
+    id!: string | undefined;
+    addressLine1!: string | undefined;
+    addressLine2!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    customerId!: string | undefined;
+
+    constructor(data?: ICustomerAddressInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.addressLine1 = _data["addressLine1"];
+            this.addressLine2 = _data["addressLine2"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.customerId = _data["customerId"];
+        }
+    }
+
+    static fromJS(data: any): CustomerAddressInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerAddressInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["addressLine1"] = this.addressLine1;
+        data["addressLine2"] = this.addressLine2;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["customerId"] = this.customerId;
+        return data;
+    }
+}
+
+export interface ICustomerAddressInputDto {
+    id: string | undefined;
+    addressLine1: string | undefined;
+    addressLine2: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    customerId: string | undefined;
+}
+
+export class CustomerMasterDto implements ICustomerMasterDto {
+    id!: string;
+    title!: string | undefined;
+    initials!: string | undefined;
+    name!: string | undefined;
+    vendorCode!: string | undefined;
+    commonDescription!: string | undefined;
+    gstNumber!: string | undefined;
+    emailId!: string | undefined;
+    commercialDescription!: string | undefined;
+    discount!: number;
+    industry!: string | undefined;
+    website!: string | undefined;
+    specialDescription!: string | undefined;
+    isSEZ!: boolean;
+    referenceId!: string | undefined;
+    customerAddresses!: CustomerAddressDto[] | undefined;
+    customerPOs!: CustomerPODto[] | undefined;
+    customerContactPersons!: ContactPersonDto[] | undefined;
+
+    constructor(data?: ICustomerMasterDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.initials = _data["initials"];
+            this.name = _data["name"];
+            this.vendorCode = _data["vendorCode"];
+            this.commonDescription = _data["commonDescription"];
+            this.gstNumber = _data["gstNumber"];
+            this.emailId = _data["emailId"];
+            this.commercialDescription = _data["commercialDescription"];
+            this.discount = _data["discount"];
+            this.industry = _data["industry"];
+            this.website = _data["website"];
+            this.specialDescription = _data["specialDescription"];
+            this.isSEZ = _data["isSEZ"];
+            this.referenceId = _data["referenceId"];
+            if (Array.isArray(_data["customerAddresses"])) {
+                this.customerAddresses = [] as any;
+                for (let item of _data["customerAddresses"])
+                    this.customerAddresses!.push(CustomerAddressDto.fromJS(item));
+            }
+            if (Array.isArray(_data["customerPOs"])) {
+                this.customerPOs = [] as any;
+                for (let item of _data["customerPOs"])
+                    this.customerPOs!.push(CustomerPODto.fromJS(item));
+            }
+            if (Array.isArray(_data["customerContactPersons"])) {
+                this.customerContactPersons = [] as any;
+                for (let item of _data["customerContactPersons"])
+                    this.customerContactPersons!.push(ContactPersonDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): CustomerMasterDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerMasterDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["initials"] = this.initials;
+        data["name"] = this.name;
+        data["vendorCode"] = this.vendorCode;
+        data["commonDescription"] = this.commonDescription;
+        data["gstNumber"] = this.gstNumber;
+        data["emailId"] = this.emailId;
+        data["commercialDescription"] = this.commercialDescription;
+        data["discount"] = this.discount;
+        data["industry"] = this.industry;
+        data["website"] = this.website;
+        data["specialDescription"] = this.specialDescription;
+        data["isSEZ"] = this.isSEZ;
+        data["referenceId"] = this.referenceId;
+        if (Array.isArray(this.customerAddresses)) {
+            data["customerAddresses"] = [];
+            for (let item of this.customerAddresses)
+                data["customerAddresses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.customerPOs)) {
+            data["customerPOs"] = [];
+            for (let item of this.customerPOs)
+                data["customerPOs"].push(item.toJSON());
+        }
+        if (Array.isArray(this.customerContactPersons)) {
+            data["customerContactPersons"] = [];
+            for (let item of this.customerContactPersons)
+                data["customerContactPersons"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface ICustomerMasterDto {
+    id: string;
+    title: string | undefined;
+    initials: string | undefined;
+    name: string | undefined;
+    vendorCode: string | undefined;
+    commonDescription: string | undefined;
+    gstNumber: string | undefined;
+    emailId: string | undefined;
+    commercialDescription: string | undefined;
+    discount: number;
+    industry: string | undefined;
+    website: string | undefined;
+    specialDescription: string | undefined;
+    isSEZ: boolean;
+    referenceId: string | undefined;
+    customerAddresses: CustomerAddressDto[] | undefined;
+    customerPOs: CustomerPODto[] | undefined;
+    customerContactPersons: ContactPersonDto[] | undefined;
+}
+
+export class CustomerMasterInputDto implements ICustomerMasterInputDto {
+    id!: string | undefined;
+    title!: string | undefined;
+    initials!: string | undefined;
+    name!: string | undefined;
+    vendorCode!: string | undefined;
+    commonDescription!: string | undefined;
+    gstNumber!: string | undefined;
+    emailId!: string | undefined;
+    commercialDescription!: string | undefined;
+    discount!: number;
+    industry!: string | undefined;
+    website!: string | undefined;
+    specialDescription!: string | undefined;
+    isSEZ!: boolean;
+    referenceId!: string | undefined;
+    customerAddresses!: CustomerAddressInputDto[] | undefined;
+    customerPOs!: CustomerPOInputDto[] | undefined;
+    customerContactPersons!: ContactPersonInputDto[] | undefined;
+
+    constructor(data?: ICustomerMasterInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.initials = _data["initials"];
+            this.name = _data["name"];
+            this.vendorCode = _data["vendorCode"];
+            this.commonDescription = _data["commonDescription"];
+            this.gstNumber = _data["gstNumber"];
+            this.emailId = _data["emailId"];
+            this.commercialDescription = _data["commercialDescription"];
+            this.discount = _data["discount"];
+            this.industry = _data["industry"];
+            this.website = _data["website"];
+            this.specialDescription = _data["specialDescription"];
+            this.isSEZ = _data["isSEZ"];
+            this.referenceId = _data["referenceId"];
+            if (Array.isArray(_data["customerAddresses"])) {
+                this.customerAddresses = [] as any;
+                for (let item of _data["customerAddresses"])
+                    this.customerAddresses!.push(CustomerAddressInputDto.fromJS(item));
+            }
+            if (Array.isArray(_data["customerPOs"])) {
+                this.customerPOs = [] as any;
+                for (let item of _data["customerPOs"])
+                    this.customerPOs!.push(CustomerPOInputDto.fromJS(item));
+            }
+            if (Array.isArray(_data["customerContactPersons"])) {
+                this.customerContactPersons = [] as any;
+                for (let item of _data["customerContactPersons"])
+                    this.customerContactPersons!.push(ContactPersonInputDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): CustomerMasterInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerMasterInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["initials"] = this.initials;
+        data["name"] = this.name;
+        data["vendorCode"] = this.vendorCode;
+        data["commonDescription"] = this.commonDescription;
+        data["gstNumber"] = this.gstNumber;
+        data["emailId"] = this.emailId;
+        data["commercialDescription"] = this.commercialDescription;
+        data["discount"] = this.discount;
+        data["industry"] = this.industry;
+        data["website"] = this.website;
+        data["specialDescription"] = this.specialDescription;
+        data["isSEZ"] = this.isSEZ;
+        data["referenceId"] = this.referenceId;
+        if (Array.isArray(this.customerAddresses)) {
+            data["customerAddresses"] = [];
+            for (let item of this.customerAddresses)
+                data["customerAddresses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.customerPOs)) {
+            data["customerPOs"] = [];
+            for (let item of this.customerPOs)
+                data["customerPOs"].push(item.toJSON());
+        }
+        if (Array.isArray(this.customerContactPersons)) {
+            data["customerContactPersons"] = [];
+            for (let item of this.customerContactPersons)
+                data["customerContactPersons"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface ICustomerMasterInputDto {
+    id: string | undefined;
+    title: string | undefined;
+    initials: string | undefined;
+    name: string | undefined;
+    vendorCode: string | undefined;
+    commonDescription: string | undefined;
+    gstNumber: string | undefined;
+    emailId: string | undefined;
+    commercialDescription: string | undefined;
+    discount: number;
+    industry: string | undefined;
+    website: string | undefined;
+    specialDescription: string | undefined;
+    isSEZ: boolean;
+    referenceId: string | undefined;
+    customerAddresses: CustomerAddressInputDto[] | undefined;
+    customerPOs: CustomerPOInputDto[] | undefined;
+    customerContactPersons: ContactPersonInputDto[] | undefined;
+}
+
+export class CustomerPODto implements ICustomerPODto {
+    id!: string;
+    poCode!: string | undefined;
+    poDate!: DateTime;
+    description!: string | undefined;
+    closeDate!: DateTime;
+    amount!: number;
+    customerId!: string | undefined;
+
+    constructor(data?: ICustomerPODto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.poCode = _data["poCode"];
+            this.poDate = _data["poDate"] ? DateTime.fromISO(_data["poDate"].toString()) : <any>undefined;
+            this.description = _data["description"];
+            this.closeDate = _data["closeDate"] ? DateTime.fromISO(_data["closeDate"].toString()) : <any>undefined;
+            this.amount = _data["amount"];
+            this.customerId = _data["customerId"];
+        }
+    }
+
+    static fromJS(data: any): CustomerPODto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerPODto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["poCode"] = this.poCode;
+        data["poDate"] = this.poDate ? this.poDate.toString() : <any>undefined;
+        data["description"] = this.description;
+        data["closeDate"] = this.closeDate ? this.closeDate.toString() : <any>undefined;
+        data["amount"] = this.amount;
+        data["customerId"] = this.customerId;
+        return data;
+    }
+}
+
+export interface ICustomerPODto {
+    id: string;
+    poCode: string | undefined;
+    poDate: DateTime;
+    description: string | undefined;
+    closeDate: DateTime;
+    amount: number;
+    customerId: string | undefined;
+}
+
+export class CustomerPOInputDto implements ICustomerPOInputDto {
+    id!: string | undefined;
+    poCode!: string | undefined;
+    poDate!: DateTime;
+    description!: string | undefined;
+    closeDate!: DateTime;
+    amount!: number;
+    customerId!: string | undefined;
+
+    constructor(data?: ICustomerPOInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.poCode = _data["poCode"];
+            this.poDate = _data["poDate"] ? DateTime.fromISO(_data["poDate"].toString()) : <any>undefined;
+            this.description = _data["description"];
+            this.closeDate = _data["closeDate"] ? DateTime.fromISO(_data["closeDate"].toString()) : <any>undefined;
+            this.amount = _data["amount"];
+            this.customerId = _data["customerId"];
+        }
+    }
+
+    static fromJS(data: any): CustomerPOInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerPOInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["poCode"] = this.poCode;
+        data["poDate"] = this.poDate ? this.poDate.toString() : <any>undefined;
+        data["description"] = this.description;
+        data["closeDate"] = this.closeDate ? this.closeDate.toString() : <any>undefined;
+        data["amount"] = this.amount;
+        data["customerId"] = this.customerId;
+        return data;
+    }
+}
+
+export interface ICustomerPOInputDto {
+    id: string | undefined;
+    poCode: string | undefined;
+    poDate: DateTime;
+    description: string | undefined;
+    closeDate: DateTime;
+    amount: number;
+    customerId: string | undefined;
 }
 
 export class Dashboard implements IDashboard {
@@ -27343,6 +28212,54 @@ export class PagedResultDtoOfContainerDto implements IPagedResultDtoOfContainerD
 export interface IPagedResultDtoOfContainerDto {
     totalCount: number;
     items: ContainerDto[] | undefined;
+}
+
+export class PagedResultDtoOfCustomerMasterDto implements IPagedResultDtoOfCustomerMasterDto {
+    totalCount!: number;
+    items!: CustomerMasterDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfCustomerMasterDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(CustomerMasterDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfCustomerMasterDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfCustomerMasterDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IPagedResultDtoOfCustomerMasterDto {
+    totalCount: number;
+    items: CustomerMasterDto[] | undefined;
 }
 
 export class PagedResultDtoOfEntityChangeListDto implements IPagedResultDtoOfEntityChangeListDto {

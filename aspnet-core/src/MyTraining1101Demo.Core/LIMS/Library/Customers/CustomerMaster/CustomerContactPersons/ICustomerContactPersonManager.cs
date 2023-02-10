@@ -8,9 +8,9 @@
 
     public interface ICustomerContactPersonManager : IDomainService
     {
-        Task<Guid> InsertOrUpdateCustomerContactPersonIntoDB(ContactPersonInputDto input);
+        Task<Guid> BulkInsertOrUpdateCustomerContactPersons(List<ContactPersonInputDto> customerContactPersonsInputList);
 
-        Task<bool> DeleteContactPersonFromDB(Guid contactPersonId);
+        Task<bool> BulkDeleteCustomerContactPersons(Guid customerId);
         Task<IList<ContactPersonDto>> GetContactPersonListFromDB(Guid customerId);
     }
 }

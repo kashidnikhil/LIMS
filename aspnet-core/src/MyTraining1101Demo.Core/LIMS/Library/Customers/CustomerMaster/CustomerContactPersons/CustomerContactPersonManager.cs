@@ -9,6 +9,7 @@
     using Abp.Domain.Uow;
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
+    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
 
     public class CustomerContactPersonManager : MyTraining1101DemoDomainServiceBase, ICustomerContactPersonManager
     {
@@ -25,8 +26,27 @@
             _appConfiguration = configurationAccessor.Configuration;
         }
 
+        public async Task<Guid> BulkInsertOrUpdateCustomerContactPersons(List<ContactPersonInputDto> customerContactPersonsInputList)
+        {
+            try
+            {
+                Guid customerContactPersonId = Guid.Empty;
+                for (int i = 0; i < customerContactPersonsInputList.Count; i++)
+                {
+                    customerContactPersonId = (Guid)customerContactPersonsInputList[i].CustomerId;
+                    await this.InsertOrUpdateCustomerContactPersonIntoDB(customerContactPersonsInputList[i]);
+                }
+                return customerContactPersonId;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateCustomerContactPersonIntoDB(ContactPersonInputDto input)
+        private async Task<Guid> InsertOrUpdateCustomerContactPersonIntoDB(ContactPersonInputDto input)
         {
             try
             {
@@ -42,8 +62,32 @@
             }
         }
 
+
+        public async Task<bool> BulkDeleteCustomerContactPersons(Guid customerId)
+        {
+
+            try
+            {
+                var customerContactPersons = await this.GetContactPersonListFromDB(customerId);
+
+                if (customerContactPersons.Count > 0)
+                {
+                    for (int i = 0; i < customerContactPersons.Count; i++)
+                    {
+                        await this.DeleteContactPersonFromDB(customerContactPersons[i].Id);
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [UnitOfWork]
-        public async Task<bool> DeleteContactPersonFromDB(Guid contactPersonId)
+        private async Task<bool> DeleteContactPersonFromDB(Guid contactPersonId)
         {
             try
             {
