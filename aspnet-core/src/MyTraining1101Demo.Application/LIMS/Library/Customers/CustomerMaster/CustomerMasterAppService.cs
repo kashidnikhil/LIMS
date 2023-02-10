@@ -57,21 +57,21 @@
                         input.CustomerAddresses.ForEach(customerAddress => {
                             customerAddress.CustomerId = insertedOrUpdatedCustomerId;
                         });
-
+                        await this._customerAddressManager.BulkInsertOrUpdateCustomerAddresses(input.CustomerAddresses);
                     }
                     if (input.CustomerPOs.Count > 0) {
                         input.CustomerPOs.ForEach(customerPO => {
                             customerPO.CustomerId = insertedOrUpdatedCustomerId;
                         });
+                        await this._customerPOManager.BulkInsertOrUpdateCustomerPOs(input.CustomerPOs);
                     }
                     if (input.CustomerContactPersons.Count > 0) {
                         input.CustomerContactPersons.ForEach(customerContactPerson => {
                             customerContactPerson.CustomerId = insertedOrUpdatedCustomerId;
-
                         });
+                        await this._customerContactPersonManager.BulkInsertOrUpdateCustomerContactPersons(input.CustomerContactPersons);
                     }
                 }
-
                 return insertedOrUpdatedCustomerId;
             }
             catch (Exception ex)
@@ -85,8 +85,15 @@
         {
             try
             {
-                var isSourceDeleted = await this._customerMasterManager.DeleteCustomerFromDB(customerId);
-                return isSourceDeleted;
+                var isCustomerAddressDeleted = await this._customerAddressManager.BulkDeleteCustomerAddresses(customerId);
+                
+                var isCustomerPOsDeleted = await this._customerPOManager.BulkDeleteCustomerPOs(customerId);
+                
+                var isCustomerContactPersonsDeleted = await this._customerContactPersonManager.BulkDeleteCustomerContactPersons(customerId);
+                
+                var isCustomerDataDeleted = await this._customerMasterManager.DeleteCustomerFromDB(customerId);
+                
+                return isCustomerDataDeleted;
             }
             catch (Exception ex)
             {

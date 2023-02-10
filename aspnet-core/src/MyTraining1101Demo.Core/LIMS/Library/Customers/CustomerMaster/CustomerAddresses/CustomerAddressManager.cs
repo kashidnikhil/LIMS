@@ -5,8 +5,6 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
-    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerPOs;
-    using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
     using System;
     using System.Collections.Generic;
     using System.Linq;
