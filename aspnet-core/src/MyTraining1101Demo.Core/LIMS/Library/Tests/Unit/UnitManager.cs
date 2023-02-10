@@ -36,7 +36,7 @@
             try
             {
                 var taxQuery = this._unitRepository.GetAll()
-                    .Where(x => x.IsDeleted == false)
+                    .Where(x => !x.IsDeleted)
                     .WhereIf(!input.SearchString.IsNullOrWhiteSpace(), item => item.Name.ToLower().Contains(input.SearchString.ToLower()));
 
                 var totalCount = await taxQuery.CountAsync();

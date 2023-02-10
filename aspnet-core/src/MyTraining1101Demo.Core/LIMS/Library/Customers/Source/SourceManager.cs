@@ -36,7 +36,7 @@
             try
             {
                 var sourceQuery = this._sourceRepository.GetAll()
-                    .Where(x => x.IsDeleted == false)
+                    .Where(x => !x.IsDeleted)
                     .WhereIf(!input.SearchString.IsNullOrWhiteSpace(), item => item.Name.ToLower().Contains(input.SearchString.ToLower()));
 
                 var totalCount = await sourceQuery.CountAsync();
