@@ -30,7 +30,7 @@ import { RouterModule } from '@angular/router';
                     },
                     {
                         path: 'sources',
-                        loadChildren: () => import('./library/customer/source/source.module').then(m => m.SourceModule)
+                        loadChildren: () => import('./library/customers/source/source.module').then(m => m.SourceModule)
                     },
                     {
                         path: 'banks',
@@ -57,8 +57,8 @@ import { RouterModule } from '@angular/router';
                         loadChildren: () => import('./library/tests/sub-applications/sub-applications.module').then(m => m.SubApplicationsModule)
                     },
                     // {
-                    //     path: 'tests',
-                    //     loadChildren: () => import('./library/tes').then(m => m.customerModule)
+                    //     path: 'customers',
+                    //     loadChildren: () => import('./library/customer').then(m => m.customerModule)
                     // },
                     // {
                     //     path: 'test-plans',
