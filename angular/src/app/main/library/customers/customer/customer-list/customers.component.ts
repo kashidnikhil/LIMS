@@ -2,7 +2,7 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { CustomerMasterServiceProxy, SourceDto } from '@shared/service-proxies/service-proxies';
+import { CustomerMasterDto, CustomerMasterServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -66,10 +66,10 @@ export class CustomersComponent extends AppComponentBase implements AfterViewIni
         this.createOrEditCustomerModal.show();
     }
 
-    deleteCustomer(source: SourceDto): void {
-        this.message.confirm(this.l('CustomerDeleteWarningMessage', source.name), this.l('AreYouSure'), (isConfirmed) => {
+    deleteCustomer(customer: CustomerMasterDto): void {
+        this.message.confirm(this.l('CustomerDeleteWarningMessage', customer.name), this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
-                this._customerService.deleteCustomerData(source.id).subscribe(() => {
+                this._customerService.deleteCustomerData(customer.id).subscribe(() => {
                     this.reloadPage();
                     this.notify.success(this.l('SuccessfullyDeleted'));
                 });
