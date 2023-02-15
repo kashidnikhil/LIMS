@@ -1228,7 +1228,12 @@
 	  <text name="CreateNewSubApplication">Create new sub application</text>
 	  <text name="EditSubApplication">Edit sub application</text>
 	  <text name="SubApplicationDeleteWarningMessage">Sub application {0} will be deleted.</text>
-	  
-	  
+
+	  <!-- Customer section-->
+	  <text name="Customers">Customers</text>
+	  <text name="CustomerHeaderInfo">Manage customers.</text>
+	  <text name="CreateNewCustomer">Create new customer</text>
+	  <text name="EditCustomer">Edit customer</text>
+	  <text name="CustomerDeleteWarningMessage">Customer {0} will be deleted.</text>
   </texts>
 </localizationDictionary>

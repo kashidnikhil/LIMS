@@ -56,10 +56,10 @@ import { RouterModule } from '@angular/router';
                         path: 'sub-applications',
                         loadChildren: () => import('./library/tests/sub-applications/sub-applications.module').then(m => m.SubApplicationsModule)
                     },
-                    // {
-                    //     path: 'customers',
-                    //     loadChildren: () => import('./library/customer').then(m => m.customerModule)
-                    // },
+                    {
+                        path: 'customers',
+                        loadChildren: () => import('./library/customers/customer/customer.module').then(m => m.CustomerModule)
+                    },
                     // {
                     //     path: 'test-plans',
                     //     loadChildren: () => import('./customer/customer.module').then(m => m.customerModule)
