@@ -62,7 +62,7 @@ export class CustomersComponent extends AppComponentBase implements AfterViewIni
         this.paginator.changePage(this.paginator.getPage());
     }
 
-    createSource(): void {
+    createCustomer(): void {
         this.createOrEditCustomerModal.show();
     }
 

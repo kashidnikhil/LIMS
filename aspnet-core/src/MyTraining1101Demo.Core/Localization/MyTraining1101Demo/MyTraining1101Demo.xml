@@ -1237,5 +1237,10 @@
 	  <text name="CreateNewCustomer">Create new customer</text>
 	  <text name="EditCustomer">Edit customer</text>
 	  <text name="CustomerDeleteWarningMessage">Customer {0} will be deleted.</text>
+	  <text name="MobileNo">Mobile Number</text>
+	  <text name="SEZ">SEZ</text>
+	  <text name="CommercialDescription">Commercial Description</text>
+	  <text name="SpecialDescription">Special Description</text>
+	  
   </texts>
 </localizationDictionary>
