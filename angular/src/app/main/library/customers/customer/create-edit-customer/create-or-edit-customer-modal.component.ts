@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { SourceDto, SourceInputDto, SourceServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CustomerMasterDto, CustomerMasterInputDto, CustomerMasterServiceProxy, SourceDto, SourceInputDto } from '@shared/service-proxies/service-proxies';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { map as _map, filter as _filter } from 'lodash-es';
 import { finalize } from 'rxjs/operators';
@@ -13,28 +13,27 @@ import { finalize } from 'rxjs/operators';
 })
 export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
-    
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     active = false;
     saving = false;
-    sourceItem : SourceDto = new SourceDto();
+    sourceItem : CustomerMasterDto = new CustomerMasterDto();
     
     constructor(
         injector: Injector,
-        private _sourceService : SourceServiceProxy
+        private _customerService : CustomerMasterServiceProxy
     ) {
         super(injector);
     }
 
-    show(applicationId?: string): void {
-        if (!applicationId) {
-            this.sourceItem = new SourceDto({id : null, name: "", description: ""}); 
+    show(customerId?: string): void {
+        if (!customerId) {
+            //this.sourceItem = new SourceDto({id : null, name: "", description: ""}); 
             this.active = true;
             this.modal.show();
         }
         else{
-            this._sourceService.getSourceById(applicationId).subscribe((response : SourceDto)=> {
+            this._customerService.getCustomerById(customerId).subscribe((response : CustomerMasterDto)=> {
                 this.sourceItem = response;
                 this.active = true;
                 this.modal.show();
@@ -48,11 +47,11 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     }
 
     save(): void {
-        let input = new SourceInputDto();
+        let input = new CustomerMasterInputDto();
         input = this.sourceItem;
         this.saving = true;
-        this._sourceService
-            .insertOrUpdateSource(input)
+        this._customerService
+            .insertOrUpdateCustomer(input)
             .pipe(
                 finalize(() => {
                     this.saving = false;

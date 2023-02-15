@@ -1231,6 +1231,8 @@
 
 	  <!-- Customer section-->
 	  <text name="Customers">Customers</text>
+	  <text name="CustomerInformation">Customer information</text>
+	  <text name="CustomerPOInformation">Customer PO information</text>
 	  <text name="CustomerHeaderInfo">Manage customers.</text>
 	  <text name="CreateNewCustomer">Create new customer</text>
 	  <text name="EditCustomer">Edit customer</text>
