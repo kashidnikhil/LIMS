@@ -64,6 +64,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="mb-4" *ngFor="let addressItem of customerItem.customerAddresses; index as index;">
+                               <create-edit-address [customerAddressItem]="addressItem" [customerAddressIndex]="index"></create-edit-address>
+                            </div>
                             <div class="col-md-12 row mb-4">
                                 <div class="col-md-5 row mb-2">
                                     <div class="col-md-4">

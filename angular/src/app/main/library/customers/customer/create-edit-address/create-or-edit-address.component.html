@@ -1,0 +1,32 @@
+<div>
+    <div class="col-md-12 row mb-4">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>{{"AddressLine1" | localize}}</label>
+                <input #address1Input id="address1" class="form-control" type="text"name="address1" [(ngModel)]="customerAddressItem.addressLine1">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group mt-5 " *ngIf="customerAddressIndex != 0">
+                <label></label>
+                <button class="btn btn-danger float-end">
+                    <i class="fa fa-trash"></i>
+                    {{ 'Delete' | localize }}
+                </button>
+            </div>
+           
+        </div>
+    </div>
+    <div class="col-md-12 row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>{{"AddressLine2" | localize}}</label>
+                <input #address2Input id="address2" class="form-control" type="text" name="address2" [(ngModel)]="customerAddressItem.addressLine2">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label>{{"City" | localize}}</label>
+            <input #cityInput id="city" class="form-control" type="text" name="city" [(ngModel)]="customerAddressItem.city">
+       </div>
+    </div>
+</div>
