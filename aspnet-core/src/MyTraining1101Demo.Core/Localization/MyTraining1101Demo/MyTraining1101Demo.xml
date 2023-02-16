@@ -1242,10 +1242,11 @@
 	  <text name="CommercialDescription">Commercial Description</text>
 	  <text name="SpecialDescription">Special Description</text>
 	  <text name="GstNo">GST Number</text>
-	  <text name="ReferredBy">Referred By</text>
-	  <text name="AddressLine1">Address Line 1</text>
-	  <text name="AddressLine2">Address Line 2</text>
-	   <text name="City">City</text>
+	  <text name="ReferredBy">Referred by</text>
+	  <text name="AddNewAddress">Add new address</text>
+	  <text name="AddressLine1">Address line 1</text>
+	  <text name="AddressLine2">Address line 2</text>
+	  <text name="City">City</text>
 
 
   </texts>

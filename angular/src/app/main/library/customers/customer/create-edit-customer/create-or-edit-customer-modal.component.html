@@ -3,7 +3,7 @@
     [config]="{ backdrop: 'static', keyboard: !saving }">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active" #sourceForm="ngForm" novalidate (ngSubmit)="save()">
+            <form *ngIf="active" #customerForm="ngForm" novalidate (ngSubmit)="save()">
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="customerItem.id">{{ 'EditCustomer' | localize }}: {{ customerItem.name }}</span>
@@ -22,14 +22,14 @@
                                         <div class="form-group">
                                             <label>{{"Title" | localize}}</label>
                                             <input #titleInput id="title" class="form-control" type="text"
-                                                [(ngModel)]="customerItem.title" name="title" required>
+                                                [(ngModel)]="customerItem.title" name="title">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{"Initials" | localize}}</label>
                                             <input #initialsInput id="initials" class="form-control" type="text"
-                                                [(ngModel)]="customerItem.initials" name="initials" required>
+                                                [(ngModel)]="customerItem.initials" name="initials">
                                         </div>
                                     </div>
                                 </div>
@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <label>{{"Name" | localize}}</label>
                                         <input #nameInput id="name" class="form-control" type="text"
-                                            [(ngModel)]="customerItem.name" name="name" required>
+                                            [(ngModel)]="customerItem.name" name="name">
                                     </div>
                                 </div>
                             </div>
@@ -46,25 +46,31 @@
                                     <div class="form-group">
                                         <label>{{"GstNo" | localize}}</label>
                                         <input #gstNumberInput id="gstNumber" class="form-control" type="text"
-                                            [(ngModel)]="customerItem.gstNumber" name="gstNumber" required>
+                                            [(ngModel)]="customerItem.gstNumber" name="gstNumber">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>{{"MobileNo" | localize}}</label>
                                         <input #mobileNumberInput id="mobileNumber" class="form-control" type="text"
-                                            [(ngModel)]="customerItem.mobileNumber" name="mobileNumber" required>
+                                            [(ngModel)]="customerItem.mobileNumber" name="mobileNumber">
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label>{{"EmailAddress" | localize}}</label>
                                         <input #emailIdInput id="emailId" class="form-control" type="text"
-                                            [(ngModel)]="customerItem.emailId" name="emailId" required>
+                                            [(ngModel)]="customerItem.emailId" name="emailId">
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-4" *ngFor="let addressItem of customerItem.customerAddresses; index as index;">
+                            <div class="mb-4">
+                                <button type="button" class="btn btn-primary" (click)="addCustomerAddress()">
+                                    <i class="fa fa-plus"></i>
+                                    {{ 'AddNewAddress' | localize }}
+                                </button>
+                            </div>
+                            <div class="mb-4" *ngFor="let addressItem of customerItem?.customerAddresses; index as index;">
                                <create-edit-address [customerAddressItem]="addressItem" [customerAddressIndex]="index"></create-edit-address>
                             </div>
                             <div class="col-md-12 row mb-4">
@@ -73,26 +79,26 @@
                                         <div class="form-group">
                                             <label>{{"Discount" | localize}}</label>
                                             <input #discountInput id="discount" class="form-control" type="text"
-                                                [(ngModel)]="customerItem.discount" name="discount" required>
+                                                [(ngModel)]="customerItem.discount" name="discount">
                                         </div>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label>{{"Industry" | localize}}</label>
                                             <input #industryInput id="industry" class="form-control" type="text"
-                                                [(ngModel)]="customerItem.industry" name="industry" required>
+                                                [(ngModel)]="customerItem.industry" name="industry">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-7 row mb-2">
-                                    <div class="col-md-7">
+                                    <div class="col-md-8">
                                         <div class="form-group">
-                                            <label>{{"Discount" | localize}}</label>
-                                            <input #discountInput id="discount" class="form-control" type="text"
-                                                [(ngModel)]="customerItem.discount" name="discount" required>
+                                            <label>{{"Website" | localize}}</label>
+                                            <input #websiteInput id="website" class="form-control" type="text"
+                                                [(ngModel)]="customerItem.website" name="website">
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label></label>
                                             <label class="form-check form-check-custom form-check-solid py-1 mt-2">
@@ -115,14 +121,14 @@
                                 <div class="form-group">
                                     <label>{{"CommercialDescription" | localize}}</label>
                                     <input #commercialDescriptionInput id="commercialDescription" class="form-control" type="text"
-                                        [(ngModel)]="customerItem.commercialDescription" name="commercialDescription" required>
+                                        [(ngModel)]="customerItem.commercialDescription" name="commercialDescription">
                                 </div>
                             </div>
                             <div class="col-md-12 mb-4 row">
                                 <div class="form-group">
                                     <label>{{"SpecialDescription" | localize}}</label>
                                     <input #nameInput id="title" class="form-control" type="text"
-                                        [(ngModel)]="customerItem.specialDescription" name="name" required>
+                                        [(ngModel)]="customerItem.specialDescription" name="name">
                                 </div>
                             </div>
                         </tab>
@@ -133,7 +139,7 @@
 
                     <!-- <div class="form-group">
                         <label>{{"Description" | localize}}</label>
-                         <input class="form-control" type="text" name="description"  [(ngModel)]="sourceItem.description" required>
+                         <input class="form-control" type="text" name="description"  [(ngModel)]="sourceItem.description">
                     </div> -->
                 </div>
                 <div class="modal-footer">
@@ -141,8 +147,9 @@
                         (click)="close()">
                         {{ 'Cancel' | localize }}
                     </button>
-                    <button type="submit" class="btn btn-primary font-weight-bold" [disabled]="!sourceForm.form.valid"
+                    <button type="submit" class="btn btn-primary font-weight-bold" 
                         [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <!-- [disabled]="!customerForm.form.valid" -->
                         <i class="fa fa-save"></i>
                         <span>{{ 'Save' | localize }}</span>
                     </button>

@@ -23,7 +23,6 @@ export class CreateOrEditAddressComponent implements OnInit {
 
 
     ngOnInit(){
-        console.log(this.customerAddressItem.id);
         console.log(this.customerAddressIndex);
     }
 

@@ -17,7 +17,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
 
     active = false;
     saving = false;
-    customerItem : CustomerMasterDto = new CustomerMasterDto();
+    customerItem : CustomerMasterDto;
     
     constructor(
         injector: Injector,
@@ -28,7 +28,8 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
 
     show(customerId?: string): void {
         if (!customerId) {
-            this.initialiseCutomerAddresses();
+            this.initialiseCutomerData();
+            this.addCustomerAddress();
             this.active = true;
             this.modal.show();
         }
@@ -41,8 +42,42 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         }        
     }
 
-    initialiseCutomerAddresses(){
+    initialiseCutomerData()
+    {
+        this.customerItem = new CustomerMasterDto();
         this.customerItem.customerAddresses = [];
+        this.customerItem.customerContactPersons = [];
+        this.customerItem.customerPOs = [];
+        // this.customerItem = new CustomerMasterDto(
+        //     {
+        //         commercialDescription : "",
+        //         commonDescription : "",
+        //         customerAddresses : [],
+        //         customerContactPersons : [],
+        //         customerPOs : [],
+        //         discount : 0,
+        //         emailId : "",
+        //         gstNumber : "",
+        //         industry: "",
+        //         initials : "",
+        //         isSEZ: false,
+        //         mobileNumber :"",
+        //         name:"",
+        //         referenceId : "",
+        //         specialDescription: "",
+        //         title : "",
+        //         vendorCode :"",
+        //         website : "",
+        //         id : ""
+        //     }
+        // );
+    }
+
+    addCustomerAddress(){
+        if(this.customerItem.customerAddresses?.length == 0){
+            this.customerItem.customerAddresses = [];
+        }
+       
         let customerAddressItem = new CustomerAddressDto(
             {
                 id :"",
@@ -56,25 +91,26 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     }
 
     onShown(): void {
-        document.getElementById('name').focus();
+        document.getElementById('title').focus();
     }
 
     save(): void {
         let input = new CustomerMasterInputDto();
         input = this.customerItem;
-        this.saving = true;
-        this._customerService
-            .insertOrUpdateCustomer(input)
-            .pipe(
-                finalize(() => {
-                    this.saving = false;
-                })
-            )
-            .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
-            });
+        console.log(input);
+        // this.saving = true;
+        // this._customerService
+        //     .insertOrUpdateCustomer(input)
+        //     .pipe(
+        //         finalize(() => {
+        //             this.saving = false;
+        //         })
+        //     )
+        //     .subscribe(() => {
+        //         this.notify.info(this.l('SavedSuccessfully'));
+        //         this.close();
+        //         this.modalSave.emit(null);
+        //     });
     }
 
     close(): void {
