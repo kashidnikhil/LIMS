@@ -6,8 +6,8 @@
             <form *ngIf="active" #sourceForm="ngForm" novalidate (ngSubmit)="save()">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="sourceItem.id">{{ 'EditCustomer' | localize }}: {{ sourceItem.name }}</span>
-                        <span *ngIf="!sourceItem.id">{{ 'CreateNewCustomer' | localize }}</span>
+                        <span *ngIf="customerItem.id">{{ 'EditCustomer' | localize }}: {{ customerItem.name }}</span>
+                        <span *ngIf="!customerItem.id">{{ 'CreateNewCustomer' | localize }}</span>
                     </h4>
                     <button type="button" class="btn-close" (click)="close()" [attr.aria-label]="l('Close')"
                         [disabled]="saving">
@@ -21,15 +21,15 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{"Title" | localize}}</label>
-                                            <input #nameInput id="title" class="form-control" type="text"
-                                                [(ngModel)]="sourceItem.name" name="name" required>
+                                            <input #titleInput id="title" class="form-control" type="text"
+                                                [(ngModel)]="customerItem.title" name="title" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{"Initials" | localize}}</label>
-                                            <input #nameInput id="name" class="form-control" type="text"
-                                                [(ngModel)]="sourceItem.name" name="name" required>
+                                            <input #initialsInput id="initials" class="form-control" type="text"
+                                                [(ngModel)]="customerItem.initials" name="initials" required>
                                         </div>
                                     </div>
                                 </div>
@@ -37,23 +37,30 @@
                                     <div class="form-group">
                                         <label>{{"Name" | localize}}</label>
                                         <input #nameInput id="name" class="form-control" type="text"
-                                            [(ngModel)]="sourceItem.name" name="name" required>
+                                            [(ngModel)]="customerItem.name" name="name" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12 row mb-4">
-                                <div class="col-md-5 row">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>{{"MobileNo" | localize}}</label>
-                                        <input #nameInput id="title" class="form-control" type="text"
-                                            [(ngModel)]="sourceItem.name" name="name" required>
+                                        <label>{{"GstNo" | localize}}</label>
+                                        <input #gstNumberInput id="gstNumber" class="form-control" type="text"
+                                            [(ngModel)]="customerItem.gstNumber" name="gstNumber" required>
                                     </div>
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{"MobileNo" | localize}}</label>
+                                        <input #mobileNumberInput id="mobileNumber" class="form-control" type="text"
+                                            [(ngModel)]="customerItem.mobileNumber" name="mobileNumber" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label>{{"EmailAddress" | localize}}</label>
-                                        <input #nameInput id="name" class="form-control" type="text"
-                                            [(ngModel)]="sourceItem.name" name="name" required>
+                                        <input #emailIdInput id="emailId" class="form-control" type="text"
+                                            [(ngModel)]="customerItem.emailId" name="emailId" required>
                                     </div>
                                 </div>
                             </div>
@@ -62,15 +69,15 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>{{"Discount" | localize}}</label>
-                                            <input #nameInput id="title" class="form-control" type="text"
-                                                [(ngModel)]="sourceItem.name" name="name" required>
+                                            <input #discountInput id="discount" class="form-control" type="text"
+                                                [(ngModel)]="customerItem.discount" name="discount" required>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label>{{"Industry" | localize}}</label>
-                                            <input #nameInput id="name" class="form-control" type="text"
-                                                [(ngModel)]="sourceItem.name" name="name" required>
+                                            <input #industryInput id="industry" class="form-control" type="text"
+                                                [(ngModel)]="customerItem.industry" name="industry" required>
                                         </div>
                                     </div>
                                 </div>
@@ -78,8 +85,8 @@
                                     <div class="col-md-7">
                                         <div class="form-group">
                                             <label>{{"Discount" | localize}}</label>
-                                            <input #nameInput id="title" class="form-control" type="text"
-                                                [(ngModel)]="sourceItem.name" name="name" required>
+                                            <input #discountInput id="discount" class="form-control" type="text"
+                                                [(ngModel)]="customerItem.discount" name="discount" required>
                                         </div>
                                     </div>
                                     <div class="col-md-5">
@@ -87,13 +94,13 @@
                                             <label></label>
                                             <label class="form-check form-check-custom form-check-solid py-1 mt-2">
                                                 <input
-                                                    id="EditRole_IsDefault"
+                                                    id="isSEZ"
                                                     type="checkbox"
                                                     name="isSEZ"
                                                     class="form-check-input"
+                                                    [(ngModel)]="customerItem.isSEZ"
                                                 /> 
-                                                <!-- [(ngModel)]="role.isDefault" -->
-                                                <span class="form-check-label">
+                                              <span class="form-check-label">
                                                     {{ 'SEZ' | localize }}
                                                 </span>
                                             </label>
@@ -101,17 +108,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group mb-4">
-                                <label>{{"CommercialDescription" | localize}}</label>
-                                <input #nameInput id="title" class="form-control" type="text"
-                                    [(ngModel)]="sourceItem.name" name="name" required>
+                            <div class="col-md-12 mb-4 row">
+                                <div class="form-group">
+                                    <label>{{"CommercialDescription" | localize}}</label>
+                                    <input #commercialDescriptionInput id="commercialDescription" class="form-control" type="text"
+                                        [(ngModel)]="customerItem.commercialDescription" name="commercialDescription" required>
+                                </div>
                             </div>
-                            <div class="form-group mb-4">
-                                <label>{{"SpecialDescription" | localize}}</label>
-                                <input #nameInput id="title" class="form-control" type="text"
-                                    [(ngModel)]="sourceItem.name" name="name" required>
+                            <div class="col-md-12 mb-4 row">
+                                <div class="form-group">
+                                    <label>{{"SpecialDescription" | localize}}</label>
+                                    <input #nameInput id="title" class="form-control" type="text"
+                                        [(ngModel)]="customerItem.specialDescription" name="name" required>
+                                </div>
                             </div>
-                          
                         </tab>
                         <tab heading="{{ 'CustomerPOInformation' | localize }}" class="p-4">
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { CustomerMasterDto, CustomerMasterInputDto, CustomerMasterServiceProxy, SourceDto, SourceInputDto } from '@shared/service-proxies/service-proxies';
+import { CustomerMasterDto, CustomerMasterInputDto, CustomerMasterServiceProxy } from '@shared/service-proxies/service-proxies';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { map as _map, filter as _filter } from 'lodash-es';
 import { finalize } from 'rxjs/operators';
@@ -17,7 +17,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
 
     active = false;
     saving = false;
-    sourceItem : CustomerMasterDto = new CustomerMasterDto();
+    customerItem : CustomerMasterDto = new CustomerMasterDto();
     
     constructor(
         injector: Injector,
@@ -34,7 +34,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         }
         else{
             this._customerService.getCustomerById(customerId).subscribe((response : CustomerMasterDto)=> {
-                this.sourceItem = response;
+                this.customerItem = response;
                 this.active = true;
                 this.modal.show();
             });
@@ -48,7 +48,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
 
     save(): void {
         let input = new CustomerMasterInputDto();
-        input = this.sourceItem;
+        input = this.customerItem;
         this.saving = true;
         this._customerService
             .insertOrUpdateCustomer(input)

@@ -23,6 +23,8 @@ namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerM
 
         public string GSTNumber { get; set; }
 
+        public string MobileNumber { get; set; }
+
         public string EmailId { get; set; }
 
         public string CommercialDescription { get; set; }

@@ -4,6 +4,7 @@ import { SubheaderModule } from "@app/shared/common/sub-header/subheader.module"
 import { CustomerRoutingModule } from "./customer-routing.module";
 import { CustomersComponent } from "./customer-list/customers.component";
 import { CreateOrEditCustomerModalComponent } from "./create-edit-customer/create-or-edit-customer-modal.component";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -13,7 +14,8 @@ import { CreateOrEditCustomerModalComponent } from "./create-edit-customer/creat
     imports: [
         AppSharedModule,  
         CustomerRoutingModule,
-        SubheaderModule
+        SubheaderModule,
+        ReactiveFormsModule 
     ],
     providers: [],
 })

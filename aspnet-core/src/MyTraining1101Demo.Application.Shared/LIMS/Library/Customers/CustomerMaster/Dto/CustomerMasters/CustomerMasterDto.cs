@@ -19,6 +19,8 @@
         public string CommonDescription { get; set; }
 
         public string GSTNumber { get; set; }
+        
+        public string MobileNumber { get; set; }
 
         public string EmailId { get; set; }
 

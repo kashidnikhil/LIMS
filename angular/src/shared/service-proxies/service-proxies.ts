@@ -20665,6 +20665,7 @@ export class CustomerMasterDto implements ICustomerMasterDto {
     vendorCode!: string | undefined;
     commonDescription!: string | undefined;
     gstNumber!: string | undefined;
+    mobileNumber!: string | undefined;
     emailId!: string | undefined;
     commercialDescription!: string | undefined;
     discount!: number;
@@ -20695,6 +20696,7 @@ export class CustomerMasterDto implements ICustomerMasterDto {
             this.vendorCode = _data["vendorCode"];
             this.commonDescription = _data["commonDescription"];
             this.gstNumber = _data["gstNumber"];
+            this.mobileNumber = _data["mobileNumber"];
             this.emailId = _data["emailId"];
             this.commercialDescription = _data["commercialDescription"];
             this.discount = _data["discount"];
@@ -20737,6 +20739,7 @@ export class CustomerMasterDto implements ICustomerMasterDto {
         data["vendorCode"] = this.vendorCode;
         data["commonDescription"] = this.commonDescription;
         data["gstNumber"] = this.gstNumber;
+        data["mobileNumber"] = this.mobileNumber;
         data["emailId"] = this.emailId;
         data["commercialDescription"] = this.commercialDescription;
         data["discount"] = this.discount;
@@ -20772,6 +20775,7 @@ export interface ICustomerMasterDto {
     vendorCode: string | undefined;
     commonDescription: string | undefined;
     gstNumber: string | undefined;
+    mobileNumber: string | undefined;
     emailId: string | undefined;
     commercialDescription: string | undefined;
     discount: number;
@@ -20793,6 +20797,7 @@ export class CustomerMasterInputDto implements ICustomerMasterInputDto {
     vendorCode!: string | undefined;
     commonDescription!: string | undefined;
     gstNumber!: string | undefined;
+    mobileNumber!: string | undefined;
     emailId!: string | undefined;
     commercialDescription!: string | undefined;
     discount!: number;
@@ -20823,6 +20828,7 @@ export class CustomerMasterInputDto implements ICustomerMasterInputDto {
             this.vendorCode = _data["vendorCode"];
             this.commonDescription = _data["commonDescription"];
             this.gstNumber = _data["gstNumber"];
+            this.mobileNumber = _data["mobileNumber"];
             this.emailId = _data["emailId"];
             this.commercialDescription = _data["commercialDescription"];
             this.discount = _data["discount"];
@@ -20865,6 +20871,7 @@ export class CustomerMasterInputDto implements ICustomerMasterInputDto {
         data["vendorCode"] = this.vendorCode;
         data["commonDescription"] = this.commonDescription;
         data["gstNumber"] = this.gstNumber;
+        data["mobileNumber"] = this.mobileNumber;
         data["emailId"] = this.emailId;
         data["commercialDescription"] = this.commercialDescription;
         data["discount"] = this.discount;
@@ -20900,6 +20907,7 @@ export interface ICustomerMasterInputDto {
     vendorCode: string | undefined;
     commonDescription: string | undefined;
     gstNumber: string | undefined;
+    mobileNumber: string | undefined;
     emailId: string | undefined;
     commercialDescription: string | undefined;
     discount: number;

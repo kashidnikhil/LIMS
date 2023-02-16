@@ -1241,6 +1241,10 @@
 	  <text name="SEZ">SEZ</text>
 	  <text name="CommercialDescription">Commercial Description</text>
 	  <text name="SpecialDescription">Special Description</text>
+	  <text name="GstNo">GST Number</text>
+	  <text name="ReferredBy">Referred By</text>
 	  
+
+
   </texts>
 </localizationDictionary>
