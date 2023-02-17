@@ -17,6 +17,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
 
     active = false;
     saving = false;
+    submitted = false;
     customerItem: CustomerMasterDto = new CustomerMasterDto();
     customerForm!: FormGroup;
 
@@ -31,7 +32,6 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     show(customerId?: string): void {
         if (!customerId) {
             this.initialiseCustomerForm();
-            //this.addCustomerAddress();
             this.active = true;
             this.modal.show();
         }
@@ -46,12 +46,10 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
 
 
     initialiseCustomerForm() {
-        this.customerForm = new FormGroup({
+        this.customerForm = this.formBuilder.group({
             title: new FormControl(this.customerItem.title, []),
             name: new FormControl(this.customerItem.name, [
                 // Validators.required,
-                // Validators.minLength(1),
-                // Validators.maxLength(250),
             ]),
             initials: new FormControl(this.customerItem.initials, []),
             gstNumber: new FormControl(this.customerItem.gstNumber, []),
@@ -65,40 +63,37 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             specialDescription: new FormControl(this.customerItem.specialDescription, []),
             id: new FormControl(this.customerItem.id, []),
             customerAddresses: this.formBuilder.array(
-				[this.createCustomerAddress()],
-				[Validators.required])
-                
+                [this.createCustomerAddress()])
+
             // new FormControl(this.customerItem.gstNumber, []),
             // customerPOs: new FormControl(this.customerItem.customerPOs, []),
             // customerContactPersons: new FormControl(this.customerItem.customerContactPersons.gstNumber, []),
         });
     }
 
-    get addresses(): FormArray {
-		return this.customerForm.get('customerAddresses') as FormArray;
-  	}
+    get customerAddresses(): FormArray {
+        return (<FormArray>this.customerForm.get('customerAddresses'));
+    }
 
-    createCustomerAddress(){
+    createCustomerAddress() {
         return this.formBuilder.group({
-            id: ['',[]],
-            addressLine1: ['',Validators.required],
-            addressLine2: ['',[]],
-            city: ['',[]],
-            state: ['',[]],
-            customerId: ['',[]]
+            id: new FormControl('', []),
+            addressLine1: new FormControl('', Validators.required),
+            addressLine2: new FormControl('', []),
+            city: new FormControl('', []),
+            state: new FormControl('', []),
+            customerId: new FormControl('', [])
         });
     }
-    
+
     addCustomerAddress() {
-        const addressList = this.customerForm.get('customerAddresses') as FormArray;
         let addressForm = this.createCustomerAddress();
-		addressList.push(addressForm);
+        this.customerAddresses.push(addressForm);
     }
 
     deleteAddressGroup(index: number) {
-        const add = this.customerForm.get('customerAddresses') as FormArray;
-        add.removeAt(index)
-      }
+       this.customerAddresses.removeAt(index);
+    }
 
     onShown(): void {
         document.getElementById('title').focus();
@@ -107,8 +102,9 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     save(): void {
         let input = new CustomerMasterInputDto();
         input = this.customerItem;
-        console.log(input);
         this.saving = true;
+        this.submitted = true;
+        this.saving = false;
         // this._customerService
         //     .insertOrUpdateCustomer(input)
         //     .pipe(

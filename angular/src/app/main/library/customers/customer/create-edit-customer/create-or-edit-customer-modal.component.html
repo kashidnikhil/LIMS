@@ -70,44 +70,48 @@
                                     {{ 'AddNewAddress' | localize }}
                                 </button>
                             </div>
-                            <div formArrayName="customerAddresses" class="mb-4"
-                                *ngFor="let addressGroup of addresses.controls;let index = index">
-                                <div class="col-md-12 row mb-4" [formGroupName]="index">
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <label>{{"AddressLine1" | localize}}</label>
-                                            <input #address1Input id="address1" class="form-control" type="text"
-                                                name="address1" formControlName="addressLine1">
-                                            <div *ngIf="saving && addressGroup.get('addressLine1').errors"
-                                                class="invalid-feedback">
-                                                <div *ngIf="addressGroup.get('addressLine1').errors.required">
-                                                    Address Line 1 is required</div>
+                            <div formArrayName="customerAddresses" class="mb-4">
+                                <div *ngFor="let addressGroup of customerAddresses.controls;let index = index">
+                                    <div [formGroupName]="index">
+
+                                        <div class="col-md-12 row mb-4">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label>{{"AddressLine1" | localize}}</label>
+                                                    <input #address1Input id="address1" class="form-control" type="text"
+                                                        name="address1" formControlName="addressLine1" [ngClass]="{ 'is-invalid': submitted && addressGroup.get('addressLine1').errors }">
+                                                    <div *ngIf="submitted && addressGroup.get('addressLine1').errors"
+                                                        class="invalid-feedback">
+                                                        <div *ngIf="addressGroup.get('addressLine1').errors.required">
+                                                            Address line 1 is required</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group mt-5 " *ngIf="index != 0">
+                                                    <label></label>
+                                                    <button class="btn btn-danger float-end"
+                                                        (click)="deleteAddressGroup(index)">
+                                                        <i class="fa fa-trash"></i>
+                                                        {{ 'Delete' | localize }}
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group mt-5 " *ngIf="index != 0">
-                                            <label></label>
-                                            <button class="btn btn-danger float-end"
-                                                (click)="deleteAddressGroup(index)">
-                                                <i class="fa fa-trash"></i>
-                                                {{ 'Delete' | localize }}
-                                            </button>
+                                        <div class="col-md-12 row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label>{{"AddressLine2" | localize}}</label>
+                                                    <input #address2Input id="address2" class="form-control" type="text"
+                                                        name="address2" formControlName="addressLine2">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>{{"City" | localize}}</label>
+                                                <input #cityInput id="city" class="form-control" type="text" name="city"
+                                                    formControlName="city">
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 row">
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <label>{{"AddressLine2" | localize}}</label>
-                                            <input #address2Input id="address2" class="form-control" type="text"
-                                                name="address2" formControlName="addressLine2">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>{{"City" | localize}}</label>
-                                        <input #cityInput id="city" class="form-control" type="text" name="city"
-                                            formControlName="city">
                                     </div>
                                 </div>
                             </div>
