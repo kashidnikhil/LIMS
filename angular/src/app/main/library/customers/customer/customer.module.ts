@@ -5,13 +5,11 @@ import { CustomerRoutingModule } from "./customer-routing.module";
 import { CustomersComponent } from "./customer-list/customers.component";
 import { CreateOrEditCustomerModalComponent } from "./create-edit-customer/create-or-edit-customer-modal.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { CreateOrEditAddressComponent } from "./create-edit-address/create-or-edit-address.component";
 
 @NgModule({
     declarations: [
         CustomersComponent, 
-        CreateOrEditCustomerModalComponent,
-        CreateOrEditAddressComponent
+        CreateOrEditCustomerModalComponent
     ],
     imports: [
         AppSharedModule,  
