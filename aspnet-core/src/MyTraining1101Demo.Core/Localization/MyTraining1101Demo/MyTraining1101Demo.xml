@@ -1232,7 +1232,8 @@
 	  <!-- Customer section-->
 	  <text name="Customers">Customers</text>
 	  <text name="CustomerInformation">Customer information</text>
-	  <text name="CustomerPOInformation">Customer PO information</text>
+	  <text name="CustomerPO">Customer PO</text>
+	  <text name="ContactPerson">Contact Person</text>
 	  <text name="CustomerHeaderInfo">Manage customers.</text>
 	  <text name="CreateNewCustomer">Create new customer</text>
 	  <text name="EditCustomer">Edit customer</text>
@@ -1242,6 +1243,8 @@
 	  <text name="CommercialDescription">Commercial Description</text>
 	  <text name="SpecialDescription">Special Description</text>
 	  <text name="GstNo">GST Number</text>
+	  <text name="VendorCode">Vendor Code</text>
+	  <text name="CommonDescription">Common Description</text>
 	  <text name="ReferredBy">Referred by</text>
 	  <text name="AddNewAddress">Add new address</text>
 	  <text name="AddressLine1">Address line 1</text>

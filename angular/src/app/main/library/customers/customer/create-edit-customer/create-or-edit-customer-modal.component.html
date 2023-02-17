@@ -79,7 +79,8 @@
                                                 <div class="form-group">
                                                     <label>{{"AddressLine1" | localize}}</label>
                                                     <input #address1Input id="address1" class="form-control" type="text"
-                                                        name="address1" formControlName="addressLine1" [ngClass]="{ 'is-invalid': submitted && addressGroup.get('addressLine1').errors }">
+                                                        name="address1" formControlName="addressLine1"
+                                                        [ngClass]="{ 'is-invalid': submitted && addressGroup.get('addressLine1').errors }">
                                                     <div *ngIf="submitted && addressGroup.get('addressLine1').errors"
                                                         class="invalid-feedback">
                                                         <div *ngIf="addressGroup.get('addressLine1').errors.required">
@@ -154,6 +155,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12 row mb-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>{{"VendorCode" | localize}}</label>
+                                        <input #vendorCodeInput id="vendorCode" class="form-control" type="text"
+                                            formControlName="vendorCode" name="vendorCode">
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label>{{"CommonDescription" | localize}}</label>
+                                        <input #commonDescriptionInput id="commonDescription" class="form-control" type="text"
+                                            formControlName="commonDescription" name="commonDescription">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-12 mb-4 row">
                                 <div class="form-group">
                                     <label>{{"CommercialDescription" | localize}}</label>
@@ -170,7 +187,10 @@
                                 </div>
                             </div>
                         </tab>
-                        <tab heading="{{ 'CustomerPOInformation' | localize }}" class="p-4">
+                        <tab heading="{{ 'ContactPerson' | localize }}" class="p-4">
+
+                        </tab>
+                        <tab heading="{{ 'CustomerPO' | localize }}" class="p-4">
 
                         </tab>
                     </tabset>

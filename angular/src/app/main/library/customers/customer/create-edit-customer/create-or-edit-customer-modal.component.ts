@@ -59,6 +59,8 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             industry: new FormControl(this.customerItem.industry, []),
             website: new FormControl(this.customerItem.website, []),
             isSEZ: new FormControl(this.customerItem.isSEZ, []),
+            vendorCode : new FormControl(this.customerItem.vendorCode, []),        
+            commonDescription : new FormControl(this.customerItem.commonDescription, []),
             commercialDescription: new FormControl(this.customerItem.commercialDescription, []),
             specialDescription: new FormControl(this.customerItem.specialDescription, []),
             id: new FormControl(this.customerItem.id, []),
@@ -103,6 +105,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         let input = new CustomerMasterInputDto();
         input = this.customerItem;
         this.saving = true;
+        console.log(input);
         this.submitted = true;
         this.saving = false;
         // this._customerService
