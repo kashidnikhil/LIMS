@@ -4,16 +4,15 @@ import { CustomerMasterDto, CustomerMasterInputDto, CustomerMasterServiceProxy }
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { map as _map, filter as _filter } from 'lodash-es';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
 
 @Component({
-    selector: 'create-edit-customer-modal',
-    templateUrl: './create-or-edit-customer-modal.component.html',
+    selector: 'create-edit-contact-person-modal',
+    templateUrl: './create-or-edit-contact-person-modal.component.html',
     encapsulation: ViewEncapsulation.None,
-    styleUrls: ['create-or-edit-customer-modal.component.less']
+    styleUrls: ['create-or-edit-contact-person-modal.component.less']
 })
-export class CreateOrEditCustomerModalComponent extends AppComponentBase {
-    @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
+export class CreateOrEditContactPersonModalComponent extends AppComponentBase {
+    @ViewChild('createOrEditPersonModal', { static: true }) modal: ModalDirective;
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
     active = false;
@@ -33,7 +32,6 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     show(customerId?: string): void {
         if (!customerId) {
             this.initialiseCustomerForm();
-            this.initialiseCustomerData();
             this.active = true;
             this.modal.show();
         }
@@ -67,9 +65,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             specialDescription: new FormControl(this.customerItem.specialDescription, []),
             id: new FormControl(this.customerItem.id, []),
             customerAddresses: this.formBuilder.array(
-                [this.createCustomerAddress()]),
-            customerContactPersons: this.formBuilder.array(
-                [this.createContactPerson()])
+                [this.createCustomerAddress()])
 
             // new FormControl(this.customerItem.gstNumber, []),
             // customerPOs: new FormControl(this.customerItem.customerPOs, []),
@@ -77,16 +73,8 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         });
     }
 
-    initialiseCustomerData(){
-        this.customerItem.customerPOs = [];
-    }
-
     get customerAddresses(): FormArray {
         return (<FormArray>this.customerForm.get('customerAddresses'));
-    }
-
-    get customerContactPersons(): FormArray{
-        return (<FormArray>this.customerForm.get('customerContactPersons'));
     }
 
     createCustomerAddress() {
@@ -100,18 +88,6 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         });
     }
 
-    createContactPerson() {
-        return this.formBuilder.group({
-            id: new FormControl('', []),
-            name: new FormControl('', Validators.required),
-            designation: new FormControl('', Validators.required),
-            department: new FormControl('', Validators.required),
-            emailId: new FormControl('', [Validators.required, Validators.email]),
-            mobileNumber: new FormControl('',[]),
-            customerId: new FormControl('', [])
-        });
-    }
-
     addCustomerAddress() {
         let addressForm = this.createCustomerAddress();
         this.customerAddresses.push(addressForm);
@@ -119,15 +95,6 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
 
     deleteAddressGroup(index: number) {
        this.customerAddresses.removeAt(index);
-    }
-
-    addContactPerson() {
-        let contactPersonForm = this.createContactPerson();
-        this.customerContactPersons.push(contactPersonForm);
-    }
-
-    deleteContactPersonGroup(index: number) {
-       this.customerContactPersons.removeAt(index);
     }
 
     onShown(): void {
@@ -141,18 +108,18 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         console.log(input);
         this.submitted = true;
         this.saving = false;
-        this._customerService
-            .insertOrUpdateCustomer(input)
-            .pipe(
-                finalize(() => {
-                    this.saving = false;
-                })
-            )
-            .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
-            });
+        // this._customerService
+        //     .insertOrUpdateCustomer(input)
+        //     .pipe(
+        //         finalize(() => {
+        //             this.saving = false;
+        //         })
+        //     )
+        //     .subscribe(() => {
+        //         this.notify.info(this.l('SavedSuccessfully'));
+        //         this.close();
+        //         this.modalSave.emit(null);
+        //     });
     }
 
     close(): void {

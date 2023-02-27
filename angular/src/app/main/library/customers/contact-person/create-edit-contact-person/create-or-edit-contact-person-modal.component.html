@@ -1,13 +1,13 @@
-<div appBsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade create-or-edit-user-modal"
-    tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true"
+<div appBsModal #createOrEditPersonModal="bs-modal" (onShown)="onShown()" class="modal fade create-or-edit-user-modal"
+    tabindex="-1" role="dialog" aria-labelledby="createOrEditPersonModal" aria-hidden="true"
     [config]="{ backdrop: 'static', keyboard: !saving }">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form *ngIf="active" [formGroup]="customerForm" novalidate (ngSubmit)="save()">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="customerItem.id">{{ 'EditCustomer' | localize }}: {{ customerItem.name }}</span>
-                        <span *ngIf="!customerItem.id">{{ 'CreateNewCustomer' | localize }}</span>
+                        <span *ngIf="customerItem.id">{{ 'EditContactPerson' | localize }}: {{ customerItem.name }}</span>
+                        <span *ngIf="!customerItem.id">{{ 'CreateNewContactPerson' | localize }}</span>
                     </h4>
                     <button type="button" class="btn-close" (click)="close()" [attr.aria-label]="l('Close')"
                         [disabled]="saving">
@@ -71,9 +71,8 @@
                                 </button>
                             </div>
                             <div formArrayName="customerAddresses" class="mb-4">
-                                <div class="card mb-3"
-                                    *ngFor="let addressGroup of customerAddresses.controls;let index = index">
-                                    <div [formGroupName]="index" class="p-3">
+                                <div *ngFor="let addressGroup of customerAddresses.controls;let index = index">
+                                    <div [formGroupName]="index">
 
                                         <div class="col-md-12 row mb-4">
                                             <div class="col-md-8">
@@ -167,8 +166,8 @@
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <label>{{"CommonDescription" | localize}}</label>
-                                        <input #commonDescriptionInput id="commonDescription" class="form-control"
-                                            type="text" formControlName="commonDescription" name="commonDescription">
+                                        <input #commonDescriptionInput id="commonDescription" class="form-control" type="text"
+                                            formControlName="commonDescription" name="commonDescription">
                                     </div>
                                 </div>
                             </div>
@@ -187,101 +186,9 @@
                                         type="text" formControlName="specialDescription" name="specialDescription">
                                 </div>
                             </div>
-                            <div class="mb-4">
-                                <button type="button" class="btn btn-primary" (click)="addContactPerson()">
-                                    <i class="fa fa-plus"></i>
-                                    {{ 'AddNewContactPerson' | localize }}
-                                </button>
-                            </div>
-                            <div formArrayName="customerContactPersons" class="mb-4">
-                                <div class="card mb-3"
-                                    *ngFor="let contactPersonGroup of customerContactPersons.controls;let index = index">
-                                    <div [formGroupName]="index" class="p-3">
+                        </tab>
+                        <tab heading="{{ 'ContactPerson' | localize }}" class="p-4">
 
-                                        <div class="col-md-12 row mb-4">
-                                            <div class="col-md-8">
-                                                <div class="form-group">
-                                                    <label>{{"Name" | localize}}</label>
-                                                    <input #nameInput id="nameInput" class="form-control" type="text"
-                                                        name="nameInput" formControlName="name"
-                                                        [ngClass]="{ 'is-invalid': submitted && contactPersonGroup.get('name').errors }">
-                                                    <div *ngIf="submitted && contactPersonGroup.get('name').errors"
-                                                        class="invalid-feedback">
-                                                        <div *ngIf="contactPersonGroup.get('name').errors.required">
-                                                            Name is required</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group mt-5 " *ngIf="index != 0">
-                                                    <label></label>
-                                                    <button class="btn btn-danger float-end"
-                                                        (click)="deleteContactPersonGroup(index)">
-                                                        <i class="fa fa-trash"></i>
-                                                        {{ 'Delete' | localize }}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>{{"Designation" | localize}}</label>
-                                                    <input #designationInput id="designation" class="form-control"
-                                                        type="text" name="designation" formControlName="designation"
-                                                        [ngClass]="{ 'is-invalid': submitted && contactPersonGroup.get('designation').errors }">
-                                                    <div *ngIf="submitted && contactPersonGroup.get('designation').errors"
-                                                        class="invalid-feedback">
-                                                        <div
-                                                            *ngIf="contactPersonGroup.get('designation').errors.required">
-                                                            Designation is required</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>{{"Department" | localize}}</label>
-                                                <input #departmentInput id="department" class="form-control" type="text"
-                                                    name="department" formControlName="department"
-                                                    [ngClass]="{ 'is-invalid': submitted && contactPersonGroup.get('department').errors }">
-                                                    <div *ngIf="submitted && contactPersonGroup.get('department').errors"
-                                                        class="invalid-feedback">
-                                                        <div
-                                                            *ngIf="contactPersonGroup.get('department').errors.required">
-                                                            Department is required</div>
-                                                    </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label>{{"Email" | localize}}</label>
-                                                <input #emailIdInput id="emailId" class="form-control" type="text"
-                                                    name="emailId" formControlName="emailId"
-                                                    [ngClass]="{ 'is-invalid': submitted && contactPersonGroup.get('emailId').errors }">
-                                                    <div *ngIf="submitted && contactPersonGroup.get('emailId').errors"
-                                                        class="invalid-feedback">
-                                                        <div
-                                                            *ngIf="contactPersonGroup.get('emailId').errors.required">
-                                                            Email Id is required</div>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>{{"Mobile Number" | localize}}</label>
-                                                    <input #mobileNumberInput id="mobileNumber" class="form-control"
-                                                        type="number" name="mobileNumber" formControlName="mobileNumber"
-                                                        [ngClass]="{ 'is-invalid': submitted && contactPersonGroup.get('mobileNumber').errors }">
-                                                    <div *ngIf="submitted && contactPersonGroup.get('mobileNumber').errors"
-                                                        class="invalid-feedback">
-                                                        <div
-                                                            *ngIf="contactPersonGroup.get('mobileNumber').errors.required">
-                                                            Mobile number is required</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </tab>
                         <tab heading="{{ 'CustomerPO' | localize }}" class="p-4">
 

@@ -1236,6 +1236,8 @@
 	  <text name="ContactPerson">Contact Person</text>
 	  <text name="CustomerHeaderInfo">Manage customers.</text>
 	  <text name="CreateNewCustomer">Create new customer</text>
+	  <text name="AddNewContactPerson">Add new contact person</text>
+	  <text name="EditContactPerson">Edit contact person</text>
 	  <text name="EditCustomer">Edit customer</text>
 	  <text name="CustomerDeleteWarningMessage">Customer {0} will be deleted.</text>
 	  <text name="MobileNo">Mobile Number</text>
