@@ -53,13 +53,13 @@
                 var insertedOrUpdatedCustomerId = await this._customerMasterManager.InsertOrUpdateCustomerIntoDB(input);
 
                 if (insertedOrUpdatedCustomerId != Guid.Empty) {
-                    if (input.CustomerAddresses.Count > 0) {
+                    if (input.CustomerAddresses != null && input.CustomerAddresses.Count > 0) {
                         input.CustomerAddresses.ForEach(customerAddress => {
                             customerAddress.CustomerId = insertedOrUpdatedCustomerId;
                         });
                         await this._customerAddressManager.BulkInsertOrUpdateCustomerAddresses(input.CustomerAddresses);
                     }
-                    if (input.CustomerContactPersons.Count > 0)
+                    if (input.CustomerContactPersons != null && input.CustomerContactPersons.Count > 0)
                     {
                         input.CustomerContactPersons.ForEach(customerContactPerson => {
                             customerContactPerson.CustomerId = insertedOrUpdatedCustomerId;
