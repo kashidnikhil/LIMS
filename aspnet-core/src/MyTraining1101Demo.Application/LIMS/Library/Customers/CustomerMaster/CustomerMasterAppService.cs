@@ -59,18 +59,20 @@
                         });
                         await this._customerAddressManager.BulkInsertOrUpdateCustomerAddresses(input.CustomerAddresses);
                     }
-                    if (input.CustomerPOs.Count > 0) {
-                        input.CustomerPOs.ForEach(customerPO => {
-                            customerPO.CustomerId = insertedOrUpdatedCustomerId;
-                        });
-                        await this._customerPOManager.BulkInsertOrUpdateCustomerPOs(input.CustomerPOs);
-                    }
-                    if (input.CustomerContactPersons.Count > 0) {
+                    if (input.CustomerContactPersons.Count > 0)
+                    {
                         input.CustomerContactPersons.ForEach(customerContactPerson => {
                             customerContactPerson.CustomerId = insertedOrUpdatedCustomerId;
                         });
                         await this._customerContactPersonManager.BulkInsertOrUpdateCustomerContactPersons(input.CustomerContactPersons);
                     }
+                    if (input.CustomerPOs != null && input.CustomerPOs.Count > 0) {
+                        input.CustomerPOs.ForEach(customerPO => {
+                            customerPO.CustomerId = insertedOrUpdatedCustomerId;
+                        });
+                        await this._customerPOManager.BulkInsertOrUpdateCustomerPOs(input.CustomerPOs);
+                    }
+                    
                 }
                 return insertedOrUpdatedCustomerId;
             }

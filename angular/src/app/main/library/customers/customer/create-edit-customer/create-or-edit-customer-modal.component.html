@@ -268,7 +268,7 @@
                                                 <div class="form-group">
                                                     <label>{{"Mobile Number" | localize}}</label>
                                                     <input #mobileNumberInput id="mobileNumber" class="form-control"
-                                                        type="number" name="mobileNumber" formControlName="mobileNumber"
+                                                        type="text" name="mobileNumber" formControlName="mobileNumber"
                                                         [ngClass]="{ 'is-invalid': submitted && contactPersonGroup.get('mobileNumber').errors }">
                                                     <div *ngIf="submitted && contactPersonGroup.get('mobileNumber').errors"
                                                         class="invalid-feedback">

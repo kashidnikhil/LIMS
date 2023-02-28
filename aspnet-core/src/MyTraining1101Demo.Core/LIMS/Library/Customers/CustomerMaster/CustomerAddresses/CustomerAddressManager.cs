@@ -5,6 +5,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
+    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerContactPersons;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -30,10 +31,11 @@
             try
             {
                 Guid customerAddressId = Guid.Empty;
-                for (int i = 0; i < customerAddressInputList.Count; i++)
+                var mappedCustomerAddresses = ObjectMapper.Map<List<CustomerAddress>>(customerAddressInputList);
+                for (int i = 0; i < mappedCustomerAddresses.Count; i++)
                 {
-                    customerAddressId = (Guid)customerAddressInputList[i].CustomerId;
-                    await this.InsertOrUpdateCustomerAddressIntoDB(customerAddressInputList[i]);
+                    customerAddressId = (Guid)mappedCustomerAddresses[i].CustomerId;
+                    await this.InsertOrUpdateCustomerAddressIntoDB(mappedCustomerAddresses[i]);
                 }
                 return customerAddressId;
             }
@@ -44,12 +46,11 @@
         }
 
         [UnitOfWork]
-        private async Task InsertOrUpdateCustomerAddressIntoDB(CustomerAddressInputDto input)
+        private async Task InsertOrUpdateCustomerAddressIntoDB(CustomerAddress input)
         {
             try
             {
-                var mappedCustomerAddressItem = ObjectMapper.Map<CustomerAddress>(input);
-                var customerAddressId = await this._customerAddressRepository.InsertOrUpdateAndGetIdAsync(mappedCustomerAddressItem);
+                var customerAddressId = await this._customerAddressRepository.InsertOrUpdateAndGetIdAsync(input);
                 await CurrentUnitOfWork.SaveChangesAsync();
             }
             catch (Exception ex)

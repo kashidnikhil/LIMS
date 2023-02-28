@@ -31,10 +31,11 @@
             try
             {
                 Guid customerContactPersonId = Guid.Empty;
-                for (int i = 0; i < customerContactPersonsInputList.Count; i++)
+                var mappedContactPersons = ObjectMapper.Map<List<CustomerContactPerson>>(customerContactPersonsInputList);
+                for (int i = 0; i < mappedContactPersons.Count; i++)
                 {
-                    customerContactPersonId = (Guid)customerContactPersonsInputList[i].CustomerId;
-                    await this.InsertOrUpdateCustomerContactPersonIntoDB(customerContactPersonsInputList[i]);
+                    customerContactPersonId = (Guid)mappedContactPersons[i].CustomerId;
+                    await this.InsertOrUpdateCustomerContactPersonIntoDB(mappedContactPersons[i]);
                 }
                 return customerContactPersonId;
             }
@@ -46,12 +47,11 @@
 
 
         [UnitOfWork]
-        private async Task<Guid> InsertOrUpdateCustomerContactPersonIntoDB(ContactPersonInputDto input)
+        private async Task<Guid> InsertOrUpdateCustomerContactPersonIntoDB(CustomerContactPerson input)
         {
             try
             {
-                var mappedContactPersonItem = ObjectMapper.Map<CustomerContactPerson>(input);
-                var contactPersonId = await this._contactPersonRepository.InsertOrUpdateAndGetIdAsync(mappedContactPersonItem);
+                var contactPersonId = await this._contactPersonRepository.InsertOrUpdateAndGetIdAsync(input);
                 await CurrentUnitOfWork.SaveChangesAsync();
                 return contactPersonId;
             }

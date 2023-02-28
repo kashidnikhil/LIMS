@@ -16,7 +16,7 @@ namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster
         public string Designation { get; set; }
         public string Department { get; set; }
         public string DirectLine { get; set; }
-        public int MobileNumber { get; set; }
+        public string MobileNumber { get; set; }
         public string EmailId { get; set; }
         public virtual Guid? CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
