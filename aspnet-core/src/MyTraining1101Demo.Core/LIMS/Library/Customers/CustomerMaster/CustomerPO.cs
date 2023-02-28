@@ -17,6 +17,9 @@
         [Precision(18,2)]
         public decimal Amount { get; set; }
 
+
+        public bool IsTemporaryDelete { get; set; }
+
         public virtual Guid? CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
     }

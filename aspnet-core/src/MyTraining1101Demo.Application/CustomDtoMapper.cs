@@ -265,12 +265,6 @@ namespace MyTraining1101Demo
                       .ForMember(dto => dto.Id, options => options.MapFrom(x => x.Id))
                       .ReverseMap();
 
-
-            //configuration.CreateMap<Customer, CustomerMaster>().ReverseMap();
-
-
-
-
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
         }
     }

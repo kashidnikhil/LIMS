@@ -13,6 +13,8 @@
 
         public decimal Amount { get; set; }
 
+        public bool IsTemporaryDelete { get; set; }
+
         public Guid? CustomerId { get; set; }
     }
 }
