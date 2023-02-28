@@ -72,7 +72,7 @@
                             </div>
                             <div formArrayName="customerAddresses" class="mb-4">
                                 <div class="card mb-3"
-                                    *ngFor="let addressGroup of customerAddresses.controls;let index = index">
+                                    *ngFor="let addressGroup of customerAddresses.controls; let index = index">
                                     <div [formGroupName]="index" class="p-3">
 
                                         <div class="col-md-12 row mb-4">
@@ -90,13 +90,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="form-group mt-5 " *ngIf="index != 0">
+                                                <div class="form-group">
                                                     <label></label>
-                                                    <button class="btn btn-danger float-end"
-                                                        (click)="deleteAddressGroup(index)">
-                                                        <i class="fa fa-trash"></i>
-                                                        {{ 'Delete' | localize }}
-                                                    </button>
+                                                    <label class="form-check form-check-custom form-check-solid py-1 mt-2">
+                                                        <input id="AddressDelete" type="checkbox" name="AddressDelete" class="form-check-input btn-danger"
+                                                            formControlName="isTemporaryDelete" />
+                                                        <span class="form-check-label">
+                                                            {{ 'Delete' | localize }}
+                                                        </span>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -213,13 +215,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="form-group mt-5 " *ngIf="index != 0">
+                                                <div class="form-group">
                                                     <label></label>
-                                                    <button class="btn btn-danger float-end"
-                                                        (click)="deleteContactPersonGroup(index)">
-                                                        <i class="fa fa-trash"></i>
-                                                        {{ 'Delete' | localize }}
-                                                    </button>
+                                                    <label class="form-check form-check-custom form-check-solid py-1 mt-2">
+                                                        <input id="ContactPersonDelete" type="checkbox" name="ContactPersonDelete" class="form-check-input btn-danger"
+                                                            formControlName="isTemporaryDelete" />
+                                                        <span class="form-check-label">
+                                                            {{ 'Delete' | localize }}
+                                                        </span>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>

@@ -10,6 +10,8 @@
 
         public string State { get; set; }
 
+        public bool IsTemporaryDelete { get; set; }
+
         public Guid? CustomerId { get; set; }
     }
 }

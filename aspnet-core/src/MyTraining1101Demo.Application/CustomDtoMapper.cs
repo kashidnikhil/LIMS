@@ -256,20 +256,7 @@ namespace MyTraining1101Demo
             configuration.CreateMap<CustomerPO, CustomerPOInputDto>().ReverseMap();
 
             configuration.CreateMap<Customer, CustomerMasterDto>()
-                       .ForMember(dto => dto.EmailId, options => options.MapFrom(x => x.EmailId))
                        .ForMember(dto => dto.ReferenceId, options => options.MapFrom(x => x.ReferenceId))   
-                       .ForMember(dto => dto.GSTNumber, options => options.MapFrom(x => x.GSTNumber))
-                       .ForMember(dto => dto.CommercialDescription, options => options.MapFrom(x => x.CommercialDescription))
-                       .ForMember(dto => dto.CommonDescription, options => options.MapFrom(x => x.CommonDescription))
-                       .ForMember(dto => dto.Discount, options => options.MapFrom(x => x.Discount))
-                       .ForMember(dto => dto.Title, options => options.MapFrom(x => x.Title))
-                       .ForMember(dto => dto.Initials, options => options.MapFrom(x => x.Initials))
-                       .ForMember(dto => dto.Name, options => options.MapFrom(x => x.Name))
-                       .ForMember(dto => dto.Industry, options => options.MapFrom(x => x.Industry))
-                       .ForMember(dto => dto.isSEZ, options => options.MapFrom(x => x.isSEZ))
-                       .ForMember(dto => dto.SpecialDescription, options => options.MapFrom(x => x.SpecialDescription))
-                       .ForMember(dto => dto.VendorCode, options => options.MapFrom(x => x.VendorCode))
-                       .ForMember(dto => dto.Website, options => options.MapFrom(x => x.Website))
                        .ForMember(dto => dto.Id, options => options.MapFrom(x => x.Id))
             .ReverseMap();
 

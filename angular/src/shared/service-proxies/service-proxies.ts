@@ -19672,8 +19672,9 @@ export class ContactPersonDto implements IContactPersonDto {
     designation!: string | undefined;
     department!: string | undefined;
     directLine!: string | undefined;
-    mobileNumber!: number;
+    mobileNumber!: string | undefined;
     emailId!: string | undefined;
+    isTemporaryDelete!: boolean;
     customerId!: string;
 
     constructor(data?: IContactPersonDto) {
@@ -19694,6 +19695,7 @@ export class ContactPersonDto implements IContactPersonDto {
             this.directLine = _data["directLine"];
             this.mobileNumber = _data["mobileNumber"];
             this.emailId = _data["emailId"];
+            this.isTemporaryDelete = _data["isTemporaryDelete"];
             this.customerId = _data["customerId"];
         }
     }
@@ -19714,6 +19716,7 @@ export class ContactPersonDto implements IContactPersonDto {
         data["directLine"] = this.directLine;
         data["mobileNumber"] = this.mobileNumber;
         data["emailId"] = this.emailId;
+        data["isTemporaryDelete"] = this.isTemporaryDelete;
         data["customerId"] = this.customerId;
         return data;
     }
@@ -19725,8 +19728,9 @@ export interface IContactPersonDto {
     designation: string | undefined;
     department: string | undefined;
     directLine: string | undefined;
-    mobileNumber: number;
+    mobileNumber: string | undefined;
     emailId: string | undefined;
+    isTemporaryDelete: boolean;
     customerId: string;
 }
 
@@ -19737,6 +19741,7 @@ export class ContactPersonInputDto implements IContactPersonInputDto {
     department!: string | undefined;
     directLine!: string | undefined;
     mobileNumber!: string | undefined;
+    isTemporaryDelete!: boolean;
     emailId!: string | undefined;
     customerId!: string | undefined;
 
@@ -19757,6 +19762,7 @@ export class ContactPersonInputDto implements IContactPersonInputDto {
             this.department = _data["department"];
             this.directLine = _data["directLine"];
             this.mobileNumber = _data["mobileNumber"];
+            this.isTemporaryDelete = _data["isTemporaryDelete"];
             this.emailId = _data["emailId"];
             this.customerId = _data["customerId"];
         }
@@ -19777,6 +19783,7 @@ export class ContactPersonInputDto implements IContactPersonInputDto {
         data["department"] = this.department;
         data["directLine"] = this.directLine;
         data["mobileNumber"] = this.mobileNumber;
+        data["isTemporaryDelete"] = this.isTemporaryDelete;
         data["emailId"] = this.emailId;
         data["customerId"] = this.customerId;
         return data;
@@ -19790,6 +19797,7 @@ export interface IContactPersonInputDto {
     department: string | undefined;
     directLine: string | undefined;
     mobileNumber: string | undefined;
+    isTemporaryDelete: boolean;
     emailId: string | undefined;
     customerId: string | undefined;
 }
@@ -20551,6 +20559,7 @@ export class CustomerAddressDto implements ICustomerAddressDto {
     addressLine2!: string | undefined;
     city!: string | undefined;
     state!: string | undefined;
+    isTemporaryDelete!: boolean;
     customerId!: string;
 
     constructor(data?: ICustomerAddressDto) {
@@ -20569,6 +20578,7 @@ export class CustomerAddressDto implements ICustomerAddressDto {
             this.addressLine2 = _data["addressLine2"];
             this.city = _data["city"];
             this.state = _data["state"];
+            this.isTemporaryDelete = _data["isTemporaryDelete"];
             this.customerId = _data["customerId"];
         }
     }
@@ -20587,6 +20597,7 @@ export class CustomerAddressDto implements ICustomerAddressDto {
         data["addressLine2"] = this.addressLine2;
         data["city"] = this.city;
         data["state"] = this.state;
+        data["isTemporaryDelete"] = this.isTemporaryDelete;
         data["customerId"] = this.customerId;
         return data;
     }
@@ -20598,6 +20609,7 @@ export interface ICustomerAddressDto {
     addressLine2: string | undefined;
     city: string | undefined;
     state: string | undefined;
+    isTemporaryDelete: boolean;
     customerId: string;
 }
 
@@ -20607,6 +20619,7 @@ export class CustomerAddressInputDto implements ICustomerAddressInputDto {
     addressLine2!: string | undefined;
     city!: string | undefined;
     state!: string | undefined;
+    isTemporaryDelete!: boolean;
     customerId!: string | undefined;
 
     constructor(data?: ICustomerAddressInputDto) {
@@ -20625,6 +20638,7 @@ export class CustomerAddressInputDto implements ICustomerAddressInputDto {
             this.addressLine2 = _data["addressLine2"];
             this.city = _data["city"];
             this.state = _data["state"];
+            this.isTemporaryDelete = _data["isTemporaryDelete"];
             this.customerId = _data["customerId"];
         }
     }
@@ -20643,6 +20657,7 @@ export class CustomerAddressInputDto implements ICustomerAddressInputDto {
         data["addressLine2"] = this.addressLine2;
         data["city"] = this.city;
         data["state"] = this.state;
+        data["isTemporaryDelete"] = this.isTemporaryDelete;
         data["customerId"] = this.customerId;
         return data;
     }
@@ -20654,6 +20669,7 @@ export interface ICustomerAddressInputDto {
     addressLine2: string | undefined;
     city: string | undefined;
     state: string | undefined;
+    isTemporaryDelete: boolean;
     customerId: string | undefined;
 }
 

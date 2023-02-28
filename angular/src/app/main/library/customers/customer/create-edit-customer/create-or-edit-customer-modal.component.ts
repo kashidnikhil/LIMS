@@ -101,6 +101,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             addressLine2: new FormControl(customerAddress.addressLine2, []),
             city: new FormControl(customerAddress.city, []),
             state: new FormControl(customerAddress.state, []),
+            isTemporaryDelete: new FormControl(customerAddress.isTemporaryDelete, []),
             customerId: new FormControl(customerAddress.customerId, [])
         });
     }
@@ -112,6 +113,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             designation: new FormControl(contactPersonItem.designation, Validators.required),
             department: new FormControl(contactPersonItem.department, Validators.required),
             emailId: new FormControl(contactPersonItem.emailId, [Validators.required, Validators.email]),
+            isTemporaryDelete: new FormControl(contactPersonItem.isTemporaryDelete, []),
             mobileNumber: new FormControl(contactPersonItem.mobileNumber,[]),
             customerId: new FormControl(contactPersonItem.customerId, [])
         });

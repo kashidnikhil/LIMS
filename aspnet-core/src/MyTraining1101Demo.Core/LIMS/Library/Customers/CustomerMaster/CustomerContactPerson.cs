@@ -1,10 +1,6 @@
 ﻿using Abp.Domain.Entities.Auditing;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster
 {
@@ -18,6 +14,8 @@ namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster
         public string DirectLine { get; set; }
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
+
+        public bool IsTemporaryDelete { get; set; }
         public virtual Guid? CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
     }
