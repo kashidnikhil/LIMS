@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { CustomerMasterDto, CustomerMasterInputDto, CustomerMasterServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ContactPersonDto, CustomerAddressDto, CustomerMasterDto, CustomerMasterInputDto, CustomerMasterServiceProxy } from '@shared/service-proxies/service-proxies';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { map as _map, filter as _filter } from 'lodash-es';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -19,7 +19,8 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     active = false;
     saving = false;
     submitted = false;
-    customerItem: CustomerMasterDto = new CustomerMasterDto();
+    editMode : boolean = false;
+    //customerItem: CustomerMasterDto = new CustomerMasterDto();
     customerForm!: FormGroup;
 
     constructor(
@@ -32,14 +33,17 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
 
     show(customerId?: string): void {
         if (!customerId) {
-            this.initialiseCustomerForm();
-            this.initialiseCustomerData();
+            let customerItem : CustomerMasterDto = new CustomerMasterDto();
+            this.initialiseCustomerForm(customerItem);
+            this.editMode = false;
             this.active = true;
             this.modal.show();
         }
         else {
             this._customerService.getCustomerById(customerId).subscribe((response: CustomerMasterDto) => {
-                this.customerItem = response;
+                let customerItem = response;
+                this.initialiseCustomerForm(customerItem);
+                this.editMode = true;
                 this.active = true;
                 this.modal.show();
             });
@@ -47,38 +51,39 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     }
 
 
-    initialiseCustomerForm() {
+    initialiseCustomerForm(customerItem : CustomerMasterDto) {
+        let addressItem : CustomerAddressDto = new CustomerAddressDto();
+        let contactPersonItem: ContactPersonDto = new ContactPersonDto();
         this.customerForm = this.formBuilder.group({
-            title: new FormControl(this.customerItem.title, []),
-            name: new FormControl(this.customerItem.name, [
+            title: new FormControl(customerItem.title, []),
+            name: new FormControl(customerItem.name, [
                 // Validators.required,
             ]),
-            initials: new FormControl(this.customerItem.initials, []),
-            gstNumber: new FormControl(this.customerItem.gstNumber, []),
-            mobileNumber: new FormControl(this.customerItem.mobileNumber, []),
-            emailId: new FormControl(this.customerItem.emailId, [Validators.email]),
-            discount: new FormControl(this.customerItem.discount, []),
-            industry: new FormControl(this.customerItem.industry, []),
-            website: new FormControl(this.customerItem.website, []),
-            isSEZ: new FormControl(this.customerItem.isSEZ, []),
-            vendorCode : new FormControl(this.customerItem.vendorCode, []),        
-            commonDescription : new FormControl(this.customerItem.commonDescription, []),
-            commercialDescription: new FormControl(this.customerItem.commercialDescription, []),
-            specialDescription: new FormControl(this.customerItem.specialDescription, []),
-            id: new FormControl(this.customerItem.id, []),
-            customerAddresses: this.formBuilder.array(
-                [this.createCustomerAddress()]),
-            customerContactPersons: this.formBuilder.array(
-                [this.createContactPerson()])
+            initials: new FormControl(customerItem.initials, []),
+            gstNumber: new FormControl(customerItem.gstNumber, []),
+            mobileNumber: new FormControl(customerItem.mobileNumber, []),
+            emailId: new FormControl(customerItem.emailId, [Validators.email]),
+            discount: new FormControl(customerItem.discount, []),
+            industry: new FormControl(customerItem.industry, []),
+            website: new FormControl(customerItem.website, []),
+            isSEZ: new FormControl(customerItem.isSEZ, []),
+            vendorCode : new FormControl(customerItem.vendorCode, []),        
+            commonDescription : new FormControl(customerItem.commonDescription, []),
+            commercialDescription: new FormControl(customerItem.commercialDescription, []),
+            specialDescription: new FormControl(customerItem.specialDescription, []),
+            id: new FormControl(customerItem.id, []),
+            customerAddresses: customerItem.id ? this.formBuilder.array(
+                customerItem.customerAddresses.map((x : CustomerAddressDto) => 
+                    this.createCustomerAddress(x)
+                  )
+            ) : this.formBuilder.array([this.createCustomerAddress(addressItem)]),
+            customerContactPersons: customerItem.id ?  this.formBuilder.array(
+                customerItem.customerContactPersons.map((x : ContactPersonDto) => 
+                    this.createContactPerson(x)
+                  )
+            ) : this.formBuilder.array([this.createContactPerson(contactPersonItem)])
 
-            // new FormControl(this.customerItem.gstNumber, []),
-            // customerPOs: new FormControl(this.customerItem.customerPOs, []),
-            // customerContactPersons: new FormControl(this.customerItem.customerContactPersons.gstNumber, []),
         });
-    }
-
-    initialiseCustomerData(){
-        this.customerItem.customerPOs = [];
     }
 
     get customerAddresses(): FormArray {
@@ -89,31 +94,32 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         return (<FormArray>this.customerForm.get('customerContactPersons'));
     }
 
-    createCustomerAddress() {
+    createCustomerAddress(customerAddress : CustomerAddressDto) : FormGroup {
         return this.formBuilder.group({
-            id: new FormControl('', []),
-            addressLine1: new FormControl('', Validators.required),
-            addressLine2: new FormControl('', []),
-            city: new FormControl('', []),
-            state: new FormControl('', []),
-            customerId: new FormControl('', [])
+            id: new FormControl(customerAddress.id, []),
+            addressLine1: new FormControl(customerAddress.addressLine1, Validators.required),
+            addressLine2: new FormControl(customerAddress.addressLine2, []),
+            city: new FormControl(customerAddress.city, []),
+            state: new FormControl(customerAddress.state, []),
+            customerId: new FormControl(customerAddress.customerId, [])
         });
     }
 
-    createContactPerson() {
+    createContactPerson(contactPersonItem : ContactPersonDto) : FormGroup {
         return this.formBuilder.group({
-            id: new FormControl('', []),
-            name: new FormControl('', Validators.required),
-            designation: new FormControl('', Validators.required),
-            department: new FormControl('', Validators.required),
-            emailId: new FormControl('', [Validators.required, Validators.email]),
-            mobileNumber: new FormControl('',[]),
-            customerId: new FormControl('', [])
+            id: new FormControl(contactPersonItem.id, []),
+            name: new FormControl(contactPersonItem.name, Validators.required),
+            designation: new FormControl(contactPersonItem.designation, Validators.required),
+            department: new FormControl(contactPersonItem.department, Validators.required),
+            emailId: new FormControl(contactPersonItem.emailId, [Validators.required, Validators.email]),
+            mobileNumber: new FormControl(contactPersonItem.mobileNumber,[]),
+            customerId: new FormControl(contactPersonItem.customerId, [])
         });
     }
 
     addCustomerAddress() {
-        let addressForm = this.createCustomerAddress();
+        let customerAddressItem : CustomerAddressDto = new CustomerAddressDto();
+        let addressForm = this.createCustomerAddress(customerAddressItem);
         this.customerAddresses.push(addressForm);
     }
 
@@ -122,7 +128,8 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     }
 
     addContactPerson() {
-        let contactPersonForm = this.createContactPerson();
+        let contactPersonItem : ContactPersonDto = new ContactPersonDto();
+        let contactPersonForm = this.createContactPerson(contactPersonItem);
         this.customerContactPersons.push(contactPersonForm);
     }
 
@@ -138,7 +145,6 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         let input = new CustomerMasterInputDto();
         input = this.customerForm.value;
         this.saving = true;
-        console.log(input);
         this.submitted = true;
         this.saving = false;
         this._customerService

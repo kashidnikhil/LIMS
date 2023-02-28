@@ -109,10 +109,10 @@
         {
             try
             {
-                var customerAddressQuery = this._contactPersonRepository.GetAll()
+                var customerContactPersonQuery = this._contactPersonRepository.GetAll()
                     .Where(x => !x.IsDeleted && x.CustomerId == customerId);
 
-                return new List<ContactPersonDto>(ObjectMapper.Map<List<ContactPersonDto>>(customerAddressQuery));
+                return new List<ContactPersonDto>(ObjectMapper.Map<List<ContactPersonDto>>(customerContactPersonQuery));
             }
             catch (Exception ex)
             {

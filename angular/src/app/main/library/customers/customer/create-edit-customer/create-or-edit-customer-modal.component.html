@@ -6,8 +6,8 @@
             <form *ngIf="active" [formGroup]="customerForm" novalidate (ngSubmit)="save()">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <span *ngIf="customerItem.id">{{ 'EditCustomer' | localize }}: {{ customerItem.name }}</span>
-                        <span *ngIf="!customerItem.id">{{ 'CreateNewCustomer' | localize }}</span>
+                        <span *ngIf="editMode">{{ 'EditCustomer' | localize }}: {{ customerForm.get('name').value }}</span>
+                        <span *ngIf="!editMode">{{ 'CreateNewCustomer' | localize }}</span>
                     </h4>
                     <button type="button" class="btn-close" (click)="close()" [attr.aria-label]="l('Close')"
                         [disabled]="saving">

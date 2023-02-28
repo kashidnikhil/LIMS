@@ -19736,7 +19736,7 @@ export class ContactPersonInputDto implements IContactPersonInputDto {
     designation!: string | undefined;
     department!: string | undefined;
     directLine!: string | undefined;
-    mobileNumber!: number;
+    mobileNumber!: string | undefined;
     emailId!: string | undefined;
     customerId!: string | undefined;
 
@@ -19789,7 +19789,7 @@ export interface IContactPersonInputDto {
     designation: string | undefined;
     department: string | undefined;
     directLine: string | undefined;
-    mobileNumber: number;
+    mobileNumber: string | undefined;
     emailId: string | undefined;
     customerId: string | undefined;
 }
