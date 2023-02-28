@@ -20,7 +20,6 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     saving = false;
     submitted = false;
     editMode : boolean = false;
-    //customerItem: CustomerMasterDto = new CustomerMasterDto();
     customerForm!: FormGroup;
 
     constructor(
@@ -125,9 +124,9 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         this.customerAddresses.push(addressForm);
     }
 
-    deleteAddressGroup(index: number) {
-       this.customerAddresses.removeAt(index);
-    }
+    // deleteAddressGroup(index: number) {
+    //    this.customerAddresses.removeAt(index);
+    // }
 
     addContactPerson() {
         let contactPersonItem : ContactPersonDto = new ContactPersonDto();
@@ -135,32 +134,35 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         this.customerContactPersons.push(contactPersonForm);
     }
 
-    deleteContactPersonGroup(index: number) {
-       this.customerContactPersons.removeAt(index);
-    }
+    // deleteContactPersonGroup(index: number) {
+    //    this.customerContactPersons.removeAt(index);
+    // }
 
     onShown(): void {
         document.getElementById('title').focus();
     }
 
     save(): void {
-        let input = new CustomerMasterInputDto();
-        input = this.customerForm.value;
-        this.saving = true;
         this.submitted = true;
-        this.saving = false;
-        this._customerService
-            .insertOrUpdateCustomer(input)
-            .pipe(
-                finalize(() => {
-                    this.saving = false;
-                })
-            )
-            .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
-            });
+        if(this.customerForm.valid){
+            let input = new CustomerMasterInputDto();
+            input = this.customerForm.value;
+            this.saving = true;
+           
+            this._customerService
+                .insertOrUpdateCustomer(input)
+                .pipe(
+                    finalize(() => {
+                        this.saving = false;
+                    })
+                )
+                .subscribe(() => {
+                    this.notify.info(this.l('SavedSuccessfully'));
+                    this.close();
+                    this.modalSave.emit(null);
+                });
+        }
+        
     }
 
     close(): void {

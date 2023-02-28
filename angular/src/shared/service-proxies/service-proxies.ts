@@ -20944,6 +20944,7 @@ export class CustomerPODto implements ICustomerPODto {
     description!: string | undefined;
     closeDate!: DateTime;
     amount!: number;
+    isTemporaryDelete!: boolean;
     customerId!: string | undefined;
 
     constructor(data?: ICustomerPODto) {
@@ -20963,6 +20964,7 @@ export class CustomerPODto implements ICustomerPODto {
             this.description = _data["description"];
             this.closeDate = _data["closeDate"] ? DateTime.fromISO(_data["closeDate"].toString()) : <any>undefined;
             this.amount = _data["amount"];
+            this.isTemporaryDelete = _data["isTemporaryDelete"];
             this.customerId = _data["customerId"];
         }
     }
@@ -20982,6 +20984,7 @@ export class CustomerPODto implements ICustomerPODto {
         data["description"] = this.description;
         data["closeDate"] = this.closeDate ? this.closeDate.toString() : <any>undefined;
         data["amount"] = this.amount;
+        data["isTemporaryDelete"] = this.isTemporaryDelete;
         data["customerId"] = this.customerId;
         return data;
     }
@@ -20994,6 +20997,7 @@ export interface ICustomerPODto {
     description: string | undefined;
     closeDate: DateTime;
     amount: number;
+    isTemporaryDelete: boolean;
     customerId: string | undefined;
 }
 
@@ -21004,6 +21008,7 @@ export class CustomerPOInputDto implements ICustomerPOInputDto {
     description!: string | undefined;
     closeDate!: DateTime;
     amount!: number;
+    isTemporaryDelete!: boolean;
     customerId!: string | undefined;
 
     constructor(data?: ICustomerPOInputDto) {
@@ -21023,6 +21028,7 @@ export class CustomerPOInputDto implements ICustomerPOInputDto {
             this.description = _data["description"];
             this.closeDate = _data["closeDate"] ? DateTime.fromISO(_data["closeDate"].toString()) : <any>undefined;
             this.amount = _data["amount"];
+            this.isTemporaryDelete = _data["isTemporaryDelete"];
             this.customerId = _data["customerId"];
         }
     }
@@ -21042,6 +21048,7 @@ export class CustomerPOInputDto implements ICustomerPOInputDto {
         data["description"] = this.description;
         data["closeDate"] = this.closeDate ? this.closeDate.toString() : <any>undefined;
         data["amount"] = this.amount;
+        data["isTemporaryDelete"] = this.isTemporaryDelete;
         data["customerId"] = this.customerId;
         return data;
     }
@@ -21054,6 +21061,7 @@ export interface ICustomerPOInputDto {
     description: string | undefined;
     closeDate: DateTime;
     amount: number;
+    isTemporaryDelete: boolean;
     customerId: string | undefined;
 }
 
