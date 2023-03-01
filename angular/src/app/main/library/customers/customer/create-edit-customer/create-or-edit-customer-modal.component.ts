@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ContactPersonDto, CustomerAddressDto, CustomerMasterDto, CustomerMasterInputDto, CustomerMasterServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ContactPersonDto, CustomerAddressDto, CustomerMasterDto, CustomerMasterInputDto, CustomerMasterServiceProxy, CustomerPODto } from '@shared/service-proxies/service-proxies';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { map as _map, filter as _filter } from 'lodash-es';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -53,6 +53,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     initialiseCustomerForm(customerItem : CustomerMasterDto) {
         let addressItem : CustomerAddressDto = new CustomerAddressDto();
         let contactPersonItem: ContactPersonDto = new ContactPersonDto();
+        let customerPOItem : CustomerPODto= new CustomerPODto();
         this.customerForm = this.formBuilder.group({
             title: new FormControl(customerItem.title, []),
             name: new FormControl(customerItem.name, [
@@ -78,9 +79,12 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             ) : this.formBuilder.array([this.createCustomerAddress(addressItem)]),
             customerContactPersons: customerItem.id ?  this.formBuilder.array(
                 customerItem.customerContactPersons.map((x : ContactPersonDto) => 
-                    this.createContactPerson(x)
-                  )
-            ) : this.formBuilder.array([this.createContactPerson(contactPersonItem)])
+                    this.createContactPerson(x))
+            ) : this.formBuilder.array([this.createContactPerson(contactPersonItem)]),
+            customerPOs : customerItem.id ?  this.formBuilder.array(
+                customerItem.customerPOs.map((x : CustomerPODto) => 
+                    this.createCustomerPO(x))
+            ) : this.formBuilder.array([this.createCustomerPO(customerPOItem)])
 
         });
     }
@@ -115,6 +119,19 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             isTemporaryDelete: new FormControl(contactPersonItem.isTemporaryDelete, []),
             mobileNumber: new FormControl(contactPersonItem.mobileNumber,[]),
             customerId: new FormControl(contactPersonItem.customerId, [])
+        });
+    }
+
+    createCustomerPO(customerPOItem : CustomerPODto) : FormGroup {
+        return this.formBuilder.group({
+            id: new FormControl(customerPOItem.id, []),
+            poCode: new FormControl(customerPOItem.poCode, []),
+            poDate: new FormControl(customerPOItem.poDate, []),
+            isTemporaryDelete: new FormControl(customerPOItem.isTemporaryDelete, []),
+            description: new FormControl(customerPOItem.description, []),
+            customerId: new FormControl(customerPOItem.customerId, []),
+            closeDate: new FormControl(customerPOItem.closeDate,[]),
+            amount: new FormControl(customerPOItem.amount, [])
         });
     }
 
