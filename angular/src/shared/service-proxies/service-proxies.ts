@@ -31273,7 +31273,7 @@ export interface ISubApplicationDto {
 }
 
 export class SubApplicationInputDto implements ISubApplicationInputDto {
-    id!: string;
+    id!: string | undefined;
     applicationId!: string;
     name!: string | undefined;
     description!: string | undefined;
@@ -31314,7 +31314,7 @@ export class SubApplicationInputDto implements ISubApplicationInputDto {
 }
 
 export interface ISubApplicationInputDto {
-    id: string;
+    id: string | undefined;
     applicationId: string;
     name: string | undefined;
     description: string | undefined;

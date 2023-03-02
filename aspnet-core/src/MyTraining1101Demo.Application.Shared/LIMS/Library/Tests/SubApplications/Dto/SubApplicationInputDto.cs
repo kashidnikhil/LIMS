@@ -4,7 +4,7 @@ namespace MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto
 {
     public class SubApplicationInputDto
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         public Guid ApplicationId { get; set; }
 
