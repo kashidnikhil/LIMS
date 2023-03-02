@@ -2,7 +2,7 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { SourceDto, SourceServiceProxy } from '@shared/service-proxies/service-proxies';
+import { BankDto, BankServiceProxy, SourceDto, SourceServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -25,7 +25,7 @@ export class BanksComponent extends AppComponentBase implements AfterViewInit {
 
     constructor(
         injector: Injector,
-        private _sourceService : SourceServiceProxy,
+        private _bankService : BankServiceProxy,
         private _activatedRoute: ActivatedRoute
     ) {
         super(injector);
@@ -43,8 +43,8 @@ export class BanksComponent extends AppComponentBase implements AfterViewInit {
         }
 
         this.primengTableHelper.showLoadingIndicator();
-        this._sourceService
-            .getSources(
+        this._bankService
+            .getBanks(
                     this.filterText,
                     this.primengTableHelper.getSorting(this.dataTable),
                     this.primengTableHelper.getMaxResultCount(this.paginator, event),
@@ -66,10 +66,10 @@ export class BanksComponent extends AppComponentBase implements AfterViewInit {
         this.createOrEditBankModal.show();
     }
 
-    deleteSource(source: SourceDto): void {
-        this.message.confirm(this.l('SourceDeleteWarningMessage', source.name), this.l('AreYouSure'), (isConfirmed) => {
+    deleteSource(bankItem: BankDto): void {
+        this.message.confirm(this.l('BankDeleteWarningMessage', bankItem.name), this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
-                this._sourceService.deleteSource(source.id).subscribe(() => {
+                this._bankService.deleteBank(bankItem.id).subscribe(() => {
                     this.reloadPage();
                     this.notify.success(this.l('SuccessfullyDeleted'));
                 });
