@@ -66,7 +66,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             discount: new FormControl(customerItem.discount, []),
             industry: new FormControl(customerItem.industry, []),
             website: new FormControl(customerItem.website, []),
-            isSEZ: new FormControl(customerItem.isSEZ, []),
+            isSEZ: new FormControl(customerItem.isSEZ ? customerItem.isSEZ : false, []),
             vendorCode : new FormControl(customerItem.vendorCode, []),        
             commonDescription : new FormControl(customerItem.commonDescription, []),
             commercialDescription: new FormControl(customerItem.commercialDescription, []),
@@ -108,7 +108,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             addressLine2: new FormControl(customerAddress.addressLine2, []),
             city: new FormControl(customerAddress.city, []),
             state: new FormControl(customerAddress.state, []),
-            isTemporaryDelete: new FormControl(customerAddress.isTemporaryDelete, []),
+            isTemporaryDelete: new FormControl(customerAddress.isTemporaryDelete ? customerAddress.isTemporaryDelete : false, []),
             customerId: new FormControl(customerAddress.customerId, [])
         });
     }
@@ -120,7 +120,7 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             designation: new FormControl(contactPersonItem.designation, Validators.required),
             department: new FormControl(contactPersonItem.department, Validators.required),
             emailId: new FormControl(contactPersonItem.emailId, [Validators.required, Validators.email]),
-            isTemporaryDelete: new FormControl(contactPersonItem.isTemporaryDelete, []),
+            isTemporaryDelete: new FormControl(contactPersonItem.isTemporaryDelete ? contactPersonItem.isTemporaryDelete :false, []),
             mobileNumber: new FormControl(contactPersonItem.mobileNumber,[]),
             customerId: new FormControl(contactPersonItem.customerId, [])
         });
@@ -130,8 +130,8 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         return this.formBuilder.group({
             id: new FormControl(customerPOItem.id, []),
             poCode: new FormControl(customerPOItem.poCode, []),
-            poDate: new FormControl(customerPOItem.poDate, []),
-            isTemporaryDelete: new FormControl(customerPOItem.isTemporaryDelete, []),
+            poDate: new FormControl(customerPOItem.poDate ? customerPOItem.poDate : null, []),
+            isTemporaryDelete: new FormControl(customerPOItem.isTemporaryDelete ? customerPOItem.isTemporaryDelete : false, []),
             description: new FormControl(customerPOItem.description, []),
             customerId: new FormControl(customerPOItem.customerId, []),
             closeDate: new FormControl(customerPOItem.closeDate,[]),

@@ -29,9 +29,10 @@
             try
             {
                 Guid customerPOId = Guid.Empty;
-                for (int i = 0;i< customerPOInputList.Count; i++) {
-                    customerPOId = (Guid)customerPOInputList[i].CustomerId;
-                    await this.InsertOrUpdateCustomerPOIntoDB(customerPOInputList[i]);
+                var mappedCustomerPOs = ObjectMapper.Map<List<CustomerPO>>(customerPOInputList);
+                for (int i = 0;i< mappedCustomerPOs.Count; i++) {
+                    customerPOId = (Guid)mappedCustomerPOs[i].CustomerId;
+                    await this.InsertOrUpdateCustomerPOIntoDB(mappedCustomerPOs[i]);
                 }
                 return customerPOId;
             }
@@ -42,12 +43,11 @@
         }
 
         [UnitOfWork]
-        private async Task InsertOrUpdateCustomerPOIntoDB(CustomerPOInputDto input)
+        private async Task InsertOrUpdateCustomerPOIntoDB(CustomerPO input)
         {
             try
             {
-                var mappedCustomerPOItem = ObjectMapper.Map<CustomerPO>(input);
-                var customerPOId = await this._customerPORepository.InsertOrUpdateAndGetIdAsync(mappedCustomerPOItem);
+                var customerPOId = await this._customerPORepository.InsertOrUpdateAndGetIdAsync(input);
                 await CurrentUnitOfWork.SaveChangesAsync();
             }
             catch (Exception ex)

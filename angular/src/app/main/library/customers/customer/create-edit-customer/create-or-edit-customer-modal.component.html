@@ -288,7 +288,75 @@
                             </div>
                         </tab>
                         <tab heading="{{ 'CustomerPO' | localize }}" class="p-4">
-                            
+                            <div class="col-md-12 row mb-4">
+                                <div class="mb-4">
+                                    <button type="button" class="btn btn-primary" (click)="addCustomerPO()">
+                                        <i class="fa fa-plus"></i>
+                                        {{ 'AddNewCustomerPO' | localize }}
+                                    </button>
+                                </div>
+                                <div formArrayName="customerPOs" class="mb-4">
+                                    <div class="card mb-3"
+                                        *ngFor="let customerPOGroup of customerPOs.controls;let index = index">
+                                        <div [formGroupName]="index" class="p-3">
+    
+                                            <div class="col-md-12 row mb-4">
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label>{{"PO Code" | localize}}</label>
+                                                        <input #poCodeInput id="poCodeInput" class="form-control" type="text"
+                                                            name="poCode" formControlName="poCode">
+                                                         <!--   [ngClass]="{ 'is-invalid': submitted && contactPersonGroup.get('name').errors }">
+                                                            <div *ngIf="submitted && contactPersonGroup.get('name').errors"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="contactPersonGroup.get('name').errors.required">
+                                                                Name is required</div>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>{{"PO Date" | localize}}</label>
+                                                        <input #poDateInput id="poDateInput" class="form-control" type="date" name="poDate" formControlName="poDate">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>{{"Close Date" | localize}}</label>
+                                                        <input #closeDateInput id="closeDateInput" class="form-control" type="date" name="closeDate" formControlName="closeDate">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 row">
+                                                <div class="form-group">
+                                                    <label>{{"Description" | localize}}</label>
+                                                     <input class="form-control" #descriptionInput id="descriptionInput" type="text" name="description" formControlName="description">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>{{"Amount" | localize}}</label>
+                                                        <input #amountInput id="amountInput" class="form-control" type="number" name="amount" formControlName="amount">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label></label>
+                                                        <label class="form-check form-check-custom form-check-solid py-1 mt-2">
+                                                            <input id="CustomerPODelete" type="checkbox" name="CustomerPODelete" class="form-check-input btn-danger"
+                                                                formControlName="isTemporaryDelete" />
+                                                            <span class="form-check-label">
+                                                                {{ 'Delete' | localize }}
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </tab>
                     </tabset>
 
