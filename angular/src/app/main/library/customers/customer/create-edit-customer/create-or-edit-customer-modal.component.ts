@@ -97,6 +97,10 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         return (<FormArray>this.customerForm.get('customerContactPersons'));
     }
 
+    get customerPOs(): FormArray{
+        return (<FormArray>this.customerForm.get('customerPOs'));
+    }
+
     createCustomerAddress(customerAddress : CustomerAddressDto) : FormGroup {
         return this.formBuilder.group({
             id: new FormControl(customerAddress.id, []),
@@ -149,6 +153,12 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         let contactPersonItem : ContactPersonDto = new ContactPersonDto();
         let contactPersonForm = this.createContactPerson(contactPersonItem);
         this.customerContactPersons.push(contactPersonForm);
+    }
+
+    addCustomerPO() {
+        let customerPOItem : CustomerPODto = new CustomerPODto();
+        let customerPOForm = this.createCustomerPO(customerPOItem);
+        this.customerPOs.push(customerPOForm);
     }
 
     // deleteContactPersonGroup(index: number) {
