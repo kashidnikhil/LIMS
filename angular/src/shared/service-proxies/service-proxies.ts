@@ -20684,7 +20684,7 @@ export class CustomerMasterDto implements ICustomerMasterDto {
     mobileNumber!: string | undefined;
     emailId!: string | undefined;
     commercialDescription!: string | undefined;
-    discount!: number;
+    discount!: number | undefined;
     industry!: string | undefined;
     website!: string | undefined;
     specialDescription!: string | undefined;
@@ -20794,7 +20794,7 @@ export interface ICustomerMasterDto {
     mobileNumber: string | undefined;
     emailId: string | undefined;
     commercialDescription: string | undefined;
-    discount: number;
+    discount: number | undefined;
     industry: string | undefined;
     website: string | undefined;
     specialDescription: string | undefined;
@@ -20816,7 +20816,7 @@ export class CustomerMasterInputDto implements ICustomerMasterInputDto {
     mobileNumber!: string | undefined;
     emailId!: string | undefined;
     commercialDescription!: string | undefined;
-    discount!: number;
+    discount!: number | undefined;
     industry!: string | undefined;
     website!: string | undefined;
     specialDescription!: string | undefined;
@@ -20926,7 +20926,7 @@ export interface ICustomerMasterInputDto {
     mobileNumber: string | undefined;
     emailId: string | undefined;
     commercialDescription: string | undefined;
-    discount: number;
+    discount: number | undefined;
     industry: string | undefined;
     website: string | undefined;
     specialDescription: string | undefined;
@@ -20940,10 +20940,10 @@ export interface ICustomerMasterInputDto {
 export class CustomerPODto implements ICustomerPODto {
     id!: string;
     poCode!: string | undefined;
-    poDate!: DateTime;
+    poDate!: DateTime | undefined;
     description!: string | undefined;
-    closeDate!: DateTime;
-    amount!: number;
+    closeDate!: DateTime | undefined;
+    amount!: number | undefined;
     isTemporaryDelete!: boolean;
     customerId!: string | undefined;
 
@@ -20993,10 +20993,10 @@ export class CustomerPODto implements ICustomerPODto {
 export interface ICustomerPODto {
     id: string;
     poCode: string | undefined;
-    poDate: DateTime;
+    poDate: DateTime | undefined;
     description: string | undefined;
-    closeDate: DateTime;
-    amount: number;
+    closeDate: DateTime | undefined;
+    amount: number | undefined;
     isTemporaryDelete: boolean;
     customerId: string | undefined;
 }
@@ -21004,10 +21004,10 @@ export interface ICustomerPODto {
 export class CustomerPOInputDto implements ICustomerPOInputDto {
     id!: string | undefined;
     poCode!: string | undefined;
-    poDate!: DateTime;
+    poDate!: DateTime | undefined;
     description!: string | undefined;
-    closeDate!: DateTime;
-    amount!: number;
+    closeDate!: DateTime | undefined;
+    amount!: number | undefined;
     isTemporaryDelete!: boolean;
     customerId!: string | undefined;
 
@@ -21057,10 +21057,10 @@ export class CustomerPOInputDto implements ICustomerPOInputDto {
 export interface ICustomerPOInputDto {
     id: string | undefined;
     poCode: string | undefined;
-    poDate: DateTime;
+    poDate: DateTime | undefined;
     description: string | undefined;
-    closeDate: DateTime;
-    amount: number;
+    closeDate: DateTime | undefined;
+    amount: number | undefined;
     isTemporaryDelete: boolean;
     customerId: string | undefined;
 }

@@ -6,12 +6,12 @@
     {
         public Guid? Id { get; set; }
         public string POCode { get; set; }
-        public DateTime PODate { get; set; }
+        public DateTime? PODate { get; set; }
         public string Description { get; set; }
 
-        public DateTime CloseDate { get; set; }
+        public DateTime? CloseDate { get; set; }
 
-        public decimal Amount { get; set; }
+        public decimal? Amount { get; set; }
 
         public bool IsTemporaryDelete { get; set; }
 

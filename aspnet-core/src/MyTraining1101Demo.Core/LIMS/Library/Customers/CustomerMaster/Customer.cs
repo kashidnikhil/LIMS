@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Entities.Auditing;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,7 +28,7 @@ namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster
 
         public string CommercialDescription { get; set; }
 
-        [Required(ErrorMessage = "Enter discount")]
+        [DefaultValue(0.00)]
         [Precision(18, 2)]
         public decimal Discount { get; set; }
 

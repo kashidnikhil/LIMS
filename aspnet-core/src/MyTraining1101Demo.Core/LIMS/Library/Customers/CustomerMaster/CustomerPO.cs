@@ -3,17 +3,19 @@
     using Abp.Domain.Entities.Auditing;
     using Microsoft.EntityFrameworkCore;
     using System;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations.Schema;
 
     [Table("CustomerPO")]
     public class CustomerPO : FullAuditedEntity<Guid>
     {
         public string POCode { get; set; }
-        public DateTime PODate { get; set; }
+        public DateTime? PODate { get; set; }
         public string Description { get; set; }
 
-        public DateTime CloseDate { get; set; }
+        public DateTime? CloseDate { get; set; }
 
+        [DefaultValue(0.00)]
         [Precision(18,2)]
         public decimal Amount { get; set; }
 

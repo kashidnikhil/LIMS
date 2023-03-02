@@ -5,6 +5,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { map as _map, filter as _filter } from 'lodash-es';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
 
 @Component({
     selector: 'create-edit-customer-modal',
@@ -130,11 +131,11 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
         return this.formBuilder.group({
             id: new FormControl(customerPOItem.id, []),
             poCode: new FormControl(customerPOItem.poCode, []),
-            poDate: new FormControl(customerPOItem.poDate ? customerPOItem.poDate : null, []),
+            poDate: new FormControl(customerPOItem.poDate ? formatDate(new Date(<string><unknown>customerPOItem.poDate), "yyyy-MM-dd", "en") : null, []),
             isTemporaryDelete: new FormControl(customerPOItem.isTemporaryDelete ? customerPOItem.isTemporaryDelete : false, []),
             description: new FormControl(customerPOItem.description, []),
             customerId: new FormControl(customerPOItem.customerId, []),
-            closeDate: new FormControl(customerPOItem.closeDate,[]),
+            closeDate: new FormControl(customerPOItem.closeDate ? formatDate(new Date(<string><unknown>customerPOItem.closeDate), "yyyy-MM-dd", "en") : null, []),
             amount: new FormControl(customerPOItem.amount, [])
         });
     }
