@@ -39,6 +39,8 @@ using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
 using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerContactPersons;
 using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerMasters;
 using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerPOs;
+using MyTraining1101Demo.LIMS.Library.Customers.Source;
+using MyTraining1101Demo.LIMS.Library.Customers.Source.Dto;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank.Dto;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges;
@@ -243,9 +245,12 @@ namespace MyTraining1101Demo
                    .ForMember(dto => dto.ApplicationId, options => options.MapFrom(x => x.ApplicationId))
                    .ReverseMap();
 
+            configuration.CreateMap<Source, SourceDto>().ReverseMap();
+            configuration.CreateMap<Source, SourceInputDto>().ReverseMap();
+
             configuration.CreateMap<CustomerAddress, CustomerAddressDto>().ReverseMap();
             configuration.CreateMap<CustomerAddress, CustomerAddressInputDto>().ReverseMap();
-           
+
             configuration.CreateMap<CustomerContactPerson, ContactPersonDto>().ReverseMap();
             configuration.CreateMap<CustomerContactPerson, ContactPersonInputDto>()
                 .ForMember(dto => dto.CustomerId, options => options.MapFrom(x => x.CustomerId))
