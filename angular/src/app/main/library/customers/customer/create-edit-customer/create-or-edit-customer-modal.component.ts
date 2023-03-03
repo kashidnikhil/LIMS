@@ -54,7 +54,6 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
     initialiseCustomerForm(customerItem : CustomerMasterDto) {
         let addressItem : CustomerAddressDto = new CustomerAddressDto();
         let contactPersonItem: ContactPersonDto = new ContactPersonDto();
-        let customerPOItem : CustomerPODto= new CustomerPODto();
         this.customerForm = this.formBuilder.group({
             title: new FormControl(customerItem.title, []),
             name: new FormControl(customerItem.name, [
@@ -85,8 +84,8 @@ export class CreateOrEditCustomerModalComponent extends AppComponentBase {
             customerPOs : customerItem.id ?  this.formBuilder.array(
                 customerItem.customerPOs.map((x : CustomerPODto) => 
                     this.createCustomerPO(x))
-            ) : this.formBuilder.array([this.createCustomerPO(customerPOItem)])
-
+            ) : this.formBuilder.array([])
+            // this.createCustomerPO(customerPOItem)
         });
     }
 
