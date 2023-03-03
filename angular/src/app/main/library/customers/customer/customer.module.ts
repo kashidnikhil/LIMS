@@ -5,15 +5,11 @@ import { CustomerRoutingModule } from "./customer-routing.module";
 import { CustomersComponent } from "./customer-list/customers.component";
 import { CreateOrEditCustomerModalComponent } from "./create-edit-customer/create-or-edit-customer-modal.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { ContactPersonsComponent } from "../contact-person/contact-person-list/contact-persons.component";
-import { CreateOrEditContactPersonModalComponent } from "../contact-person/create-edit-contact-person/create-or-edit-contact-person-modal.component";
 
 @NgModule({
     declarations: [
         CustomersComponent, 
-        CreateOrEditCustomerModalComponent,
-        ContactPersonsComponent,
-        CreateOrEditContactPersonModalComponent
+        CreateOrEditCustomerModalComponent
     ],
     imports: [
         AppSharedModule,  
