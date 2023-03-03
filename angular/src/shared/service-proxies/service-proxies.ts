@@ -771,7 +771,7 @@ export class ApplicationsServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateApplication(body: ApplicationInputDto | undefined): Observable<string> {
+    insertOrUpdateApplication(body: ApplicationInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/Applications/InsertOrUpdateApplication";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -794,14 +794,14 @@ export class ApplicationsServiceProxy {
                 try {
                     return this.processInsertOrUpdateApplication(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateApplication(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateApplication(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -812,8 +812,7 @@ export class ApplicationsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -821,7 +820,7 @@ export class ApplicationsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -993,6 +992,63 @@ export class ApplicationsServiceProxy {
             }));
         }
         return _observableOf<ApplicationsDto[]>(null as any);
+    }
+
+    /**
+     * @param applicationId (optional) 
+     * @return Success
+     */
+    revokeApplication(applicationId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Applications/RevokeApplication?";
+        if (applicationId === null)
+            throw new Error("The parameter 'applicationId' cannot be null.");
+        else if (applicationId !== undefined)
+            url_ += "applicationId=" + encodeURIComponent("" + applicationId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRevokeApplication(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRevokeApplication(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRevokeApplication(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
     }
 }
 
@@ -30225,6 +30281,50 @@ export class ResolveTenantIdInput implements IResolveTenantIdInput {
 
 export interface IResolveTenantIdInput {
     c: string | undefined;
+}
+
+export class ResponseDto implements IResponseDto {
+    id!: string;
+    name!: string | undefined;
+    existingData!: boolean;
+
+    constructor(data?: IResponseDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.existingData = _data["existingData"];
+        }
+    }
+
+    static fromJS(data: any): ResponseDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResponseDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["existingData"] = this.existingData;
+        return data;
+    }
+}
+
+export interface IResponseDto {
+    id: string;
+    name: string | undefined;
+    existingData: boolean;
 }
 
 export class RoleEditDto implements IRoleEditDto {

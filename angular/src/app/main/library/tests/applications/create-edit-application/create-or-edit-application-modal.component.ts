@@ -4,6 +4,7 @@ import {
     ApplicationsServiceProxy,
     ApplicationsDto,
     ApplicationInputDto,
+    ResponseDto,
 } from '@shared/service-proxies/service-proxies';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { map as _map, filter as _filter } from 'lodash-es';
@@ -18,6 +19,7 @@ import { finalize } from 'rxjs/operators';
 export class CreateOrEditApplicationModalComponent extends AppComponentBase {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
+    @Output() restoreApplication: EventEmitter<ResponseDto> = new EventEmitter<ResponseDto>();
 
     active = false;
     saving = false;
@@ -53,6 +55,7 @@ export class CreateOrEditApplicationModalComponent extends AppComponentBase {
     save(): void {
         let input = new ApplicationInputDto();
         input = this.applicationItem;
+        input.name = input.name.trim();
         this.saving = true;
         this._applicationsService
             .insertOrUpdateApplication(input)
@@ -61,10 +64,17 @@ export class CreateOrEditApplicationModalComponent extends AppComponentBase {
                     this.saving = false;
                 })
             )
-            .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
+            .subscribe((response : ResponseDto) => {
+                console.log(response);
+                if(!response.existingData){
+                    this.notify.info(this.l('SavedSuccessfully'));
+                    this.close();
+                    this.modalSave.emit(null);
+                }
+                else{
+                    this.close();
+                    this.restoreApplication.emit(response);
+                }
             });
     }
 

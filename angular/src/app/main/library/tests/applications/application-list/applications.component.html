@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-application-modal #createOrEditAppicationModal (modalSave)="getApplications()"></create-edit-application-modal>
+        <create-edit-application-modal #createOrEditAppicationModal (modalSave)="getApplications()" (restoreApplication)="restoreApplication($event)"></create-edit-application-modal>
     </div>
 </div>

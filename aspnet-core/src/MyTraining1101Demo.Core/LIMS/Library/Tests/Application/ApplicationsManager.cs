@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -54,14 +55,31 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateApplicationIntoDB(ApplicationInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateApplicationIntoDB(ApplicationInputDto input)
         {
             try
             {
+                Guid applicationId = Guid.Empty;
+                if (input.Id == null) {
+                    var applicationItem = await this._applicationsRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x=> x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                    if (applicationItem != null) {
+                        var applicationName = applicationItem.Name;
+                        applicationId = applicationItem.Id;
+                        return new ResponseDto {
+                            Id = applicationId,
+                            Name = applicationName,
+                            ExistingData = true
+                        };
+                    }
+                }
                 var mappedApplicationItem = ObjectMapper.Map<Applications>(input);
-                var appplicationId = await this._applicationsRepository.InsertOrUpdateAndGetIdAsync(mappedApplicationItem);
+                applicationId = await this._applicationsRepository.InsertOrUpdateAndGetIdAsync(mappedApplicationItem);
                 await CurrentUnitOfWork.SaveChangesAsync();
-                return appplicationId;
+                return new ResponseDto
+                {
+                    Id = applicationId,
+                    ExistingData = false
+                };
             }
             catch (Exception ex)
             {
@@ -113,6 +131,26 @@
                     .Where(x => !x.IsDeleted);
           
                 return new List<ApplicationsDto>(ObjectMapper.Map<List<ApplicationsDto>>(applicationsQuery));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+
+        }
+
+        public async Task<bool> RevokeApplication(Guid applicationId)
+        {
+            try
+            {
+                var applicationItem = await this._applicationsRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == applicationId);
+                applicationItem.IsDeleted = false;
+                applicationItem.DeleterUserId = null;
+                applicationItem.DeletionTime = null;
+                await this._applicationsRepository.UpdateAsync(applicationItem);
+
+                return true;
             }
             catch (Exception ex)
             {

@@ -4,7 +4,8 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import {
     ApplicationsDto,
-    ApplicationsServiceProxy
+    ApplicationsServiceProxy,
+    ResponseDto
 } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
@@ -39,14 +40,14 @@ export class ApplicationsComponent extends AppComponentBase implements AfterView
         this.primengTableHelper.adjustScroll(this.dataTable);
     }
 
-    getApplications(event?: LazyLoadEvent) {
+    async getApplications(event?: LazyLoadEvent) {
         if (this.primengTableHelper.shouldResetPaging(event)) {
             this.paginator.changePage(0);
             return;
         }
 
         this.primengTableHelper.showLoadingIndicator();
-        this._applicationService
+        await this._applicationService
             .getApplications(
                     this.filterText,
                     this.primengTableHelper.getSorting(this.dataTable),
@@ -75,6 +76,17 @@ export class ApplicationsComponent extends AppComponentBase implements AfterView
                 this._applicationService.deleteApplication(application.id).subscribe(() => {
                     this.reloadPage();
                     this.notify.success(this.l('SuccessfullyDeleted'));
+                });
+            }
+        });
+    }
+
+    restoreApplication(applicationResponse: ResponseDto):void {
+        this.message.confirm(this.l('ApplicationRevokeMessage', applicationResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+            if (isConfirmed) {
+                this._applicationService.revokeApplication(applicationResponse.id).subscribe(() => {
+                    this.reloadPage();
+                    this.notify.success(this.l('ApplicationSuccessfullyRestored'));
                 });
             }
         });

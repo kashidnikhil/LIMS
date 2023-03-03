@@ -1145,13 +1145,16 @@
     <text name="UiCustomization_DarkMode">Dark Mode</text>
     <text name="Theme_Theme13">Theme 13</text>
 	<text name="Description">Description</text>
+	  
 	  <!-- Application section-->
 	  <text name="Applications">Applications</text>
 	  <text name="ApplicationsHeaderInfo">Manage applications.</text>
 	  <text name="CreateNewApplication">Create new application</text>
 	  <text name="EditApplication">Edit application</text>
 	  <text name="ApplicationDeleteWarningMessage">Application {0} will be deleted.</text>
-
+	  <text name="ApplicationRevokeMessage">Application with name {0} already exists. Do you want to restore this application?</text>
+	  <text name="ApplicationSuccessfullyRestored">Application restored successfully</text>
+	  
 	  <!-- Standard References section-->
 	  <text name="StandardReferences">Standard References</text>
 	  <text name="StandardReferencesHeaderInfo">Manage standard references.</text>
