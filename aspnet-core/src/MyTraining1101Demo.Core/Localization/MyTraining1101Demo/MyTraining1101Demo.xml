@@ -1163,6 +1163,10 @@
 	  <text name="CreateNewStandardReference">Create new standard reference</text>
 	  <text name="EditStandardReference">Edit standard reference</text>
 	  <text name="StandardReferenceDeleteWarningMessage">Application {0} will be deleted.</text>
+	  <text name="StandardReferenceRestoreMessage">Standard reference with name {0} already exists. Do you want to restore this standard reference?</text>
+	  <text name="StandardReferenceSuccessfullyRestored">Standard reference restored successfully</text>
+	  <text name="ExistingStandardReferenceErrorMessage">Standard reference {0} cannot be added. Standard reference already exists</text>
+	  <text name="NewStandardReferenceErrorMessage">No new instance of Standard reference with name {0} cannot be added.Standard reference with name {0} already exists. Do you want to restore the standard reference?</text>
 
 	  <!-- Standard Remarks  section-->
 	  <text name="StandardRemarks">Standard Remarks</text>
@@ -1170,6 +1174,11 @@
 	  <text name="CreateNewStandardRemark">Create new standard remark</text>
 	  <text name="EditStandardRemark">Edit standard remark</text>
 	  <text name="StandardRemarkDeleteWarningMessage">Standard remark {0} will be deleted.</text>
+	  <text name="StandardRemarkRestoreMessage">Standard remark with name {0} already exists. Do you want to restore this standard remark?</text>
+	  <text name="StandardRemarkSuccessfullyRestored">Standard remark restored successfully</text>
+	  <text name="ExistingStandardRemarkErrorMessage">Standard remark {0} cannot be added. Standard remark already exists</text>
+	  <text name="NewStandardRemarkErrorMessage">No new instance of Standard remark with name {0} cannot be added.Standard remark with name {0} already exists. Do you want to restore the standard remark?</text>
+
 
 	  <!-- Technique section-->
 	  <text name="Techniques">Techniques</text>
@@ -1177,6 +1186,11 @@
 	  <text name="CreateNewTechnique">Create new technique</text>
 	  <text name="EditTechnique">Edit technique</text>
 	  <text name="TechniqueDeleteWarningMessage">Technique {0} will be deleted.</text>
+	  <text name="TechniqueRestoreMessage">Technique with name {0} already exists. Do you want to restore this technique?</text>
+	  <text name="TechniqueSuccessfullyRestored">Technique restored successfully</text>
+	  <text name="ExistingTechniqueErrorMessage">Technique {0} cannot be added. Technique already exists</text>
+	  <text name="NewTechniqueErrorMessage">No new instance of Technique with name {0} cannot be added.Technique with name {0} already exists. Do you want to restore the technique?</text>
+
 
 	  <!-- Units section-->
 	  <text name="Units">Units</text>
@@ -1184,6 +1198,11 @@
 	  <text name="CreateNewUnit">Create new unit</text>
 	  <text name="EditUnit">Edit unit</text>
 	  <text name="UnitDeleteWarningMessage">Unit {0} will be deleted.</text>
+	  <text name="UnitRestoreMessage">Unit with name {0} already exists. Do you want to restore this unit?</text>
+	  <text name="UnitSuccessfullyRestored">Unit restored successfully</text>
+	  <text name="ExistingUnitErrorMessage">Unit {0} cannot be added. Unit already exists</text>
+	  <text name="NewUnitErrorMessage">No new instance of unit with name {0} cannot be added.Unit with name {0} already exists. Do you want to restore the unit?</text>
+
 
 	  <!-- Source section-->
 	  <text name="Sources">Sources</text>
@@ -1191,6 +1210,11 @@
 	  <text name="CreateNewSource">Create new source</text>
 	  <text name="EditSource">Edit source</text>
 	  <text name="SourceDeleteWarningMessage">Source {0} will be deleted.</text>
+	  <text name="SourcesRestoreMessage">Sources with name {0} already exists. Do you want to restore this sources?</text>
+	  <text name="SourcesSuccessfullyRestored">Sources restored successfully</text>
+	  <text name="ExistingSourcesErrorMessage">Sources {0} cannot be added. Sources already exists</text>
+	  <text name="NewSourcesErrorMessage">No new instance of Sources with name {0} cannot be added.Sources with name {0} already exists. Do you want to restore the sources?</text>
+
 
 	  <!-- Bank section-->
 	  <text name="Banks">Banks</text>
@@ -1198,6 +1222,11 @@
 	  <text name="CreateNewBank">Create new bank</text>
 	  <text name="EditBank">Edit bank</text>
 	  <text name="BankDeleteWarningMessage">Bank {0} will be deleted.</text>
+	  <text name="BankRestoreMessage">Bank with name {0} already exists. Do you want to restore this bank?</text>
+	  <text name="BankSuccessfullyRestored">Bank restored successfully</text>
+	  <text name="ExistingBankErrorMessage">Bank {0} cannot be added. BAnk already exists</text>
+	  <text name="NewBankErrorMessage">No new instance of Bank with name {0} cannot be added.Bank with name {0} already exists. Do you want to restore the bank?</text>
+
 
 	  <!-- Charges section-->
 	  <text name="Vharges">Charges</text>
@@ -1205,6 +1234,11 @@
 	  <text name="CreateNewCharges">Create new charges</text>
 	  <text name="EditCharges">Edit charges</text>
 	  <text name="ChargesDeleteWarningMessage">Charges {0} will be deleted.</text>
+	  <text name="ChargesRestoreMessage">Charges with name {0} already exists. Do you want to restore this charges?</text>
+	  <text name="ChargesSuccessfullyRestored">Charges restored successfully</text>
+	  <text name="ExistingChargesErrorMessage">Charges {0} cannot be added. Charges already exists</text>
+	  <text name="NewChargesErrorMessage">No new instance of Charges with name {0} cannot be added.Charges with name {0} already exists. Do you want to restore the charges?</text>
+
 
 	  <!-- Tax section-->
 	  <text name="Taxes">Taxes</text>
@@ -1212,6 +1246,11 @@
 	  <text name="CreateNewTax">Create new tax</text>
 	  <text name="EditTax">Edit tax</text>
 	  <text name="TaxDeleteWarningMessage">Tax {0} will be deleted.</text>
+	  <text name="TaxRestoreMessage">Tax with name {0} already exists. Do you want to restore this tax?</text>
+	  <text name="TaxSuccessfullyRestored">Tax restored successfully</text>
+	  <text name="ExistingTaxErrorMessage">Tax {0} cannot be added. Tax already exists</text>
+	  <text name="NewTaxErrorMessage">No new instance of Tax with name {0} cannot be added. Tax with name {0} already exists. Do you want to restore the tax?</text>
+
 
 	  <!-- Personnel section-->
 	  <text name="Personnels">Personnels</text>
@@ -1219,6 +1258,11 @@
 	  <text name="CreateNewPersonnel">Create new personnel</text>
 	  <text name="EditPersonnel">Edit personnel</text>
 	  <text name="PersonnelDeleteWarningMessage">Personnel {0} will be deleted.</text>
+	  <text name="PersonnelRestoreMessage">Personnel with name {0} already exists. Do you want to restore this perrsonnel?</text>
+	  <text name="PersonnelSuccessfullyRestored">Personnel restored successfully</text>
+	  <text name="ExistingPersonnelErrorMessage">Personnel {0} cannot be added. Personnel already exists</text>
+	  <text name="NewPersonnelErrorMessage">No new instance of Personnel with name {0} cannot be added. Personnel with name {0} already exists. Do you want to restore the personnel?</text>
+
 
 	  <!-- Container section-->
 	  <text name="Containers">Containers</text>
@@ -1226,6 +1270,11 @@
 	  <text name="CreateNewContainer">Create new container</text>
 	  <text name="EditContainer">Edit container</text>
 	  <text name="ContainerDeleteWarningMessage">Container {0} will be deleted.</text>
+	  <text name="ContainerRestoreMessage">Container with name {0} already exists. Do you want to restore this container?</text>
+	  <text name="ContainerSuccessfullyRestored">Container restored successfully</text>
+	  <text name="ExistingContainerErrorMessage">Container {0} cannot be added. Container already exists</text>
+	  <text name="NewContainerErrorMessage">No new instance of Container with name {0} cannot be added. Container with name {0} already exists. Do you want to restore the container?</text>
+
 
 	  <!-- Sub application section-->
 	  <text name="SubApplications">Sub Applications</text>
@@ -1233,6 +1282,11 @@
 	  <text name="CreateNewSubApplication">Create new sub application</text>
 	  <text name="EditSubApplication">Edit sub application</text>
 	  <text name="SubApplicationDeleteWarningMessage">Sub application {0} will be deleted.</text>
+	  <text name="SubApplicationRestoreMessage">Sub Application with name {0} already exists. Do you want to restore this sub application?</text>
+	  <text name="SubApplicationSuccessfullyRestored">Sub Application restored successfully</text>
+	  <text name="ExistingSubApplicationErrorMessage">Sub Application {0} cannot be added. Sub Application already exists</text>
+	  <text name="NewSubApplicationErrorMessage">No new instance of Sub Application with name {0} cannot be added. Sub Application with name {0} already exists. Do you want to restore the sub application?</text>
+
 
 	  <!-- Customer section-->
 	  <text name="Customers">Customers</text>
