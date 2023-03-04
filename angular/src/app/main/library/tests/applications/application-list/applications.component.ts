@@ -71,7 +71,7 @@ export class ApplicationsComponent extends AppComponentBase implements AfterView
     }
 
     deleteApplication(application: ApplicationsDto): void {
-        this.message.confirm(this.l('UserDeleteWarningMessage', application.name), this.l('AreYouSure'), (isConfirmed) => {
+        this.message.confirm(this.l('ApplicationDeleteWarningMessage', application.name), this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
                 this._applicationService.deleteApplication(application.id).subscribe(() => {
                     this.reloadPage();
@@ -82,13 +82,35 @@ export class ApplicationsComponent extends AppComponentBase implements AfterView
     }
 
     restoreApplication(applicationResponse: ResponseDto):void {
-        this.message.confirm(this.l('ApplicationRevokeMessage', applicationResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
-            if (isConfirmed) {
-                this._applicationService.revokeApplication(applicationResponse.id).subscribe(() => {
-                    this.reloadPage();
-                    this.notify.success(this.l('ApplicationSuccessfullyRestored'));
+        if(applicationResponse.id == null){
+            if(applicationResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('ApplicationRestoreMessage', applicationResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._applicationService.revokeApplication(applicationResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('ApplicationSuccessfullyRestored'));
+                        });
+                    }
                 });
             }
-        });
+            else{
+                this.notify.error(this.l('ExistingApplicationErrorMessage',applicationResponse.name));
+            }
+        }
+        else{
+            if(applicationResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('NewApplicationErrorMessage', applicationResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._applicationService.revokeApplication(applicationResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('ApplicationSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }   
+            else{
+                this.notify.error(this.l('ExistingApplicationErrorMessage',applicationResponse.name));
+            }
+        }
     }
 }

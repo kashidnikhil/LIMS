@@ -65,8 +65,7 @@ export class CreateOrEditApplicationModalComponent extends AppComponentBase {
                 })
             )
             .subscribe((response : ResponseDto) => {
-                console.log(response);
-                if(!response.existingData){
+                if(!response.dataMatchFound){
                     this.notify.info(this.l('SavedSuccessfully'));
                     this.close();
                     this.modalSave.emit(null);

@@ -1152,8 +1152,10 @@
 	  <text name="CreateNewApplication">Create new application</text>
 	  <text name="EditApplication">Edit application</text>
 	  <text name="ApplicationDeleteWarningMessage">Application {0} will be deleted.</text>
-	  <text name="ApplicationRevokeMessage">Application with name {0} already exists. Do you want to restore this application?</text>
+	  <text name="ApplicationRestoreMessage">Application with name {0} already exists. Do you want to restore this application?</text>
 	  <text name="ApplicationSuccessfullyRestored">Application restored successfully</text>
+	  <text name="ExistingApplicationErrorMessage">Application {0} cannot be added. Application already exists</text>
+	  <text name="NewApplicationErrorMessage">No new instance of Application with name {0} cannot be added.Application with name {0} already exists. Do you want to restore the application?</text>
 	  
 	  <!-- Standard References section-->
 	  <text name="StandardReferences">Standard References</text>

@@ -30284,9 +30284,11 @@ export interface IResolveTenantIdInput {
 }
 
 export class ResponseDto implements IResponseDto {
-    id!: string;
+    id!: string | undefined;
+    restoringItemId!: string;
     name!: string | undefined;
-    existingData!: boolean;
+    isExistingDataAlreadyDeleted!: boolean;
+    dataMatchFound!: boolean;
 
     constructor(data?: IResponseDto) {
         if (data) {
@@ -30300,8 +30302,10 @@ export class ResponseDto implements IResponseDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.restoringItemId = _data["restoringItemId"];
             this.name = _data["name"];
-            this.existingData = _data["existingData"];
+            this.isExistingDataAlreadyDeleted = _data["isExistingDataAlreadyDeleted"];
+            this.dataMatchFound = _data["dataMatchFound"];
         }
     }
 
@@ -30315,16 +30319,20 @@ export class ResponseDto implements IResponseDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["restoringItemId"] = this.restoringItemId;
         data["name"] = this.name;
-        data["existingData"] = this.existingData;
+        data["isExistingDataAlreadyDeleted"] = this.isExistingDataAlreadyDeleted;
+        data["dataMatchFound"] = this.dataMatchFound;
         return data;
     }
 }
 
 export interface IResponseDto {
-    id: string;
+    id: string | undefined;
+    restoringItemId: string;
     name: string | undefined;
-    existingData: boolean;
+    isExistingDataAlreadyDeleted: boolean;
+    dataMatchFound: boolean;
 }
 
 export class RoleEditDto implements IRoleEditDto {

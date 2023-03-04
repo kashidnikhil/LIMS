@@ -60,26 +60,28 @@
             try
             {
                 Guid applicationId = Guid.Empty;
-                if (input.Id == null) {
-                    var applicationItem = await this._applicationsRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x=> x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                    if (applicationItem != null) {
-                        var applicationName = applicationItem.Name;
-                        applicationId = applicationItem.Id;
-                        return new ResponseDto {
-                            Id = applicationId,
-                            Name = applicationName,
-                            ExistingData = true
-                        };
-                    }
-                }
-                var mappedApplicationItem = ObjectMapper.Map<Applications>(input);
-                applicationId = await this._applicationsRepository.InsertOrUpdateAndGetIdAsync(mappedApplicationItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return new ResponseDto
+                var applicationItem = await this._applicationsRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (applicationItem != null && input.Id != applicationItem.Id)
                 {
-                    Id = applicationId,
-                    ExistingData = false
-                };
+                    //if incoming data matches the existing data and 
+                    return new ResponseDto {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = applicationItem.Name,
+                        IsExistingDataAlreadyDeleted = applicationItem.IsDeleted ,
+                        DataMatchFound = true,
+                        RestoringItemId = applicationItem.Id
+                    };
+                }
+                else {
+                    var mappedApplicationItem = ObjectMapper.Map<Applications>(input);
+                    applicationId = await this._applicationsRepository.InsertOrUpdateAndGetIdAsync(mappedApplicationItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = applicationId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
