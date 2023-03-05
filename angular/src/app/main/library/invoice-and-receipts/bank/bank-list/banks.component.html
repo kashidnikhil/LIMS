@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-bank-modal #createOrEditBankModal (modalSave)="getBanks()"></create-edit-bank-modal>
+        <create-edit-bank-modal #createOrEditBankModal (modalSave)="getBanks()" (restoreBank)="restoreBank($event)"></create-edit-bank-modal>
     </div>
 </div>

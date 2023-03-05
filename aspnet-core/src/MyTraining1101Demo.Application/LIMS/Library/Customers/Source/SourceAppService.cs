@@ -2,6 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Customers.Source.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@
             throw ex;
         }
     }
-    public async Task<Guid> InsertOrUpdateSource(SourceInputDto input)
+    public async Task<ResponseDto> InsertOrUpdateSource(SourceInputDto input)
     {
         try
         {
@@ -62,18 +63,33 @@
 
     }
 
-    public async Task<SourceDto> GetSourceById(Guid sourceId)
-    {
-        try
+        public async Task<SourceDto> GetSourceById(Guid sourceId)
         {
-            var response = await this._sourceManager.GetSourceByIdFromDB(sourceId);
-            return response;
+            try
+            {
+                var response = await this._sourceManager.GetSourceByIdFromDB(sourceId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
         }
-        catch (Exception ex)
+
+        public async Task<bool> RestoreSource(Guid sourceId)
         {
-            Logger.Error(ex.Message, ex);
-            throw ex;
+            try
+            {
+                var response = await this._sourceManager.RestoreSource(sourceId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
         }
-    }
+
     }
 }

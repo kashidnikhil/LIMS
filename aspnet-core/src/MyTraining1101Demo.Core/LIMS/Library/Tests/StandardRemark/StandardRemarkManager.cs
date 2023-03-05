@@ -14,6 +14,7 @@
     using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark.Dto;
     using Abp.Domain.Uow;
     using Abp.Application.Services.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
 
     public class StandardRemarkManager : MyTraining1101DemoDomainServiceBase, IStandardRemarkManager
     {
@@ -54,14 +55,34 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateStandardRemarkIntoDB(StandardRemarkInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateStandardRemarkIntoDB(StandardRemarkInputDto input)
         {
             try
             {
-                var mappedStandardRemarkItem = ObjectMapper.Map<StandardRemark>(input);
-                var standardRemarkId = await this._standardRemarkRepository.InsertOrUpdateAndGetIdAsync(mappedStandardRemarkItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return standardRemarkId;
+                Guid standardRemarkId = Guid.Empty;
+                var standardRemarkItem = await this._standardRemarkRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (standardRemarkItem != null && input.Id != standardRemarkItem.Id)
+                {
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = standardRemarkItem.Name,
+                        IsExistingDataAlreadyDeleted = standardRemarkItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = standardRemarkItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedApplicationItem = ObjectMapper.Map<StandardRemark>(input);
+                    standardRemarkId = await this._standardRemarkRepository.InsertOrUpdateAndGetIdAsync(mappedApplicationItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = standardRemarkId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -97,6 +118,25 @@
 
                 return ObjectMapper.Map<StandardRemarkDto>(standardRemarkItem);
 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreStandardRemark(Guid standardRemarkId)
+        {
+            try
+            {
+                var standardRemarkItem = await this._standardRemarkRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == standardRemarkId);
+                standardRemarkItem.IsDeleted = false;
+                standardRemarkItem.DeleterUserId = null;
+                standardRemarkItem.DeletionTime = null;
+                await this._standardRemarkRepository.UpdateAsync(standardRemarkItem);
+
+                return true;
             }
             catch (Exception ex)
             {

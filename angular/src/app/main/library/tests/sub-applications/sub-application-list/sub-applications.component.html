@@ -185,6 +185,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-sub-application-modal #createOrEditSubAppicationModal (modalSave)="getSubApplications()"></create-edit-sub-application-modal>
+        <create-edit-sub-application-modal #createOrEditSubAppicationModal (modalSave)="getSubApplications()" (restoreSubApplication)="restoreSubApplication($event)"></create-edit-sub-application-modal>
     </div>
 </div>

@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-technique-modal #createOrEditTechniqueModal (modalSave)="getTechniques()"></create-edit-technique-modal>
+        <create-edit-technique-modal #createOrEditTechniqueModal (modalSave)="getTechniques()" (restoreTechnique)="restoreTechnique($event)"></create-edit-technique-modal>
     </div>
 </div>

@@ -2,6 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Personnel.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@
                 throw ex;
             }
         }
-        public async Task<Guid> InsertOrUpdatePersonnel(PersonnelInputDto input)
+        public async Task<ResponseDto> InsertOrUpdatePersonnel(PersonnelInputDto input)
         {
             try
             {
@@ -66,6 +67,20 @@
             try
             {
                 var response = await this._personnelManager.GetPersonnelByIdFromDB(personnelId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestorePersonnel(Guid personnelId)
+        {
+            try
+            {
+                var response = await this._personnelManager.RestorePersonnel(personnelId);
                 return response;
             }
             catch (Exception ex)

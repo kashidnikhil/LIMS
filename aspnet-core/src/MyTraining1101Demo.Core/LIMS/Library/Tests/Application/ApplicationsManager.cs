@@ -63,7 +63,6 @@
                 var applicationItem = await this._applicationsRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
                 if (applicationItem != null && input.Id != applicationItem.Id)
                 {
-                    //if incoming data matches the existing data and 
                     return new ResponseDto {
                         Id = input.Id == Guid.Empty ? null : input.Id,
                         Name = applicationItem.Name,

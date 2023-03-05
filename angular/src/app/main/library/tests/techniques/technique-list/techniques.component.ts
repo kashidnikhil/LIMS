@@ -2,7 +2,7 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { TechniqueServiceProxy, TechniqueDto } from '@shared/service-proxies/service-proxies';
+import { TechniqueServiceProxy, TechniqueDto, ResponseDto } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -75,5 +75,38 @@ export class TechiquesComponent extends AppComponentBase implements AfterViewIni
                 });
             }
         });
+    }
+
+    restoreTechnique(techniqueResponse: ResponseDto):void {
+        if(techniqueResponse.id == null){
+            if(techniqueResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('TechniqueRestoreMessage', techniqueResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._techniqueService.restoreTechnique(techniqueResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('TechniqueSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }
+            else{
+                this.notify.error(this.l('ExistingTechniqueErrorMessage',techniqueResponse.name));
+            }
+        }
+        else{
+            if(techniqueResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('NewTechniqueErrorMessage', techniqueResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._techniqueService.restoreTechnique(techniqueResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('TechniqueSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }   
+            else{
+                this.notify.error(this.l('ExistingTechniqueErrorMessage',techniqueResponse.name));
+            }
+        }
     }
 }

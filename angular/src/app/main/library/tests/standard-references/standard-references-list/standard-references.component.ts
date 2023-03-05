@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import {
+    ResponseDto,
     StandardReferenceDto,
     StandardReferenceServiceProxy
 } from '@shared/service-proxies/service-proxies';
@@ -78,5 +79,38 @@ export class StandardReferencesComponent extends AppComponentBase implements Aft
                 });
             }
         });
+    }
+
+    restoreStandardReference(standardReferenceResponse: ResponseDto):void {
+        if(standardReferenceResponse.id == null){
+            if(standardReferenceResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('StandardReferenceRestoreMessage', standardReferenceResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._standardReferenceService.restoreStandardReference(standardReferenceResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('StandardReferenceSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }
+            else{
+                this.notify.error(this.l('ExistingStandardReferenceErrorMessage',standardReferenceResponse.name));
+            }
+        }
+        else{
+            if(standardReferenceResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('NewStandardReferenceErrorMessage', standardReferenceResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._standardReferenceService.restoreStandardReference(standardReferenceResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('StandardReferenceSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }   
+            else{
+                this.notify.error(this.l('ExistingStandardReferenceErrorMessage',standardReferenceResponse.name));
+            }
+        }
     }
 }

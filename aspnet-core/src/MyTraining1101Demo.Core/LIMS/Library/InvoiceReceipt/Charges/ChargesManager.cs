@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -54,14 +55,34 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateChargeIntoDB(ChargesInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateChargeIntoDB(ChargesInputDto input)
         {
             try
             {
-                var mappedChargeItem = ObjectMapper.Map<Charges>(input);
-                var chargeId = await this._chargesRepository.InsertOrUpdateAndGetIdAsync(mappedChargeItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return chargeId;
+                Guid chargeId = Guid.Empty;
+                var chargeItem = await this._chargesRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (chargeItem != null && input.Id != chargeItem.Id)
+                {
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = chargeItem.Name,
+                        IsExistingDataAlreadyDeleted = chargeItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = chargeItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedChargeItem = ObjectMapper.Map<Charges>(input);
+                    chargeId = await this._chargesRepository.InsertOrUpdateAndGetIdAsync(mappedChargeItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = chargeId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -103,6 +124,26 @@
                 Logger.Error(ex.Message, ex);
                 throw ex;
             }
+        }
+
+        public async Task<bool> RestoreCharge(Guid chargeId)
+        {
+            try
+            {
+                var chargeItem = await this._chargesRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == chargeId);
+                chargeItem.IsDeleted = false;
+                chargeItem.DeleterUserId = null;
+                chargeItem.DeletionTime = null;
+                await this._chargesRepository.UpdateAsync(chargeItem);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+
         }
     }
 }

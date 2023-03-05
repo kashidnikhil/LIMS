@@ -2,7 +2,7 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { TaxDto, TaxServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ResponseDto, TaxDto, TaxServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -76,4 +76,38 @@ export class TaxesComponent extends AppComponentBase implements AfterViewInit {
             }
         });
     }
+
+    restoreTax(taxResponse: ResponseDto):void {
+        if(taxResponse.id == null){
+            if(taxResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('TaxRestoreMessage', taxResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._taxService.restoreTax(taxResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('TaxSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }
+            else{
+                this.notify.error(this.l('ExistingTaxErrorMessage',taxResponse.name));
+            }
+        }
+        else{
+            if(taxResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('NewTaxErrorMessage', taxResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._taxService.restoreTax(taxResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('TaxSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }   
+            else{
+                this.notify.error(this.l('ExistingTaxErrorMessage',taxResponse.name));
+            }
+        }
+    }
+
 }

@@ -14,7 +14,7 @@
     using Abp.Linq.Extensions;
     using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
-
+    using MyTraining1101Demo.LIMS.Shared;
 
     public class SourceManager : MyTraining1101DemoDomainServiceBase, ISourceManager
     {
@@ -55,14 +55,35 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateSourceIntoDB(SourceInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateSourceIntoDB(SourceInputDto input)
         {
             try
             {
-                var mappedSourceItem = ObjectMapper.Map<Source>(input);
-                var sourceId = await this._sourceRepository.InsertOrUpdateAndGetIdAsync(mappedSourceItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return sourceId;
+                Guid sourceId = Guid.Empty;
+                var sourceItem = await this._sourceRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (sourceItem != null && input.Id != sourceItem.Id)
+                {
+                    //if incoming data matches the existing data and 
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = sourceItem.Name,
+                        IsExistingDataAlreadyDeleted = sourceItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = sourceItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedSourceItem = ObjectMapper.Map<Source>(input);
+                    sourceId = await this._sourceRepository.InsertOrUpdateAndGetIdAsync(mappedSourceItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = sourceId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -104,6 +125,26 @@
                 Logger.Error(ex.Message, ex);
                 throw ex;
             }
+        }
+
+        public async Task<bool> RestoreSource(Guid sourceId)
+        {
+            try
+            {
+                var sourceItem = await this._sourceRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == sourceId);
+                sourceItem.IsDeleted = false;
+                sourceItem.DeleterUserId = null;
+                sourceItem.DeletionTime = null;
+                await this._sourceRepository.UpdateAsync(sourceItem);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+
         }
     }
 }

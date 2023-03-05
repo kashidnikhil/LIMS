@@ -2,6 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@
                 throw ex;
             }
         }
-        public async Task<Guid> InsertOrUpdateUnit(UnitInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateUnit(UnitInputDto input)
         {
             try
             {
@@ -66,6 +67,20 @@
             try
             {
                 var response = await this._unitManager.GetUnitByIdFromDB(unitId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreUnit(Guid unitId)
+        {
+            try
+            {
+                var response = await this._unitManager.RestoreUnit(unitId);
                 return response;
             }
             catch (Exception ex)

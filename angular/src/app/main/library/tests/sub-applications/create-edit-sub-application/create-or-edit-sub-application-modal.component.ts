@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ApplicationsDto, ApplicationsServiceProxy, SubApplicationDto, SubApplicationInputDto, SubApplicationServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ApplicationsDto, ApplicationsServiceProxy, ResponseDto, SubApplicationDto, SubApplicationInputDto, SubApplicationServiceProxy } from '@shared/service-proxies/service-proxies';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { map as _map, filter as _filter } from 'lodash-es';
 import { finalize } from 'rxjs/operators';
@@ -14,6 +14,8 @@ import { finalize } from 'rxjs/operators';
 export class CreateOrEditApplicationModalComponent extends AppComponentBase {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
+    @Output() restoreSubApplication: EventEmitter<ResponseDto> = new EventEmitter<ResponseDto>();
+    
 
     active = false;
     saving = false;
@@ -67,10 +69,16 @@ export class CreateOrEditApplicationModalComponent extends AppComponentBase {
                     this.saving = false;
                 })
             )
-            .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
+            .subscribe((response : ResponseDto) => {
+                if(!response.dataMatchFound){
+                    this.notify.info(this.l('SavedSuccessfully'));
+                    this.close();
+                    this.modalSave.emit(null);
+                }
+                else{
+                    this.close();
+                    this.restoreSubApplication.emit(response);
+                }
             });
     }
 

@@ -2,7 +2,7 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { BankDto, BankServiceProxy, SourceDto, SourceServiceProxy } from '@shared/service-proxies/service-proxies';
+import { BankDto, BankServiceProxy, ResponseDto, SourceDto, SourceServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -75,5 +75,38 @@ export class BanksComponent extends AppComponentBase implements AfterViewInit {
                 });
             }
         });
+    }
+
+    restoreBank(bankResponse: ResponseDto):void {
+        if(bankResponse.id == null){
+            if(bankResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('BankRestoreMessage', bankResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._bankService.restoreBank(bankResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('BankSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }
+            else{
+                this.notify.error(this.l('ExistingBankErrorMessage',bankResponse.name));
+            }
+        }
+        else{
+            if(bankResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('NewBankErrorMessage', bankResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._bankService.restoreBank(bankResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('BankSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }   
+            else{
+                this.notify.error(this.l('ExistingBankErrorMessage',bankResponse.name));
+            }
+        }
     }
 }

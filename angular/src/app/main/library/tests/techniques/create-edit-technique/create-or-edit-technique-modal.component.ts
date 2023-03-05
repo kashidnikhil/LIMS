@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Injector, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import {
+    ResponseDto,
     TechniqueDto,
     TechniqueInputDto,
     TechniqueServiceProxy,
@@ -19,6 +20,8 @@ export class CreateOrEditTechniqueModalComponent extends AppComponentBase {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
+    @Output() restoreTechnique: EventEmitter<ResponseDto> = new EventEmitter<ResponseDto>();
+    
 
     active = false;
     saving = false;
@@ -62,10 +65,16 @@ export class CreateOrEditTechniqueModalComponent extends AppComponentBase {
                     this.saving = false;
                 })
             )
-            .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
+            .subscribe((response : ResponseDto) => {
+                if(!response.dataMatchFound){
+                    this.notify.info(this.l('SavedSuccessfully'));
+                    this.close();
+                    this.modalSave.emit(null);
+                }
+                else{
+                    this.close();
+                    this.restoreTechnique.emit(response);
+                }
             });
     }
 
@@ -73,4 +82,6 @@ export class CreateOrEditTechniqueModalComponent extends AppComponentBase {
         this.active = false;
         this.modal.hide();
     }
+
+    
 }

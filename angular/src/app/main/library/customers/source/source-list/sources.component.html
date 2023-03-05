@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-source-modal #createOrEditSourceModal (modalSave)="getSources()"></create-edit-source-modal>
+        <create-edit-source-modal #createOrEditSourceModal (modalSave)="getSources()" (restoreSource)="restoreSource($event)"></create-edit-source-modal>
     </div>
 </div>

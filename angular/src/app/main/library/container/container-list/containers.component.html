@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-container-modal #createOrEditContainerModal (modalSave)="getContainers()"></create-edit-container-modal>
+        <create-edit-container-modal #createOrEditContainerModal (modalSave)="getContainers()" (restoreContainer)="restoreContainer($event)"></create-edit-container-modal>
     </div>
 </div>

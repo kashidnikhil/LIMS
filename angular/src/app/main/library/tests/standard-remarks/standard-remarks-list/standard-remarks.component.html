@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-standard-remark-modal #createOrEditStandardRemarkModal (modalSave)="getStandardRemarks()"></create-edit-standard-remark-modal>
+        <create-edit-standard-remark-modal #createOrEditStandardRemarkModal (modalSave)="getStandardRemarks()" (restoreStandardRemark)="restoreStandardRemark($event)"></create-edit-standard-remark-modal>
     </div>
 </div>

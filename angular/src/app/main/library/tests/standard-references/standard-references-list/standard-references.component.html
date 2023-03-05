@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-standard-reference-modal #createOrEditStandardReferenceModal (modalSave)="getStandardReferences()"></create-edit-standard-reference-modal>
+        <create-edit-standard-reference-modal #createOrEditStandardReferenceModal (modalSave)="getStandardReferences()" (restoreStandardReference)="restoreStandardReference($event)"></create-edit-standard-reference-modal>
     </div>
 </div>

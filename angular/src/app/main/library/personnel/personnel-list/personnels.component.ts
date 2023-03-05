@@ -2,7 +2,7 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { PersonnelDto, PersonnelServiceProxy } from '@shared/service-proxies/service-proxies';
+import { PersonnelDto, PersonnelServiceProxy, ResponseDto } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -75,5 +75,38 @@ export class PersonnelsComponent extends AppComponentBase implements AfterViewIn
                 });
             }
         });
+    }
+
+    restorePersonnel(personnelResponse: ResponseDto):void {
+        if(personnelResponse.id == null){
+            if(personnelResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('PersonnelRestoreMessage', personnelResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._personnelService.restorePersonnel(personnelResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('PersonnelSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }
+            else{
+                this.notify.error(this.l('ExistingPersonnelErrorMessage',personnelResponse.name));
+            }
+        }
+        else{
+            if(personnelResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('NewPersonnelErrorMessage', personnelResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._personnelService.restorePersonnel(personnelResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('PersonnelSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }   
+            else{
+                this.notify.error(this.l('ExistingPersonnelErrorMessage',personnelResponse.name));
+            }
+        }
     }
 }

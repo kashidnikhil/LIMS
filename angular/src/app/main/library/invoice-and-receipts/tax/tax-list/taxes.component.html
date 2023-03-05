@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-tax-modal #createOrEditTaxModal (modalSave)="getTaxes()"></create-edit-tax-modal>
+        <create-edit-tax-modal #createOrEditTaxModal (modalSave)="getTaxes()" (restoreTax)="restoreTax($event)"></create-edit-tax-modal>
     </div>
 </div>

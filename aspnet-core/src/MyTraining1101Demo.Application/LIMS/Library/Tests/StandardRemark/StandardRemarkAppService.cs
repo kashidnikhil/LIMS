@@ -2,6 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@
                 throw ex;
             }
         }
-        public async Task<Guid> InsertOrUpdateStandardRemark(StandardRemarkInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateStandardRemark(StandardRemarkInputDto input)
         {
             try
             {
@@ -67,6 +68,20 @@
             try
             {
                 var response = await this._standardRemarkManager.GetStandardRemarkByIdFromDB(standardRemarkId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreStandardRemark(Guid standardRemarkId)
+        {
+            try
+            {
+                var response = await this._standardRemarkManager.RestoreStandardRemark(standardRemarkId);
                 return response;
             }
             catch (Exception ex)

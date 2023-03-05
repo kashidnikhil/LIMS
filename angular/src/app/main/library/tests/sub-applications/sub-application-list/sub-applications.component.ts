@@ -2,7 +2,7 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { SubApplicationDto, SubApplicationServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ResponseDto, SubApplicationDto, SubApplicationServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -75,5 +75,38 @@ export class SubApplicationsComponent extends AppComponentBase implements AfterV
                 });
             }
         });
+    }
+
+    restoreSubApplication(subApplicationResponse: ResponseDto):void {
+        if(subApplicationResponse.id == null){
+            if(subApplicationResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('SubApplicationRestoreMessage', subApplicationResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._subApplicationService.restoreSubApplication(subApplicationResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('SubApplicationSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }
+            else{
+                this.notify.error(this.l('ExistingSubApplicationErrorMessage',subApplicationResponse.name));
+            }
+        }
+        else{
+            if(subApplicationResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('NewSubApplicationErrorMessage', subApplicationResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._subApplicationService.restoreSubApplication(subApplicationResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('SubApplicationSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }   
+            else{
+                this.notify.error(this.l('ExistingSubApplicationErrorMessage',subApplicationResponse.name));
+            }
+        }
     }
 }

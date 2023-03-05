@@ -2,7 +2,7 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { UnitDto, UnitServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ResponseDto, UnitDto, UnitServiceProxy } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -75,5 +75,38 @@ export class UnitsComponent extends AppComponentBase implements AfterViewInit {
                 });
             }
         });
+    }
+
+    restoreUnit(unitResponse: ResponseDto):void {
+        if(unitResponse.id == null){
+            if(unitResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('UnitRestoreMessage', unitResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._unitService.restoreUnit(unitResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('UnitSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }
+            else{
+                this.notify.error(this.l('ExistingUnitErrorMessage',unitResponse.name));
+            }
+        }
+        else{
+            if(unitResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('NewUnitErrorMessage', unitResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._unitService.restoreUnit(unitResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('UnitSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }   
+            else{
+                this.notify.error(this.l('ExistingUnitErrorMessage',unitResponse.name));
+            }
+        }
     }
 }

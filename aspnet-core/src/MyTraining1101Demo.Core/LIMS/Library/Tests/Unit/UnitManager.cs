@@ -10,6 +10,7 @@
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -55,14 +56,34 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateUnitIntoDB(UnitInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateUnitIntoDB(UnitInputDto input)
         {
             try
             {
-                var mappedUnitItem = ObjectMapper.Map<Unit>(input);
-                var unitId = await this._unitRepository.InsertOrUpdateAndGetIdAsync(mappedUnitItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return unitId;
+                Guid unitId = Guid.Empty;
+                var unitItem = await this._unitRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (unitItem != null && input.Id != unitItem.Id)
+                {
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = unitItem.Name,
+                        IsExistingDataAlreadyDeleted = unitItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = unitItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedUnitItem = ObjectMapper.Map<Unit>(input);
+                    unitId = await this._unitRepository.InsertOrUpdateAndGetIdAsync(mappedUnitItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = unitId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -98,6 +119,25 @@
 
                 return ObjectMapper.Map<UnitDto>(unitItem);
 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreUnit(Guid unitId)
+        {
+            try
+            {
+                var unitItem = await this._unitRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == unitId);
+                unitItem.IsDeleted = false;
+                unitItem.DeleterUserId = null;
+                unitItem.DeletionTime = null;
+                await this._unitRepository.UpdateAsync(unitItem);
+
+                return true;
             }
             catch (Exception ex)
             {

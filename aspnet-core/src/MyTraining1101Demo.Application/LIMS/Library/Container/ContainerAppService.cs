@@ -2,6 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Container.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@
                 throw ex;
             }
         }
-        public async Task<Guid> InsertOrUpdateContainer(ContainerInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateContainer(ContainerInputDto input)
         {
             try
             {
@@ -67,6 +68,20 @@
             try
             {
                 var response = await this._containerManager.GetContainerByIdFromDB(containerId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreContainer(Guid containerId)
+        {
+            try
+            {
+                var response = await this._containerManager.RestoreContainer(containerId);
                 return response;
             }
             catch (Exception ex)

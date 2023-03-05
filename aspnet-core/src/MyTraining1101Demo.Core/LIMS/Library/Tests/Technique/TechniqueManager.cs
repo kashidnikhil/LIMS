@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -54,14 +55,34 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateTechniqueIntoDB(TechniqueInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateTechniqueIntoDB(TechniqueInputDto input)
         {
             try
             {
-                var mappedTechniqueItem = ObjectMapper.Map<Technique>(input);
-                var techniqueId = await this._techniqueRepository.InsertOrUpdateAndGetIdAsync(mappedTechniqueItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return techniqueId;
+                Guid techniqueId = Guid.Empty;
+                var techniqueItem = await this._techniqueRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (techniqueItem != null && input.Id != techniqueItem.Id)
+                {
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = techniqueItem.Name,
+                        IsExistingDataAlreadyDeleted = techniqueItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = techniqueItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedTechniqueItem = ObjectMapper.Map<Technique>(input);
+                    techniqueId = await this._techniqueRepository.InsertOrUpdateAndGetIdAsync(mappedTechniqueItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = techniqueId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -97,6 +118,25 @@
 
                 return ObjectMapper.Map<TechniqueDto>(techniqueItem);
 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreTechnique(Guid techniqueId)
+        {
+            try
+            {
+                var techniqueItem = await this._techniqueRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == techniqueId);
+                techniqueItem.IsDeleted = false;
+                techniqueItem.DeleterUserId = null;
+                techniqueItem.DeletionTime = null;
+                await this._techniqueRepository.UpdateAsync(techniqueItem);
+
+                return true;
             }
             catch (Exception ex)
             {

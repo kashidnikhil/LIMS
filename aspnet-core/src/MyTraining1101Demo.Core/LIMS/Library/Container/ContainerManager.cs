@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Container.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -54,14 +55,34 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateContainerIntoDB(ContainerInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateContainerIntoDB(ContainerInputDto input)
         {
             try
             {
-                var mappedContainerItem = ObjectMapper.Map<Container>(input);
-                var containerId = await this._containerRepository.InsertOrUpdateAndGetIdAsync(mappedContainerItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return containerId;
+                Guid containerId = Guid.Empty;
+                var containerItem = await this._containerRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (containerItem != null && input.Id != containerItem.Id)
+                {
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = containerItem.Name,
+                        IsExistingDataAlreadyDeleted = containerItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = containerItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedContainerItem = ObjectMapper.Map<Container>(input);
+                    containerId = await this._containerRepository.InsertOrUpdateAndGetIdAsync(mappedContainerItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = containerId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -97,6 +118,25 @@
 
                 return ObjectMapper.Map<ContainerDto>(containerItem);
 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreContainer(Guid containerId)
+        {
+            try
+            {
+                var containerItem = await this._containerRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == containerId);
+                containerItem.IsDeleted = false;
+                containerItem.DeleterUserId = null;
+                containerItem.DeletionTime = null;
+                await this._containerRepository.UpdateAsync(containerItem);
+
+                return true;
             }
             catch (Exception ex)
             {

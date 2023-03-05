@@ -3,6 +3,7 @@
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.SubApplications;
     using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Threading.Tasks;
 
@@ -34,7 +35,7 @@
                 throw ex;
             }
         }
-        public async Task<Guid> InsertOrUpdateSubApplication(SubApplicationInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateSubApplication(SubApplicationInputDto input)
         {
             try
             {
@@ -69,6 +70,20 @@
             try
             {
                 var response = await this._subApplicationManager.GetSubApplicationByIdFromDB(subApplicationId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreSubApplication(Guid subApplicationId)
+        {
+            try
+            {
+                var response = await this._subApplicationManager.RestoreSubApplication(subApplicationId);
                 return response;
             }
             catch (Exception ex)

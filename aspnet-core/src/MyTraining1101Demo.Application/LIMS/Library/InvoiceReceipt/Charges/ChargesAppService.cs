@@ -5,6 +5,7 @@ using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank;
 using System.Threading.Tasks;
 using System;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges.Dto;
+using MyTraining1101Demo.LIMS.Shared;
 
 namespace MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges
 {
@@ -34,7 +35,7 @@ namespace MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges
                 throw ex;
             }
         }
-        public async Task<Guid> InsertOrUpdateCharges(ChargesInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateCharges(ChargesInputDto input)
         {
             try
             {
@@ -69,6 +70,20 @@ namespace MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges
             try
             {
                 var response = await this._chargesManager.GetChargeByIdFromDB(chargeId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreCharges(Guid chargeId)
+        {
+            try
+            {
+                var response = await this._chargesManager.RestoreCharge(chargeId);
                 return response;
             }
             catch (Exception ex)

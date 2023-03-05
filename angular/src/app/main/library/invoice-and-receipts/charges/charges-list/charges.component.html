@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-charges-modal #createOrEditChargesModal (modalSave)="getCharges()"></create-edit-charges-modal>
+        <create-edit-charges-modal #createOrEditChargesModal (modalSave)="getCharges()" (restoreCharge)="restoreCharge($event)"></create-edit-charges-modal>
     </div>
 </div>

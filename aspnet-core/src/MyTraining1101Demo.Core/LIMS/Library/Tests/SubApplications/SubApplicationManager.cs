@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using PayPalCheckoutSdk.Orders;
     using System;
     using System.Collections.Generic;
@@ -57,14 +58,34 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateSubApplicationIntoDB(SubApplicationInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateSubApplicationIntoDB(SubApplicationInputDto input)
         {
             try
             {
-                var mappedSubApplicationItem = ObjectMapper.Map<SubApplication>(input);
-                var subAppplicationId = await this._subApplicationsRepository.InsertOrUpdateAndGetIdAsync(mappedSubApplicationItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return subAppplicationId;
+                Guid subAppplicationId = Guid.Empty;
+                var subApplicationItem = await this._subApplicationsRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (subApplicationItem != null && input.Id != subApplicationItem.Id)
+                {
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = subApplicationItem.Name,
+                        IsExistingDataAlreadyDeleted = subApplicationItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = subApplicationItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedSubApplicationItem = ObjectMapper.Map<SubApplication>(input);
+                    subAppplicationId = await this._subApplicationsRepository.InsertOrUpdateAndGetIdAsync(mappedSubApplicationItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = subAppplicationId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -107,6 +128,24 @@
                 throw ex;
             }
         }
-    
+
+        public async Task<bool> RestoreSubApplication(Guid subApplicationId)
+        {
+            try
+            {
+                var subApplicationItem = await this._subApplicationsRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == subApplicationId);
+                subApplicationItem.IsDeleted = false;
+                subApplicationItem.DeleterUserId = null;
+                subApplicationItem.DeletionTime = null;
+                await this._subApplicationsRepository.UpdateAsync(subApplicationItem);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
     }
 }

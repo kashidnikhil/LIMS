@@ -4,6 +4,7 @@ using MyTraining1101Demo.LIMS.Library.Personnel;
 using System.Threading.Tasks;
 using System;
 using MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto;
+using MyTraining1101Demo.LIMS.Shared;
 
 namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReference
 {
@@ -33,7 +34,7 @@ namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReference
                 throw ex;
             }
         }
-        public async Task<Guid> InsertOrUpdateStandardReference(StandardReferenceInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateStandardReference(StandardReferenceInputDto input)
         {
             try
             {
@@ -68,6 +69,20 @@ namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReference
             try
             {
                 var response = await this._standardReferenceManager.GetStandardReferenceByIdFromDB(standardReferenceId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreStandardReference(Guid standardReferenceId)
+        {
+            try
+            {
+                var response = await this._standardReferenceManager.RestoreStandardReference(standardReferenceId);
                 return response;
             }
             catch (Exception ex)

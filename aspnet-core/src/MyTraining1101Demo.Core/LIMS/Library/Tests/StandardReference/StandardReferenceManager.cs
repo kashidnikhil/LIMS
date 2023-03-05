@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -54,14 +55,34 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateStandardReferenceIntoDB(StandardReferenceInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateStandardReferenceIntoDB(StandardReferenceInputDto input)
         {
             try
             {
-                var mappedStandardReferenceItem = ObjectMapper.Map<StandardReference>(input);
-                var standardReferenceId = await this._standardReferenceRepository.InsertOrUpdateAndGetIdAsync(mappedStandardReferenceItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return standardReferenceId;
+                Guid standardReferenceId = Guid.Empty;
+                var standardReferenceItem = await this._standardReferenceRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (standardReferenceItem != null && input.Id != standardReferenceItem.Id)
+                {
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = standardReferenceItem.Name,
+                        IsExistingDataAlreadyDeleted = standardReferenceItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = standardReferenceItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedStandardReferenceItem = ObjectMapper.Map<StandardReference>(input);
+                    standardReferenceId = await this._standardReferenceRepository.InsertOrUpdateAndGetIdAsync(mappedStandardReferenceItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = standardReferenceId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -97,6 +118,25 @@
 
                 return ObjectMapper.Map<StandardReferenceDto>(standardReferenceItem);
 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreStandardReference(Guid standardReferencelId)
+        {
+            try
+            {
+                var standardReferenceItem = await this._standardReferenceRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == standardReferencelId);
+                standardReferenceItem.IsDeleted = false;
+                standardReferenceItem.DeleterUserId = null;
+                standardReferenceItem.DeletionTime = null;
+                await this._standardReferenceRepository.UpdateAsync(standardReferenceItem);
+
+                return true;
             }
             catch (Exception ex)
             {

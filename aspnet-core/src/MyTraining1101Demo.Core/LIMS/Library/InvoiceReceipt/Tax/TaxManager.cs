@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -54,14 +55,34 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateTaxIntoDB(TaxInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateTaxIntoDB(TaxInputDto input)
         {
             try
             {
-                var mappedTaxItem = ObjectMapper.Map<Tax>(input);
-                var taxId = await this._taxRepository.InsertOrUpdateAndGetIdAsync(mappedTaxItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return taxId;
+                Guid taxId = Guid.Empty;
+                var taxItem = await this._taxRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (taxItem != null && input.Id != taxItem.Id)
+                {
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = taxItem.Name,
+                        IsExistingDataAlreadyDeleted = taxItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = taxItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedTaxItem = ObjectMapper.Map<Tax>(input);
+                    taxId = await this._taxRepository.InsertOrUpdateAndGetIdAsync(mappedTaxItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = taxId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -97,6 +118,25 @@
 
                 return ObjectMapper.Map<TaxDto>(taxItem);
 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreTax(Guid taxId)
+        {
+            try
+            {
+                var taxItem = await this._taxRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == taxId);
+                taxItem.IsDeleted = false;
+                taxItem.DeleterUserId = null;
+                taxItem.DeletionTime = null;
+                await this._taxRepository.UpdateAsync(taxItem);
+
+                return true;
             }
             catch (Exception ex)
             {

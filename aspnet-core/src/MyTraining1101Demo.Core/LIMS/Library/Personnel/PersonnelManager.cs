@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Personnel.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -54,14 +55,35 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdatePersonnelIntoDB(PersonnelInputDto input)
+        public async Task<ResponseDto> InsertOrUpdatePersonnelIntoDB(PersonnelInputDto input)
         {
             try
             {
-                var mappedPersonnelItem = ObjectMapper.Map<Personnel>(input);
-                var personnelId = await this._personnelRepository.InsertOrUpdateAndGetIdAsync(mappedPersonnelItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return personnelId;
+                Guid personnelId = Guid.Empty;
+                var personnelItem = await this._personnelRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (personnelItem != null && input.Id != personnelItem.Id)
+                {
+                    //if incoming data matches the existing data and 
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = personnelItem.Name,
+                        IsExistingDataAlreadyDeleted = personnelItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = personnelItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedPersonnelItem = ObjectMapper.Map<Personnel>(input);
+                    personnelId = await this._personnelRepository.InsertOrUpdateAndGetIdAsync(mappedPersonnelItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = personnelId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -97,6 +119,25 @@
 
                 return ObjectMapper.Map<PersonnelDto>(personnelItem);
 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestorePersonnel(Guid personnelId)
+        {
+            try
+            {
+                var personnelItem = await this._personnelRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == personnelId);
+                personnelItem.IsDeleted = false;
+                personnelItem.DeleterUserId = null;
+                personnelItem.DeletionTime = null;
+                await this._personnelRepository.UpdateAsync(personnelItem);
+
+                return true;
             }
             catch (Exception ex)
             {

@@ -1741,7 +1741,7 @@ export class BankServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateBank(body: BankInputDto | undefined): Observable<string> {
+    insertOrUpdateBank(body: BankInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/Bank/InsertOrUpdateBank";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1764,14 +1764,14 @@ export class BankServiceProxy {
                 try {
                     return this.processInsertOrUpdateBank(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateBank(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateBank(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1782,8 +1782,7 @@ export class BankServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1791,7 +1790,7 @@ export class BankServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -1905,6 +1904,63 @@ export class BankServiceProxy {
             }));
         }
         return _observableOf<BankDto>(null as any);
+    }
+
+    /**
+     * @param bankId (optional) 
+     * @return Success
+     */
+    restoreBank(bankId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Bank/RestoreBank?";
+        if (bankId === null)
+            throw new Error("The parameter 'bankId' cannot be null.");
+        else if (bankId !== undefined)
+            url_ += "bankId=" + encodeURIComponent("" + bankId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestoreBank(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreBank(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestoreBank(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
     }
 }
 
@@ -2156,7 +2212,7 @@ export class ChargesServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateCharges(body: ChargesInputDto | undefined): Observable<string> {
+    insertOrUpdateCharges(body: ChargesInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/Charges/InsertOrUpdateCharges";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2179,14 +2235,14 @@ export class ChargesServiceProxy {
                 try {
                     return this.processInsertOrUpdateCharges(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateCharges(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateCharges(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2197,8 +2253,7 @@ export class ChargesServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2206,7 +2261,7 @@ export class ChargesServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -2320,6 +2375,63 @@ export class ChargesServiceProxy {
             }));
         }
         return _observableOf<ChargesDto>(null as any);
+    }
+
+    /**
+     * @param chargeId (optional) 
+     * @return Success
+     */
+    restoreCharges(chargeId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Charges/RestoreCharges?";
+        if (chargeId === null)
+            throw new Error("The parameter 'chargeId' cannot be null.");
+        else if (chargeId !== undefined)
+            url_ += "chargeId=" + encodeURIComponent("" + chargeId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestoreCharges(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreCharges(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestoreCharges(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
     }
 }
 
@@ -2765,7 +2877,7 @@ export class ContainerServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateContainer(body: ContainerInputDto | undefined): Observable<string> {
+    insertOrUpdateContainer(body: ContainerInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/Container/InsertOrUpdateContainer";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2788,14 +2900,14 @@ export class ContainerServiceProxy {
                 try {
                     return this.processInsertOrUpdateContainer(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateContainer(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateContainer(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2806,8 +2918,7 @@ export class ContainerServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2815,7 +2926,7 @@ export class ContainerServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -2929,6 +3040,63 @@ export class ContainerServiceProxy {
             }));
         }
         return _observableOf<ContainerDto>(null as any);
+    }
+
+    /**
+     * @param containerId (optional) 
+     * @return Success
+     */
+    restoreContainer(containerId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Container/RestoreContainer?";
+        if (containerId === null)
+            throw new Error("The parameter 'containerId' cannot be null.");
+        else if (containerId !== undefined)
+            url_ += "containerId=" + encodeURIComponent("" + containerId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestoreContainer(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreContainer(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestoreContainer(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
     }
 }
 
@@ -10261,7 +10429,7 @@ export class PersonnelServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdatePersonnel(body: PersonnelInputDto | undefined): Observable<string> {
+    insertOrUpdatePersonnel(body: PersonnelInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/Personnel/InsertOrUpdatePersonnel";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10284,14 +10452,14 @@ export class PersonnelServiceProxy {
                 try {
                     return this.processInsertOrUpdatePersonnel(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdatePersonnel(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdatePersonnel(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -10302,8 +10470,7 @@ export class PersonnelServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -10311,7 +10478,7 @@ export class PersonnelServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -10425,6 +10592,63 @@ export class PersonnelServiceProxy {
             }));
         }
         return _observableOf<PersonnelDto>(null as any);
+    }
+
+    /**
+     * @param personnelId (optional) 
+     * @return Success
+     */
+    restorePersonnel(personnelId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Personnel/RestorePersonnel?";
+        if (personnelId === null)
+            throw new Error("The parameter 'personnelId' cannot be null.");
+        else if (personnelId !== undefined)
+            url_ += "personnelId=" + encodeURIComponent("" + personnelId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestorePersonnel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestorePersonnel(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestorePersonnel(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
     }
 }
 
@@ -11651,7 +11875,7 @@ export class SourceServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateSource(body: SourceInputDto | undefined): Observable<string> {
+    insertOrUpdateSource(body: SourceInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/Source/InsertOrUpdateSource";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11674,14 +11898,14 @@ export class SourceServiceProxy {
                 try {
                     return this.processInsertOrUpdateSource(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateSource(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateSource(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -11692,8 +11916,7 @@ export class SourceServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11701,7 +11924,7 @@ export class SourceServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -11816,6 +12039,63 @@ export class SourceServiceProxy {
         }
         return _observableOf<SourceDto>(null as any);
     }
+
+    /**
+     * @param sourceId (optional) 
+     * @return Success
+     */
+    restoreSource(sourceId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Source/RestoreSource?";
+        if (sourceId === null)
+            throw new Error("The parameter 'sourceId' cannot be null.");
+        else if (sourceId !== undefined)
+            url_ += "sourceId=" + encodeURIComponent("" + sourceId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestoreSource(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreSource(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestoreSource(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
+    }
 }
 
 @Injectable()
@@ -11904,7 +12184,7 @@ export class StandardReferenceServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateStandardReference(body: StandardReferenceInputDto | undefined): Observable<string> {
+    insertOrUpdateStandardReference(body: StandardReferenceInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/StandardReference/InsertOrUpdateStandardReference";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11927,14 +12207,14 @@ export class StandardReferenceServiceProxy {
                 try {
                     return this.processInsertOrUpdateStandardReference(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateStandardReference(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateStandardReference(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -11945,8 +12225,7 @@ export class StandardReferenceServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11954,7 +12233,7 @@ export class StandardReferenceServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -12069,6 +12348,63 @@ export class StandardReferenceServiceProxy {
         }
         return _observableOf<StandardReferenceDto>(null as any);
     }
+
+    /**
+     * @param standardReferenceId (optional) 
+     * @return Success
+     */
+    restoreStandardReference(standardReferenceId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/StandardReference/RestoreStandardReference?";
+        if (standardReferenceId === null)
+            throw new Error("The parameter 'standardReferenceId' cannot be null.");
+        else if (standardReferenceId !== undefined)
+            url_ += "standardReferenceId=" + encodeURIComponent("" + standardReferenceId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestoreStandardReference(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreStandardReference(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestoreStandardReference(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
+    }
 }
 
 @Injectable()
@@ -12157,7 +12493,7 @@ export class StandardRemarkServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateStandardRemark(body: StandardRemarkInputDto | undefined): Observable<string> {
+    insertOrUpdateStandardRemark(body: StandardRemarkInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/StandardRemark/InsertOrUpdateStandardRemark";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12180,14 +12516,14 @@ export class StandardRemarkServiceProxy {
                 try {
                     return this.processInsertOrUpdateStandardRemark(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateStandardRemark(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateStandardRemark(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -12198,8 +12534,7 @@ export class StandardRemarkServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -12207,7 +12542,7 @@ export class StandardRemarkServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -12321,6 +12656,63 @@ export class StandardRemarkServiceProxy {
             }));
         }
         return _observableOf<StandardRemarkDto>(null as any);
+    }
+
+    /**
+     * @param standardRemarkId (optional) 
+     * @return Success
+     */
+    restoreStandardRemark(standardRemarkId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/StandardRemark/RestoreStandardRemark?";
+        if (standardRemarkId === null)
+            throw new Error("The parameter 'standardRemarkId' cannot be null.");
+        else if (standardRemarkId !== undefined)
+            url_ += "standardRemarkId=" + encodeURIComponent("" + standardRemarkId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestoreStandardRemark(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreStandardRemark(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestoreStandardRemark(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
     }
 }
 
@@ -12642,7 +13034,7 @@ export class SubApplicationServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateSubApplication(body: SubApplicationInputDto | undefined): Observable<string> {
+    insertOrUpdateSubApplication(body: SubApplicationInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/SubApplication/InsertOrUpdateSubApplication";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12665,14 +13057,14 @@ export class SubApplicationServiceProxy {
                 try {
                     return this.processInsertOrUpdateSubApplication(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateSubApplication(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateSubApplication(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -12683,8 +13075,7 @@ export class SubApplicationServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -12692,7 +13083,7 @@ export class SubApplicationServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -12806,6 +13197,63 @@ export class SubApplicationServiceProxy {
             }));
         }
         return _observableOf<SubApplicationDto>(null as any);
+    }
+
+    /**
+     * @param subApplicationId (optional) 
+     * @return Success
+     */
+    restoreSubApplication(subApplicationId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/SubApplication/RestoreSubApplication?";
+        if (subApplicationId === null)
+            throw new Error("The parameter 'subApplicationId' cannot be null.");
+        else if (subApplicationId !== undefined)
+            url_ += "subApplicationId=" + encodeURIComponent("" + subApplicationId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestoreSubApplication(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreSubApplication(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestoreSubApplication(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
     }
 }
 
@@ -13001,7 +13449,7 @@ export class TaxServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateTax(body: TaxInputDto | undefined): Observable<string> {
+    insertOrUpdateTax(body: TaxInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/Tax/InsertOrUpdateTax";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13024,14 +13472,14 @@ export class TaxServiceProxy {
                 try {
                     return this.processInsertOrUpdateTax(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateTax(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateTax(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -13042,8 +13490,7 @@ export class TaxServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -13051,7 +13498,7 @@ export class TaxServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -13166,6 +13613,63 @@ export class TaxServiceProxy {
         }
         return _observableOf<TaxDto>(null as any);
     }
+
+    /**
+     * @param taxId (optional) 
+     * @return Success
+     */
+    restoreTax(taxId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Tax/RestoreTax?";
+        if (taxId === null)
+            throw new Error("The parameter 'taxId' cannot be null.");
+        else if (taxId !== undefined)
+            url_ += "taxId=" + encodeURIComponent("" + taxId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestoreTax(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreTax(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestoreTax(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
+    }
 }
 
 @Injectable()
@@ -13254,7 +13758,7 @@ export class TechniqueServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateTechnique(body: TechniqueInputDto | undefined): Observable<string> {
+    insertOrUpdateTechnique(body: TechniqueInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/Technique/InsertOrUpdateTechnique";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13277,14 +13781,14 @@ export class TechniqueServiceProxy {
                 try {
                     return this.processInsertOrUpdateTechnique(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateTechnique(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateTechnique(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -13295,8 +13799,7 @@ export class TechniqueServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -13304,7 +13807,7 @@ export class TechniqueServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -13418,6 +13921,63 @@ export class TechniqueServiceProxy {
             }));
         }
         return _observableOf<TechniqueDto>(null as any);
+    }
+
+    /**
+     * @param techniquelId (optional) 
+     * @return Success
+     */
+    restoreTechnique(techniquelId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Technique/RestoreTechnique?";
+        if (techniquelId === null)
+            throw new Error("The parameter 'techniquelId' cannot be null.");
+        else if (techniquelId !== undefined)
+            url_ += "techniquelId=" + encodeURIComponent("" + techniquelId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestoreTechnique(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreTechnique(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestoreTechnique(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
     }
 }
 
@@ -16120,7 +16680,7 @@ export class UnitServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    insertOrUpdateUnit(body: UnitInputDto | undefined): Observable<string> {
+    insertOrUpdateUnit(body: UnitInputDto | undefined): Observable<ResponseDto> {
         let url_ = this.baseUrl + "/api/services/app/Unit/InsertOrUpdateUnit";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -16143,14 +16703,14 @@ export class UnitServiceProxy {
                 try {
                     return this.processInsertOrUpdateUnit(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
+                    return _observableThrow(e) as any as Observable<ResponseDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<string>;
+                return _observableThrow(response_) as any as Observable<ResponseDto>;
         }));
     }
 
-    protected processInsertOrUpdateUnit(response: HttpResponseBase): Observable<string> {
+    protected processInsertOrUpdateUnit(response: HttpResponseBase): Observable<ResponseDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -16161,8 +16721,7 @@ export class UnitServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 !== undefined ? resultData200 : <any>null;
-    
+            result200 = ResponseDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -16170,7 +16729,7 @@ export class UnitServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(null as any);
+        return _observableOf<ResponseDto>(null as any);
     }
 
     /**
@@ -16284,6 +16843,63 @@ export class UnitServiceProxy {
             }));
         }
         return _observableOf<UnitDto>(null as any);
+    }
+
+    /**
+     * @param unitId (optional) 
+     * @return Success
+     */
+    restoreUnit(unitId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/Unit/RestoreUnit?";
+        if (unitId === null)
+            throw new Error("The parameter 'unitId' cannot be null.");
+        else if (unitId !== undefined)
+            url_ += "unitId=" + encodeURIComponent("" + unitId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRestoreUnit(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRestoreUnit(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processRestoreUnit(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
     }
 }
 

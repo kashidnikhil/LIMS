@@ -1210,10 +1210,10 @@
 	  <text name="CreateNewSource">Create new source</text>
 	  <text name="EditSource">Edit source</text>
 	  <text name="SourceDeleteWarningMessage">Source {0} will be deleted.</text>
-	  <text name="SourcesRestoreMessage">Sources with name {0} already exists. Do you want to restore this sources?</text>
-	  <text name="SourcesSuccessfullyRestored">Sources restored successfully</text>
-	  <text name="ExistingSourcesErrorMessage">Sources {0} cannot be added. Sources already exists</text>
-	  <text name="NewSourcesErrorMessage">No new instance of Sources with name {0} cannot be added.Sources with name {0} already exists. Do you want to restore the sources?</text>
+	  <text name="SourceRestoreMessage">Source with name {0} already exists. Do you want to restore this sources?</text>
+	  <text name="SourceSuccessfullyRestored">Source restored successfully</text>
+	  <text name="ExistingSourceErrorMessage">Source {0} cannot be added. Sources already exists</text>
+	  <text name="NewSourceErrorMessage">No new instance of Source with name {0} cannot be added.Sources with name {0} already exists. Do you want to restore the sources?</text>
 
 
 	  <!-- Bank section-->

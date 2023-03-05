@@ -2,7 +2,7 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ContainerDto, ContainerServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ContainerDto, ContainerServiceProxy, ResponseDto } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -75,5 +75,38 @@ export class TaxesComponent extends AppComponentBase implements AfterViewInit {
                 });
             }
         });
+    }
+
+    restoreContainer(containerResponse: ResponseDto):void {
+        if(containerResponse.id == null){
+            if(containerResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('ContainerRestoreMessage', containerResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._containerService.restoreContainer(containerResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('ContainerSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }
+            else{
+                this.notify.error(this.l('ExistingContainerErrorMessage',containerResponse.name));
+            }
+        }
+        else{
+            if(containerResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('NewContainerErrorMessage', containerResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._containerService.restoreContainer(containerResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('ContainerSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }   
+            else{
+                this.notify.error(this.l('ExistingContainerErrorMessage',containerResponse.name));
+            }
+        }
     }
 }

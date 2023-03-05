@@ -8,14 +8,17 @@
 
     using System;
     using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
 
     public interface IStandardRemarkManager : IDomainService
     {
         Task<PagedResultDto<StandardRemarkDto>> GetPaginatedStandardRemarkListFromDB(StandardRemarkSearchDto input);
-        Task<Guid> InsertOrUpdateStandardRemarkIntoDB(StandardRemarkInputDto input);
+        Task<ResponseDto> InsertOrUpdateStandardRemarkIntoDB(StandardRemarkInputDto input);
 
         Task<bool> DeleteStandardRemarkFromDB(Guid standardRemarkId);
 
         Task<StandardRemarkDto> GetStandardRemarkByIdFromDB(Guid standardRemarkId);
+
+        Task<bool> RestoreStandardRemark(Guid standardRemarkId);
     }
 }

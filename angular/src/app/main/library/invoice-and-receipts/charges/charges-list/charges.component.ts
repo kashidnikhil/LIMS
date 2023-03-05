@@ -2,7 +2,7 @@ import { Component, Injector, ViewChild, ViewEncapsulation, AfterViewInit } from
 import { ActivatedRoute } from '@angular/router';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ChargesDto, ChargesServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ChargesDto, ChargesServiceProxy, ResponseDto } from '@shared/service-proxies/service-proxies';
 import { LazyLoadEvent } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
@@ -75,5 +75,38 @@ export class ChargesComponent extends AppComponentBase implements AfterViewInit 
                 });
             }
         });
+    }
+
+    restoreCharge(chargeResponse: ResponseDto):void {
+        if(chargeResponse.id == null){
+            if(chargeResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('ChargesRestoreMessage', chargeResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._chargesService.restoreCharges(chargeResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('ChargesSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }
+            else{
+                this.notify.error(this.l('ExistingChargesErrorMessage',chargeResponse.name));
+            }
+        }
+        else{
+            if(chargeResponse.isExistingDataAlreadyDeleted){
+                this.message.confirm(this.l('NewChargesErrorMessage', chargeResponse.name), this.l('AreYouSure'), async (isConfirmed) => {
+                    if (isConfirmed) {
+                        this._chargesService.restoreCharges(chargeResponse.restoringItemId).subscribe(() => {
+                            this.reloadPage();
+                            this.notify.success(this.l('ChargesSuccessfullyRestored'));
+                        });
+                    }
+                });
+            }   
+            else{
+                this.notify.error(this.l('ExistingChargesErrorMessage',chargeResponse.name));
+            }
+        }
     }
 }

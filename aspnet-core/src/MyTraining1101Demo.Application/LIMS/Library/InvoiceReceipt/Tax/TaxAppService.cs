@@ -2,6 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@
                 throw ex;
             }
         }
-        public async Task<Guid> InsertOrUpdateTax(TaxInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateTax(TaxInputDto input)
         {
             try
             {
@@ -66,6 +67,20 @@
             try
             {
                 var response = await this._taxManager.GetTaxByIdFromDB(taxId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreTax(Guid taxId)
+        {
+            try
+            {
+                var response = await this._taxManager.RestoreTax(taxId);
                 return response;
             }
             catch (Exception ex)

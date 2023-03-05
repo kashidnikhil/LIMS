@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -54,14 +55,35 @@
         }
 
         [UnitOfWork]
-        public async Task<Guid> InsertOrUpdateBankIntoDB(BankInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateBankIntoDB(BankInputDto input)
         {
             try
             {
-                var mappedBankItem = ObjectMapper.Map<Bank>(input);
-                var bankId = await this._bankRepository.InsertOrUpdateAndGetIdAsync(mappedBankItem);
-                await CurrentUnitOfWork.SaveChangesAsync();
-                return bankId;
+                Guid bankId = Guid.Empty;
+                var bankItem = await this._bankRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (bankItem != null && input.Id != bankItem.Id)
+                {
+                    //if incoming data matches the existing data and 
+                    return new ResponseDto
+                    {
+                        Id = input.Id == Guid.Empty ? null : input.Id,
+                        Name = bankItem.Name,
+                        IsExistingDataAlreadyDeleted = bankItem.IsDeleted,
+                        DataMatchFound = true,
+                        RestoringItemId = bankItem.Id
+                    };
+                }
+                else
+                {
+                    var mappedBankItem = ObjectMapper.Map<Bank>(input);
+                    bankId = await this._bankRepository.InsertOrUpdateAndGetIdAsync(mappedBankItem);
+                    await CurrentUnitOfWork.SaveChangesAsync();
+                    return new ResponseDto
+                    {
+                        Id = bankId,
+                        DataMatchFound = false
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -103,6 +125,26 @@
                 Logger.Error(ex.Message, ex);
                 throw ex;
             }
+        }
+
+        public async Task<bool> RestoreBank(Guid bankId)
+        {
+            try
+            {
+                var bankItem = await this._bankRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == bankId);
+                bankItem.IsDeleted = false;
+                bankItem.DeleterUserId = null;
+                bankItem.DeletionTime = null;
+                await this._bankRepository.UpdateAsync(bankItem);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+
         }
     }
 }

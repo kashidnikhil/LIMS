@@ -2,6 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@
                 throw ex;
             }
         }
-        public async Task<Guid> InsertOrUpdateTechnique(TechniqueInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateTechnique(TechniqueInputDto input)
         {
             try
             {
@@ -66,6 +67,20 @@
             try
             {
                 var response = await this._techniqueManager.GetTechniqueByIdFromDB(techniquelId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreTechnique(Guid techniquelId)
+        {
+            try
+            {
+                var response = await this._techniqueManager.RestoreTechnique(techniquelId);
                 return response;
             }
             catch (Exception ex)

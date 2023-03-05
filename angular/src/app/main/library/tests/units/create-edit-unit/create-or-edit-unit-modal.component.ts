@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Injector, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import {
+    ResponseDto,
     UnitDto,
     UnitInputDto,
     UnitServiceProxy,
@@ -19,6 +20,7 @@ export class CreateOrEditUnitModalComponent extends AppComponentBase {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
 
     @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
+    @Output() restoreUnit: EventEmitter<ResponseDto> = new EventEmitter<ResponseDto>();
 
     active = false;
     saving = false;
@@ -62,10 +64,16 @@ export class CreateOrEditUnitModalComponent extends AppComponentBase {
                     this.saving = false;
                 })
             )
-            .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
-                this.close();
-                this.modalSave.emit(null);
+            .subscribe((response : ResponseDto) => {
+                if(!response.dataMatchFound){
+                    this.notify.info(this.l('SavedSuccessfully'));
+                    this.close();
+                    this.modalSave.emit(null);
+                }
+                else{
+                    this.close();
+                    this.restoreUnit.emit(response);
+                }
             });
     }
 

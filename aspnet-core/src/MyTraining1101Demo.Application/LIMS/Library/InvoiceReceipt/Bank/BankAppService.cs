@@ -2,6 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@
                 throw ex;
             }
         }
-        public async Task<Guid> InsertOrUpdateBank(BankInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateBank(BankInputDto input)
         {
             try
             {
@@ -39,6 +40,7 @@
 
                 return insertedOrUpdatedBankId;
             }
+
             catch (Exception ex)
             {
                 Logger.Error(ex.Message, ex);
@@ -66,6 +68,20 @@
             try
             {
                 var response = await this._bankManager.GetBankByIdFromDB(bankId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<bool> RestoreBank(Guid bankId)
+        {
+            try
+            {
+                var response = await this._bankManager.RestoreBank(bankId);
                 return response;
             }
             catch (Exception ex)

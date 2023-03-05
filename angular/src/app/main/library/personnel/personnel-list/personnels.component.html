@@ -177,6 +177,6 @@
                 </div>
             </div>
         </div>
-        <create-edit-personnel-modal #createOrEditPesonnelModal (modalSave)="getPersonnels()"></create-edit-personnel-modal>
+        <create-edit-personnel-modal #createOrEditPesonnelModal (modalSave)="getPersonnels()" (restorePersonnel)="restorePersonnel($event)"></create-edit-personnel-modal>
     </div>
 </div>
