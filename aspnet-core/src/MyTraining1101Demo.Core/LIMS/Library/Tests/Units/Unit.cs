@@ -1,14 +1,15 @@
-﻿namespace MyTraining1101Demo.LIMS.Library.Tests.Technique
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.Units
 {
+
     using Abp.Domain.Entities.Auditing;
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("Technique")]
-    public class Technique : FullAuditedEntity<Guid>
+    [Table("Unit")]
+    public class Unit : FullAuditedEntity<Guid>
     {
-        [Required(ErrorMessage = "Enter Technique Name")]
+        [Required(ErrorMessage = "Enter Unit Name")]
         public string Name { get; set; }
 
         public string Description { get; set; }

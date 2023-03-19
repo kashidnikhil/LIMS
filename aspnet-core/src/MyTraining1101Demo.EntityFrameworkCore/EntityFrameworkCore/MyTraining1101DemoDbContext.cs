@@ -18,13 +18,14 @@ using MyTraining1101Demo.LIMS.Library.Tests.Application;
 using MyTraining1101Demo.LIMS.Library.Tests.StandardReference;
 using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark;
 using MyTraining1101Demo.LIMS.Library.Tests.SubApplications;
-using MyTraining1101Demo.LIMS.Library.Tests.Technique;
-using MyTraining1101Demo.LIMS.Library.Tests.Unit;
+using MyTraining1101Demo.LIMS.Library.Tests.Units;
 using MyTraining1101Demo.MultiTenancy;
 using MyTraining1101Demo.MultiTenancy.Accounting;
 using MyTraining1101Demo.MultiTenancy.Payments;
 using MyTraining1101Demo.PhoneBook;
 using MyTraining1101Demo.Storage;
+using MyTraining1101Demo.LIMS.Library.Tests.Techniques;
+using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
 
 namespace MyTraining1101Demo.EntityFrameworkCore
 {
@@ -84,8 +85,8 @@ namespace MyTraining1101Demo.EntityFrameworkCore
         public virtual DbSet<CustomerPO> CustomerPO { get; set; }
 
         public virtual DbSet<CustomerContactPerson> CustomerContactPersons { get; set; }
-        
 
+        public virtual DbSet<Test> Tests { get; set; }
 
 
         public MyTraining1101DemoDbContext(DbContextOptions<MyTraining1101DemoDbContext> options)

@@ -2,6 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.Techniques;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Threading.Tasks;

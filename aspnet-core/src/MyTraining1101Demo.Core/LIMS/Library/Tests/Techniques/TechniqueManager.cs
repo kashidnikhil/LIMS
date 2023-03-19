@@ -1,4 +1,4 @@
-﻿namespace MyTraining1101Demo.LIMS.Library.Tests.Unit
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.Techniques
 {
     using Abp.Application.Services.Dto;
     using Abp.Domain.Repositories;
@@ -9,7 +9,6 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
-    using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
@@ -17,35 +16,35 @@
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
 
-    public class UnitManager : MyTraining1101DemoDomainServiceBase, IUnitManager
+    public class TechniqueManager : MyTraining1101DemoDomainServiceBase, ITechniqueManager
     {
-        private readonly IRepository<Unit, Guid> _unitRepository;
+        private readonly IRepository<Technique, Guid> _techniqueRepository;
         private readonly IConfigurationRoot _appConfiguration;
 
 
-        public UnitManager(
-           IRepository<Unit, Guid> unitRepository,
+        public TechniqueManager(
+           IRepository<Technique, Guid> techniqueRepository,
            IAppConfigurationAccessor configurationAccessor
             )
         {
-            _unitRepository = unitRepository;
+            _techniqueRepository = techniqueRepository;
             _appConfiguration = configurationAccessor.Configuration;
         }
 
-        public async Task<PagedResultDto<UnitDto>> GetPaginatedUnitFromDB(UnitSearchDto input)
+        public async Task<PagedResultDto<TechniqueDto>> GetPaginatedTechniqueFromDB(TechniqueSearchDto input)
         {
             try
             {
-                var taxQuery = this._unitRepository.GetAll()
+                var taxQuery = this._techniqueRepository.GetAll()
                     .Where(x => !x.IsDeleted)
                     .WhereIf(!input.SearchString.IsNullOrWhiteSpace(), item => item.Name.ToLower().Contains(input.SearchString.ToLower()));
 
                 var totalCount = await taxQuery.CountAsync();
                 var items = await taxQuery.OrderBy(input.Sorting).PageBy(input).ToListAsync();
 
-                return new PagedResultDto<UnitDto>(
+                return new PagedResultDto<TechniqueDto>(
                 totalCount,
-                ObjectMapper.Map<List<UnitDto>>(items));
+                ObjectMapper.Map<List<TechniqueDto>>(items));
             }
             catch (Exception ex)
             {
@@ -56,31 +55,31 @@
         }
 
         [UnitOfWork]
-        public async Task<ResponseDto> InsertOrUpdateUnitIntoDB(UnitInputDto input)
+        public async Task<ResponseDto> InsertOrUpdateTechniqueIntoDB(TechniqueInputDto input)
         {
             try
             {
-                Guid unitId = Guid.Empty;
-                var unitItem = await this._unitRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (unitItem != null && input.Id != unitItem.Id)
+                Guid techniqueId = Guid.Empty;
+                var techniqueItem = await this._techniqueRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
+                if (techniqueItem != null && input.Id != techniqueItem.Id)
                 {
                     return new ResponseDto
                     {
                         Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = unitItem.Name,
-                        IsExistingDataAlreadyDeleted = unitItem.IsDeleted,
+                        Name = techniqueItem.Name,
+                        IsExistingDataAlreadyDeleted = techniqueItem.IsDeleted,
                         DataMatchFound = true,
-                        RestoringItemId = unitItem.Id
+                        RestoringItemId = techniqueItem.Id
                     };
                 }
                 else
                 {
-                    var mappedUnitItem = ObjectMapper.Map<Unit>(input);
-                    unitId = await this._unitRepository.InsertOrUpdateAndGetIdAsync(mappedUnitItem);
+                    var mappedTechniqueItem = ObjectMapper.Map<Technique>(input);
+                    techniqueId = await this._techniqueRepository.InsertOrUpdateAndGetIdAsync(mappedTechniqueItem);
                     await CurrentUnitOfWork.SaveChangesAsync();
                     return new ResponseDto
                     {
-                        Id = unitId,
+                        Id = techniqueId,
                         DataMatchFound = false
                     };
                 }
@@ -93,13 +92,13 @@
         }
 
         [UnitOfWork]
-        public async Task<bool> DeleteUnitFromDB(Guid unitId)
+        public async Task<bool> DeleteTechniqueFromDB(Guid techniqueId)
         {
             try
             {
-                var unitItem = await this._unitRepository.GetAsync(unitId);
+                var techniqueItem = await this._techniqueRepository.GetAsync(techniqueId);
 
-                await this._unitRepository.DeleteAsync(unitItem);
+                await this._techniqueRepository.DeleteAsync(techniqueItem);
 
                 await CurrentUnitOfWork.SaveChangesAsync();
                 return true;
@@ -111,13 +110,13 @@
             }
         }
 
-        public async Task<UnitDto> GetUnitByIdFromDB(Guid unitId)
+        public async Task<TechniqueDto> GetTechniqueByIdFromDB(Guid techniqueId)
         {
             try
             {
-                var unitItem = await this._unitRepository.GetAsync(unitId);
+                var techniqueItem = await this._techniqueRepository.GetAsync(techniqueId);
 
-                return ObjectMapper.Map<UnitDto>(unitItem);
+                return ObjectMapper.Map<TechniqueDto>(techniqueItem);
 
             }
             catch (Exception ex)
@@ -127,15 +126,15 @@
             }
         }
 
-        public async Task<bool> RestoreUnit(Guid unitId)
+        public async Task<bool> RestoreTechnique(Guid techniqueId)
         {
             try
             {
-                var unitItem = await this._unitRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == unitId);
-                unitItem.IsDeleted = false;
-                unitItem.DeleterUserId = null;
-                unitItem.DeletionTime = null;
-                await this._unitRepository.UpdateAsync(unitItem);
+                var techniqueItem = await this._techniqueRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == techniqueId);
+                techniqueItem.IsDeleted = false;
+                techniqueItem.DeleterUserId = null;
+                techniqueItem.DeletionTime = null;
+                await this._techniqueRepository.UpdateAsync(techniqueItem);
 
                 return true;
             }

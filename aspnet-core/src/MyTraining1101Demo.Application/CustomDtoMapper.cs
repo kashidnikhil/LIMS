@@ -1,81 +1,84 @@
-using Abp.Application.Editions;
-using Abp.Application.Features;
-using Abp.Auditing;
-using Abp.Authorization;
-using Abp.Authorization.Users;
-using Abp.DynamicEntityProperties;
-using Abp.EntityHistory;
-using Abp.Localization;
-using Abp.Notifications;
-using Abp.Organizations;
-using Abp.UI.Inputs;
-using Abp.Webhooks;
-using AutoMapper;
-using IdentityServer4.Extensions;
-using MyTraining1101Demo.Auditing.Dto;
-using MyTraining1101Demo.Authorization.Accounts.Dto;
-using MyTraining1101Demo.Authorization.Delegation;
-using MyTraining1101Demo.Authorization.Permissions.Dto;
-using MyTraining1101Demo.Authorization.Roles;
-using MyTraining1101Demo.Authorization.Roles.Dto;
-using MyTraining1101Demo.Authorization.Users;
-using MyTraining1101Demo.Authorization.Users.Delegation.Dto;
-using MyTraining1101Demo.Authorization.Users.Dto;
-using MyTraining1101Demo.Authorization.Users.Importing.Dto;
-using MyTraining1101Demo.Authorization.Users.Profile.Dto;
-using MyTraining1101Demo.Chat;
-using MyTraining1101Demo.Chat.Dto;
-using MyTraining1101Demo.Dto;
-using MyTraining1101Demo.DynamicEntityProperties.Dto;
-using MyTraining1101Demo.Editions;
-using MyTraining1101Demo.Editions.Dto;
-using MyTraining1101Demo.Friendships;
-using MyTraining1101Demo.Friendships.Cache;
-using MyTraining1101Demo.Friendships.Dto;
-using MyTraining1101Demo.LIMS.Library.Container;
-using MyTraining1101Demo.LIMS.Library.Container.Dto;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerContactPersons;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerMasters;
-using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerPOs;
-using MyTraining1101Demo.LIMS.Library.Customers.Source;
-using MyTraining1101Demo.LIMS.Library.Customers.Source.Dto;
-using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank;
-using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank.Dto;
-using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges;
-using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges.Dto;
-using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax;
-using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax.Dto;
-using MyTraining1101Demo.LIMS.Library.Personnel;
-using MyTraining1101Demo.LIMS.Library.Personnel.Dto;
-using MyTraining1101Demo.LIMS.Library.Tests.Application;
-using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
-using MyTraining1101Demo.LIMS.Library.Tests.StandardReference;
-using MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto;
-using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark;
-using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark.Dto;
-using MyTraining1101Demo.LIMS.Library.Tests.SubApplications;
-using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
-using MyTraining1101Demo.LIMS.Library.Tests.Technique;
-using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
-using MyTraining1101Demo.LIMS.Library.Tests.Unit;
-using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
-using MyTraining1101Demo.Localization.Dto;
-using MyTraining1101Demo.MultiTenancy;
-using MyTraining1101Demo.MultiTenancy.Dto;
-using MyTraining1101Demo.MultiTenancy.HostDashboard.Dto;
-using MyTraining1101Demo.MultiTenancy.Payments;
-using MyTraining1101Demo.MultiTenancy.Payments.Dto;
-using MyTraining1101Demo.Notifications.Dto;
-using MyTraining1101Demo.Organizations.Dto;
-using MyTraining1101Demo.PhoneBook;
-using MyTraining1101Demo.PhoneBook.Dto;
-using MyTraining1101Demo.Sessions.Dto;
-using MyTraining1101Demo.WebHooks.Dto;
-
 namespace MyTraining1101Demo
 {
+    using Abp.Application.Editions;
+    using Abp.Application.Features;
+    using Abp.Auditing;
+    using Abp.Authorization;
+    using Abp.Authorization.Users;
+    using Abp.DynamicEntityProperties;
+    using Abp.EntityHistory;
+    using Abp.Localization;
+    using Abp.Notifications;
+    using Abp.Organizations;
+    using Abp.UI.Inputs;
+    using Abp.Webhooks;
+    using AutoMapper;
+    using IdentityServer4.Extensions;
+    using MyTraining1101Demo.Auditing.Dto;
+    using MyTraining1101Demo.Authorization.Accounts.Dto;
+    using MyTraining1101Demo.Authorization.Delegation;
+    using MyTraining1101Demo.Authorization.Permissions.Dto;
+    using MyTraining1101Demo.Authorization.Roles;
+    using MyTraining1101Demo.Authorization.Roles.Dto;
+    using MyTraining1101Demo.Authorization.Users;
+    using MyTraining1101Demo.Authorization.Users.Delegation.Dto;
+    using MyTraining1101Demo.Authorization.Users.Dto;
+    using MyTraining1101Demo.Authorization.Users.Importing.Dto;
+    using MyTraining1101Demo.Authorization.Users.Profile.Dto;
+    using MyTraining1101Demo.Chat;
+    using MyTraining1101Demo.Chat.Dto;
+    using MyTraining1101Demo.Dto;
+    using MyTraining1101Demo.DynamicEntityProperties.Dto;
+    using MyTraining1101Demo.Editions;
+    using MyTraining1101Demo.Editions.Dto;
+    using MyTraining1101Demo.Friendships;
+    using MyTraining1101Demo.Friendships.Cache;
+    using MyTraining1101Demo.Friendships.Dto;
+    using MyTraining1101Demo.LIMS.Library.Container;
+    using MyTraining1101Demo.LIMS.Library.Container.Dto;
+    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster;
+    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
+    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerContactPersons;
+    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerMasters;
+    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerPOs;
+    using MyTraining1101Demo.LIMS.Library.Customers.Source;
+    using MyTraining1101Demo.LIMS.Library.Customers.Source.Dto;
+    using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank;
+    using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank.Dto;
+    using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges;
+    using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges.Dto;
+    using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax;
+    using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax.Dto;
+    using MyTraining1101Demo.LIMS.Library.Personnel;
+    using MyTraining1101Demo.LIMS.Library.Personnel.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.Application;
+    using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.StandardReference;
+    using MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark;
+    using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.SubApplications;
+    using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.Technique;
+    using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.Units;
+    using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
+    using MyTraining1101Demo.Localization.Dto;
+    using MyTraining1101Demo.MultiTenancy;
+    using MyTraining1101Demo.MultiTenancy.Dto;
+    using MyTraining1101Demo.MultiTenancy.HostDashboard.Dto;
+    using MyTraining1101Demo.MultiTenancy.Payments;
+    using MyTraining1101Demo.MultiTenancy.Payments.Dto;
+    using MyTraining1101Demo.Notifications.Dto;
+    using MyTraining1101Demo.Organizations.Dto;
+    using MyTraining1101Demo.PhoneBook;
+    using MyTraining1101Demo.PhoneBook.Dto;
+    using MyTraining1101Demo.Sessions.Dto;
+    using MyTraining1101Demo.WebHooks.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.Techniques;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
+
     internal static class CustomDtoMapper
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
@@ -269,6 +272,12 @@ namespace MyTraining1101Demo
                       .ForMember(dto => dto.ReferenceId, options => options.MapFrom(x => x.ReferenceId))
                       .ForMember(dto => dto.Id, options => options.MapFrom(x => x.Id))
                       .ReverseMap();
+
+            configuration.CreateMap<Test, TestMasterInputDto>()
+                      .ReverseMap();
+
+            configuration.CreateMap<Test, TestMasterDto>()
+                     .ReverseMap();
 
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
         }

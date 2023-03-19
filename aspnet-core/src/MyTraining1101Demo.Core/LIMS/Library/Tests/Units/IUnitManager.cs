@@ -1,4 +1,4 @@
-﻿namespace MyTraining1101Demo.LIMS.Library.Tests.Unit
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.Units
 {
     using Abp.Application.Services.Dto;
     using Abp.Domain.Services;

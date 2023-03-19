@@ -1,11 +1,10 @@
 ﻿namespace MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.CustomerMasters
 {
-    using Abp.Domain.Services;
-    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerPOs;
-    using System.Threading.Tasks;
-    using System;
-    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerMasters;
     using Abp.Application.Services.Dto;
+    using Abp.Domain.Services;
+    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerMasters;
+    using System;
+    using System.Threading.Tasks;
 
     public interface ICustomerMasterManager : IDomainService
     {
