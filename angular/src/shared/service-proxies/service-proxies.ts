@@ -15501,6 +15501,259 @@ export class TenantSettingsServiceProxy {
 }
 
 @Injectable()
+export class TestMasterServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param searchString (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @return Success
+     */
+    getTestMasters(searchString: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfTestMasterDto> {
+        let url_ = this.baseUrl + "/api/services/app/TestMaster/GetTestMasters?";
+        if (searchString === null)
+            throw new Error("The parameter 'searchString' cannot be null.");
+        else if (searchString !== undefined)
+            url_ += "SearchString=" + encodeURIComponent("" + searchString) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTestMasters(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTestMasters(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PagedResultDtoOfTestMasterDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PagedResultDtoOfTestMasterDto>;
+        }));
+    }
+
+    protected processGetTestMasters(response: HttpResponseBase): Observable<PagedResultDtoOfTestMasterDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfTestMasterDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfTestMasterDto>(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    insertOrUpdateTest(body: TestMasterInputDto | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/TestMaster/InsertOrUpdateTest";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processInsertOrUpdateTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processInsertOrUpdateTest(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string>;
+        }));
+    }
+
+    protected processInsertOrUpdateTest(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(null as any);
+    }
+
+    /**
+     * @param testMasterId (optional) 
+     * @return Success
+     */
+    deleteTestMasterData(testMasterId: string | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/TestMaster/DeleteTestMasterData?";
+        if (testMasterId === null)
+            throw new Error("The parameter 'testMasterId' cannot be null.");
+        else if (testMasterId !== undefined)
+            url_ += "testMasterId=" + encodeURIComponent("" + testMasterId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteTestMasterData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteTestMasterData(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<boolean>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<boolean>;
+        }));
+    }
+
+    protected processDeleteTestMasterData(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(null as any);
+    }
+
+    /**
+     * @param testMasterId (optional) 
+     * @return Success
+     */
+    getTestMasterById(testMasterId: string | undefined): Observable<TestMasterDto> {
+        let url_ = this.baseUrl + "/api/services/app/TestMaster/GetTestMasterById?";
+        if (testMasterId === null)
+            throw new Error("The parameter 'testMasterId' cannot be null.");
+        else if (testMasterId !== undefined)
+            url_ += "testMasterId=" + encodeURIComponent("" + testMasterId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTestMasterById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTestMasterById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<TestMasterDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<TestMasterDto>;
+        }));
+    }
+
+    protected processGetTestMasterById(response: HttpResponseBase): Observable<TestMasterDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = TestMasterDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TestMasterDto>(null as any);
+    }
+}
+
+@Injectable()
 export class TimingServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -29734,6 +29987,54 @@ export interface IPagedResultDtoOfTenantListDto {
     items: TenantListDto[] | undefined;
 }
 
+export class PagedResultDtoOfTestMasterDto implements IPagedResultDtoOfTestMasterDto {
+    totalCount!: number;
+    items!: TestMasterDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfTestMasterDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(TestMasterDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfTestMasterDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfTestMasterDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IPagedResultDtoOfTestMasterDto {
+    totalCount: number;
+    items: TestMasterDto[] | undefined;
+}
+
 export class PagedResultDtoOfUnitDto implements IPagedResultDtoOfUnitDto {
     totalCount!: number;
     items!: UnitDto[] | undefined;
@@ -33349,6 +33650,158 @@ export interface ITenantUserManagementSettingsEditDto {
     isQuickThemeSelectEnabled: boolean;
     allowUsingGravatarProfilePicture: boolean;
     sessionTimeOutSettings: SessionTimeOutSettingsEditDto;
+}
+
+export class TestMasterDto implements ITestMasterDto {
+    id!: string;
+    name!: string | undefined;
+    isDefaultTechnique!: boolean;
+    method!: string | undefined;
+    methodDescription!: string | undefined;
+    worksheetName!: string | undefined;
+    isSC!: boolean;
+    rate!: number;
+    applicationId!: string | undefined;
+    unitId!: string | undefined;
+    techniqueId!: string | undefined;
+
+    constructor(data?: ITestMasterDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.isDefaultTechnique = _data["isDefaultTechnique"];
+            this.method = _data["method"];
+            this.methodDescription = _data["methodDescription"];
+            this.worksheetName = _data["worksheetName"];
+            this.isSC = _data["isSC"];
+            this.rate = _data["rate"];
+            this.applicationId = _data["applicationId"];
+            this.unitId = _data["unitId"];
+            this.techniqueId = _data["techniqueId"];
+        }
+    }
+
+    static fromJS(data: any): TestMasterDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TestMasterDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["isDefaultTechnique"] = this.isDefaultTechnique;
+        data["method"] = this.method;
+        data["methodDescription"] = this.methodDescription;
+        data["worksheetName"] = this.worksheetName;
+        data["isSC"] = this.isSC;
+        data["rate"] = this.rate;
+        data["applicationId"] = this.applicationId;
+        data["unitId"] = this.unitId;
+        data["techniqueId"] = this.techniqueId;
+        return data;
+    }
+}
+
+export interface ITestMasterDto {
+    id: string;
+    name: string | undefined;
+    isDefaultTechnique: boolean;
+    method: string | undefined;
+    methodDescription: string | undefined;
+    worksheetName: string | undefined;
+    isSC: boolean;
+    rate: number;
+    applicationId: string | undefined;
+    unitId: string | undefined;
+    techniqueId: string | undefined;
+}
+
+export class TestMasterInputDto implements ITestMasterInputDto {
+    id!: string | undefined;
+    name!: string | undefined;
+    isDefaultTechnique!: boolean;
+    method!: string | undefined;
+    methodDescription!: string | undefined;
+    worksheetName!: string | undefined;
+    isSC!: boolean;
+    rate!: number;
+    applicationId!: string | undefined;
+    unitId!: string | undefined;
+    techniqueId!: string | undefined;
+
+    constructor(data?: ITestMasterInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.isDefaultTechnique = _data["isDefaultTechnique"];
+            this.method = _data["method"];
+            this.methodDescription = _data["methodDescription"];
+            this.worksheetName = _data["worksheetName"];
+            this.isSC = _data["isSC"];
+            this.rate = _data["rate"];
+            this.applicationId = _data["applicationId"];
+            this.unitId = _data["unitId"];
+            this.techniqueId = _data["techniqueId"];
+        }
+    }
+
+    static fromJS(data: any): TestMasterInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TestMasterInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["isDefaultTechnique"] = this.isDefaultTechnique;
+        data["method"] = this.method;
+        data["methodDescription"] = this.methodDescription;
+        data["worksheetName"] = this.worksheetName;
+        data["isSC"] = this.isSC;
+        data["rate"] = this.rate;
+        data["applicationId"] = this.applicationId;
+        data["unitId"] = this.unitId;
+        data["techniqueId"] = this.techniqueId;
+        return data;
+    }
+}
+
+export interface ITestMasterInputDto {
+    id: string | undefined;
+    name: string | undefined;
+    isDefaultTechnique: boolean;
+    method: string | undefined;
+    methodDescription: string | undefined;
+    worksheetName: string | undefined;
+    isSC: boolean;
+    rate: number;
+    applicationId: string | undefined;
+    unitId: string | undefined;
+    techniqueId: string | undefined;
 }
 
 export class ThemeFooterSettingsDto implements IThemeFooterSettingsDto {
