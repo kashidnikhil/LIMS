@@ -7,7 +7,7 @@
 
     public interface ITestMasterManager : IDomainService
     {
-        Task<PagedResultDto<TestMasterDto>> GetPaginatedTestMasterListFromDB(TestMasterSearchDto input);
+        Task<PagedResultDto<TestMasterListDto>> GetPaginatedTestMasterListFromDB(TestMasterSearchDto input);
 
         Task<Guid> InsertOrUpdateTestMasterIntoDB(TestMasterInputDto input);
 

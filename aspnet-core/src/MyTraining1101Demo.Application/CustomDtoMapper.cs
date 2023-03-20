@@ -279,6 +279,12 @@ namespace MyTraining1101Demo
             configuration.CreateMap<Test, TestMasterDto>()
                      .ReverseMap();
 
+            configuration.CreateMap<Test, TestMasterListDto>()
+                  .ForMember(dto => dto.ApplicationName, options => options.MapFrom(x => x.Application.Name))
+                  .ForMember(dto => dto.TechniqueName, options => options.MapFrom(x => x.Technique.Name))
+                  .ForMember(dto => dto.UnitName, options => options.MapFrom(x => x.Unit.Name))
+                  .ReverseMap();
+
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
         }
     }

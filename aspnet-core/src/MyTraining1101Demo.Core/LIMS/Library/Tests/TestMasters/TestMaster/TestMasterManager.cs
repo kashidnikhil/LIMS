@@ -30,11 +30,13 @@
             _appConfiguration = configurationAccessor.Configuration;
         }
 
-        public async Task<PagedResultDto<TestMasterDto>> GetPaginatedTestMasterListFromDB(TestMasterSearchDto input)
+        public async Task<PagedResultDto<TestMasterListDto>> GetPaginatedTestMasterListFromDB(TestMasterSearchDto input)
         {
             try
             {
-                var testMasterQuery = this._testMasterRepository.GetAll()
+                var testMasterQuery = this._testMasterRepository.GetAllIncluding(x=> x.Unit)
+                    .Include(x=> x.Application)
+                    .Include(x=> x.Technique)
                     .Where(x => !x.IsDeleted)
                     .WhereIf(!input.SearchString.IsNullOrWhiteSpace(), item => item.Name.ToLower().Contains(input.SearchString.ToLower()) || item.Application.Name.ToLower().Contains(input.SearchString.ToLower()));
 
@@ -42,9 +44,9 @@
                 var totalCount = await testMasterQuery.CountAsync();
                 var items = await testMasterQuery.OrderBy(input.Sorting).PageBy(input).ToListAsync();
 
-                return new PagedResultDto<TestMasterDto>(
+                return new PagedResultDto<TestMasterListDto>(
                 totalCount,
-                ObjectMapper.Map<List<TestMasterDto>>(items));
+                ObjectMapper.Map<List<TestMasterListDto>>(items));
             }
             catch (Exception ex)
             {

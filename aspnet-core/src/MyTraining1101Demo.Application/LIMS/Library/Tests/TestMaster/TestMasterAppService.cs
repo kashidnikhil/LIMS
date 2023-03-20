@@ -16,7 +16,7 @@
         }
 
 
-        public async Task<PagedResultDto<TestMasterDto>> GetTestMasters(TestMasterSearchDto input)
+        public async Task<PagedResultDto<TestMasterListDto>> GetTestMasters(TestMasterSearchDto input)
         {
             try
             {

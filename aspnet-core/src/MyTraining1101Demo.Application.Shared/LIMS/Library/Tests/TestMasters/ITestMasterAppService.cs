@@ -8,7 +8,7 @@
 
     public interface ITestMasterAppService : IDomainService
     {
-        Task<PagedResultDto<TestMasterDto>> GetTestMasters(TestMasterSearchDto input);
+        Task<PagedResultDto<TestMasterListDto>> GetTestMasters(TestMasterSearchDto input);
 
         Task<Guid> InsertOrUpdateTest(TestMasterInputDto input);
 

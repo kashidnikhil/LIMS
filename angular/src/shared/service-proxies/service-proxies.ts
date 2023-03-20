@@ -15518,7 +15518,7 @@ export class TestMasterServiceProxy {
      * @param skipCount (optional) 
      * @return Success
      */
-    getTestMasters(searchString: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfTestMasterDto> {
+    getTestMasters(searchString: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfTestMasterListDto> {
         let url_ = this.baseUrl + "/api/services/app/TestMaster/GetTestMasters?";
         if (searchString === null)
             throw new Error("The parameter 'searchString' cannot be null.");
@@ -15553,14 +15553,14 @@ export class TestMasterServiceProxy {
                 try {
                     return this.processGetTestMasters(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<PagedResultDtoOfTestMasterDto>;
+                    return _observableThrow(e) as any as Observable<PagedResultDtoOfTestMasterListDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<PagedResultDtoOfTestMasterDto>;
+                return _observableThrow(response_) as any as Observable<PagedResultDtoOfTestMasterListDto>;
         }));
     }
 
-    protected processGetTestMasters(response: HttpResponseBase): Observable<PagedResultDtoOfTestMasterDto> {
+    protected processGetTestMasters(response: HttpResponseBase): Observable<PagedResultDtoOfTestMasterListDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -15571,7 +15571,7 @@ export class TestMasterServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = PagedResultDtoOfTestMasterDto.fromJS(resultData200);
+            result200 = PagedResultDtoOfTestMasterListDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -15579,7 +15579,7 @@ export class TestMasterServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfTestMasterDto>(null as any);
+        return _observableOf<PagedResultDtoOfTestMasterListDto>(null as any);
     }
 
     /**
@@ -29987,11 +29987,11 @@ export interface IPagedResultDtoOfTenantListDto {
     items: TenantListDto[] | undefined;
 }
 
-export class PagedResultDtoOfTestMasterDto implements IPagedResultDtoOfTestMasterDto {
+export class PagedResultDtoOfTestMasterListDto implements IPagedResultDtoOfTestMasterListDto {
     totalCount!: number;
-    items!: TestMasterDto[] | undefined;
+    items!: TestMasterListDto[] | undefined;
 
-    constructor(data?: IPagedResultDtoOfTestMasterDto) {
+    constructor(data?: IPagedResultDtoOfTestMasterListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -30006,14 +30006,14 @@ export class PagedResultDtoOfTestMasterDto implements IPagedResultDtoOfTestMaste
             if (Array.isArray(_data["items"])) {
                 this.items = [] as any;
                 for (let item of _data["items"])
-                    this.items!.push(TestMasterDto.fromJS(item));
+                    this.items!.push(TestMasterListDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): PagedResultDtoOfTestMasterDto {
+    static fromJS(data: any): PagedResultDtoOfTestMasterListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfTestMasterDto();
+        let result = new PagedResultDtoOfTestMasterListDto();
         result.init(data);
         return result;
     }
@@ -30030,9 +30030,9 @@ export class PagedResultDtoOfTestMasterDto implements IPagedResultDtoOfTestMaste
     }
 }
 
-export interface IPagedResultDtoOfTestMasterDto {
+export interface IPagedResultDtoOfTestMasterListDto {
     totalCount: number;
-    items: TestMasterDto[] | undefined;
+    items: TestMasterListDto[] | undefined;
 }
 
 export class PagedResultDtoOfUnitDto implements IPagedResultDtoOfUnitDto {
@@ -33802,6 +33802,66 @@ export interface ITestMasterInputDto {
     applicationId: string | undefined;
     unitId: string | undefined;
     techniqueId: string | undefined;
+}
+
+export class TestMasterListDto implements ITestMasterListDto {
+    id!: string;
+    name!: string | undefined;
+    rate!: number;
+    method!: string | undefined;
+    unitName!: string | undefined;
+    applicationName!: string | undefined;
+    techniqueName!: string | undefined;
+
+    constructor(data?: ITestMasterListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.rate = _data["rate"];
+            this.method = _data["method"];
+            this.unitName = _data["unitName"];
+            this.applicationName = _data["applicationName"];
+            this.techniqueName = _data["techniqueName"];
+        }
+    }
+
+    static fromJS(data: any): TestMasterListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TestMasterListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["rate"] = this.rate;
+        data["method"] = this.method;
+        data["unitName"] = this.unitName;
+        data["applicationName"] = this.applicationName;
+        data["techniqueName"] = this.techniqueName;
+        return data;
+    }
+}
+
+export interface ITestMasterListDto {
+    id: string;
+    name: string | undefined;
+    rate: number;
+    method: string | undefined;
+    unitName: string | undefined;
+    applicationName: string | undefined;
+    techniqueName: string | undefined;
 }
 
 export class ThemeFooterSettingsDto implements IThemeFooterSettingsDto {
