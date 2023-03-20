@@ -60,10 +60,10 @@ import { RouterModule } from '@angular/router';
                         path: 'customers',
                         loadChildren: () => import('./library/customers/customer/customer.module').then(m => m.CustomerModule)
                     },
-                    // {
-                    //     path: 'test-plans',
-                    //     loadChildren: () => import('./customer/customer.module').then(m => m.customerModule)
-                    // },
+                    {
+                        path: 'test-master',
+                        loadChildren: () => import('./library/tests/test-master/test-master.module').then(m => m.TestMasterModule)
+                    },
                     {
                         path: 'units',
                         loadChildren: () => import('./library/tests/units/units.module').then(m => m.UnitsModule)
