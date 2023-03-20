@@ -39,7 +39,7 @@ export class AppNavigationService {
                             new AppMenuItem('Standard Remarks', 'Pages.Administration.Users', 'flaticon-users', '/app/main/standard-remarks'),
                             new AppMenuItem('Standard Reference', 'Pages.Administration.Users', 'flaticon-users', '/app/main/standard-references'),
                             new AppMenuItem('Technique', 'Pages.Administration.Users', 'flaticon-users', '/app/main/techniques'),
-                            // new AppMenuItem('Test', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
+                            new AppMenuItem('Test', 'Pages.Administration.Users', 'flaticon-users', '/app/main/tests'),
                             // new AppMenuItem('Test Plans', 'Pages.Administration.Users', 'flaticon-users', '/app/admin/users'),
                             new AppMenuItem('Unit', 'Pages.Administration.Users', 'flaticon-users', '/app/main/units'),
                         ]),
