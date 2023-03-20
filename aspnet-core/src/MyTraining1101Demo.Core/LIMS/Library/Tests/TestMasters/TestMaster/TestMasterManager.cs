@@ -36,7 +36,7 @@
             {
                 var testMasterQuery = this._testMasterRepository.GetAll()
                     .Where(x => !x.IsDeleted)
-                    .WhereIf(!input.SearchString.IsNullOrWhiteSpace(), item => item.Name.ToLower().Contains(input.SearchString.ToLower()));
+                    .WhereIf(!input.SearchString.IsNullOrWhiteSpace(), item => item.Name.ToLower().Contains(input.SearchString.ToLower()) || item.Application.Name.ToLower().Contains(input.SearchString.ToLower()));
 
 
                 var totalCount = await testMasterQuery.CountAsync();

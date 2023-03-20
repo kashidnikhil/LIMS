@@ -68,7 +68,7 @@ export class TestMasterListComponent extends AppComponentBase implements AfterVi
     }
 
     deleteTestMaster(testItem: TestMasterDto): void {
-        this.message.confirm(this.l('CustomerDeleteWarningMessage', testItem.name), this.l('AreYouSure'), (isConfirmed) => {
+        this.message.confirm(this.l('TestDeleteWarningMessage', testItem.name), this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
                 this._testMasterService.deleteTestMasterData(testItem.id).subscribe(() => {
                     this.reloadPage();
