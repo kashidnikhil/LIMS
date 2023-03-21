@@ -14,8 +14,8 @@
             <form *ngIf="active" #testMasterForm="ngForm" novalidate (ngSubmit)="save()">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <!-- <span *ngIf="subApplicationItem.id">{{ 'EditTest' | localize }}: {{ subApplicationItem.name }}</span> -->
-                        <span>{{ 'CreateNewTest' | localize }}</span>
+                        <span *ngIf="editMode">{{ 'EditTest' | localize }}:</span>
+                        <span *ngIf="!editMode">{{ 'CreateNewTest' | localize }}</span>
                     </h4>
                     <button
                         type="button"

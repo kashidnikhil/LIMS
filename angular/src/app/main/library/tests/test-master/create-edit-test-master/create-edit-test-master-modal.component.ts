@@ -15,7 +15,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
 
     active = false;
     saving = false;
-
+    editMode : boolean = false;
     testMasterForm!: FormGroup;
 
 
@@ -34,6 +34,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
         if (!testMasterId) {
             let testMasterItem : TestMasterDto = new TestMasterDto();
             this.initialiseTestMasterForm(testMasterItem);
+            this.editMode = false;
             this.active = true;
             this.modal.show();
         }
@@ -41,6 +42,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
             this._testMasterService.getTestMasterById(testMasterId).subscribe((response : TestMasterDto)=> {
                 let testMasterItem = response;
                 this.initialiseTestMasterForm(testMasterItem);
+                this.editMode = true;
                 this.active = true;
                 this.modal.show();
             });
@@ -49,9 +51,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
 
     initialiseTestMasterForm(testItem : TestMasterDto){
         this.testMasterForm = this.formBuilder.group({
-            name: new FormControl(testItem.name, [
-                // Validators.required,
-            ]),
+            name: new FormControl(testItem.name, []),
             techniqueId: new FormControl(testItem.techniqueId, []),
             isDefaultTechnique: new FormControl(testItem.isDefaultTechnique, []),
             applicationId: new FormControl(testItem.applicationId, []),
