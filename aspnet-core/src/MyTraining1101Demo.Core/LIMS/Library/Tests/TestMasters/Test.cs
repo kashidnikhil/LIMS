@@ -9,6 +9,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using MyTraining1101Demo.LIMS.Library.Tests.SubApplications;
 
     [Table("Test")]
     public class Test : FullAuditedEntity<Guid>
