@@ -1322,7 +1322,7 @@
 	  <text name="DefaultTechnique">Default Technique</text>
 	  <text name="Method">Method</text>
 	  <text name="MethodDescription">Method Description</text>
-	  <text name="IsSC">Is SC</text>
+	  <text name="SC">SC</text>
 	  
   </texts>
 </localizationDictionary>

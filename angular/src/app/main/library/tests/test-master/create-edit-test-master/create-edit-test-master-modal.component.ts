@@ -101,7 +101,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
             applicationId: new FormControl(testItem.applicationId, []),
             method: new FormControl(testItem.method, []),
             methodDescription: new FormControl(testItem.methodDescription, []),
-            // isSC: new FormControl(testItem.isSC, []),
+            isSC: new FormControl(testItem.isSC, []),
             // rate: new FormControl(testItem.rate, []),
             // id: new FormControl(testItem.id, []),
             // customerAddresses: customerItem.id ? this.formBuilder.array(

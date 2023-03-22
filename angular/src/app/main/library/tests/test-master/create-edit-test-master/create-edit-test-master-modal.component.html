@@ -3,7 +3,7 @@
     [config]="{ backdrop: 'static', keyboard: !saving }">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active"  [formGroup]="testMasterForm" novalidate (ngSubmit)="save()">
+            <form *ngIf="active" [formGroup]="testMasterForm" novalidate (ngSubmit)="save()">
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="editMode">{{ 'EditTest' | localize }}:</span>
@@ -16,12 +16,10 @@
                 <div class="modal-body">
                     <div class="col-md-12 row mb-4">
                         <div class="col-md-8 row">
-                            <div>
-                                <div class="form-group mb-1">
-                                    <label>{{"Name" | localize}}</label>
-                                    <input #nameInput id="name" class="form-control" type="text" formControlName="name"
-                                        name="name" />
-                                </div>
+                            <div class="form-group mb-1">
+                                <label>{{"Name" | localize}}</label>
+                                <input #nameInput id="name" class="form-control" type="text" formControlName="name"
+                                    name="name" />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -52,8 +50,8 @@
                             <div class="form-group">
                                 <label></label>
                                 <label class="form-check form-check-custom form-check-solid py-1 mt-2">
-                                    <input id="isDefaultTechnique" type="checkbox" name="isDefaultTechnique" class="form-check-input btn-danger"
-                                        formControlName="isDefaultTechnique" />
+                                    <input id="isDefaultTechnique" type="checkbox" name="isDefaultTechnique"
+                                        class="form-check-input btn-danger" formControlName="isDefaultTechnique" />
                                     <span class="form-check-label">
                                         {{ 'DefaultTechnique' | localize }}
                                     </span>
@@ -65,9 +63,11 @@
                         <div class="col-md-5 row">
                             <div class="form-group mb-1">
                                 <label>{{"Application" | localize}}</label>
-                                <select placeholder="Select Application" class="form-control" #technique
-                                    formControlName="applicationId" id="applicationId" name="applicationId" (change)="onApplicationSelect($event.target.value)" >
-                                    <option *ngFor="let applicationItem of applicationList" value="{{ applicationItem.id }}">
+                                <select placeholder="Select Application" class="form-control" #application
+                                    formControlName="applicationId" id="applicationId" name="applicationId"
+                                    (change)="onApplicationSelect($event.target.value)">
+                                    <option *ngFor="let applicationItem of applicationList"
+                                        value="{{ applicationItem.id }}">
                                         {{ applicationItem.name }}
                                     </option>
                                 </select>
@@ -76,8 +76,8 @@
                         <div class="col-md-7">
                             <div class="form-group">
                                 <label>{{"Method" | localize}}</label>
-                                <input #methodInput id="method" class="form-control" type="text" formControlName="method"
-                                    name="method" />
+                                <input #methodInput id="method" class="form-control" type="text"
+                                    formControlName="method" name="method" />
                             </div>
                         </div>
                     </div>
@@ -86,8 +86,10 @@
                             <div class="mb-1">
                                 <label>{{"SubApplications" | localize}}</label>
                                 <select placeholder="Select Sub Application" class="form-control" #subApplication
-                                    id="subApplicationId" name="subApplicationId" (change)="onApplicationSelect($event.target.value)" >
-                                    <option *ngFor="let subApplicationItem of subApplicationList" value="{{ subApplicationItem.id }}">
+                                    id="subApplicationId" name="subApplicationId"
+                                    (change)="onApplicationSelect($event.target.value)">
+                                    <option *ngFor="let subApplicationItem of subApplicationList"
+                                        value="{{ subApplicationItem.id }}">
                                         {{ subApplicationItem.name }}
                                     </option>
                                 </select>
@@ -96,8 +98,36 @@
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label>{{"MethodDescription" | localize}}</label>
-                                <input #methodDescriptionInput id="methodDescription" class="form-control" type="text" formControlName="methodDescription"
-                                    name="methodDescription" />
+                                <input #methodDescriptionInput id="methodDescription" class="form-control" type="text"
+                                    formControlName="methodDescription" name="methodDescription" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label></label>
+                                <label class="form-check form-check-custom form-check-solid py-1 mt-2">
+                                    <input id="isSC" type="checkbox" name="isSC"
+                                        class="form-check-input btn-danger" formControlName="isSC" />
+                                    <span class="form-check-label">
+                                        {{ 'SC' | localize }}
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group mb-1">
+                                <label>{{"Rate" | localize}}</label>
+                                <input #rateInput id="rate" class="form-control" type="number" formControlName="rate"
+                                    name="rate" />
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>{{"MethodDescription" | localize}}</label>
+                                <input #methodDescriptionInput id="methodDescription" class="form-control" type="text"
+                                    formControlName="methodDescription" name="methodDescription" />
                             </div>
                         </div>
                     </div>
