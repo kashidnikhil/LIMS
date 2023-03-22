@@ -1313,7 +1313,7 @@
 	  <text name="AddressLine2">Address line 2</text>
 	  <text name="City">City</text>
 
-	  <!-- Personnel section-->
+	  <!-- Test section-->
 	  <text name="Tests">Tests</text>
 	  <text name="TestsHeaderInfo">Manage tests.</text>
 	  <text name="CreateNewTest">Create new test</text>
