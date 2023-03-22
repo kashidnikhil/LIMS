@@ -1,10 +1,12 @@
 ﻿namespace MyTraining1101Demo.LIMS.Library.Tests.Unit
 {
     using Abp.Application.Services.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Units;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class UnitAppService : MyTraining1101DemoAppServiceBase, IUnitAppService
@@ -68,6 +70,20 @@
             try
             {
                 var response = await this._unitManager.GetUnitByIdFromDB(unitId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<IList<UnitDto>> GetUnitList()
+        {
+            try
+            {
+                var response = await this._unitManager.GetUnitListFromDB();
                 return response;
             }
             catch (Exception ex)

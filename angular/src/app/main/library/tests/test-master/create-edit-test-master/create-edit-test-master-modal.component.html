@@ -1,64 +1,74 @@
-<div
-    appBsModal
-    #createOrEditModal="bs-modal"
-    (onShown)="onShown()"
-    class="modal fade create-or-edit-user-modal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="createOrEditModal"
-    aria-hidden="true"
-    [config]="{ backdrop: 'static', keyboard: !saving }"
->
+<div appBsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade create-or-edit-user-modal"
+    tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true"
+    [config]="{ backdrop: 'static', keyboard: !saving }">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active" #testMasterForm="ngForm" novalidate (ngSubmit)="save()">
+            <form *ngIf="active"  [formGroup]="testMasterForm" novalidate (ngSubmit)="save()">
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="editMode">{{ 'EditTest' | localize }}:</span>
                         <span *ngIf="!editMode">{{ 'CreateNewTest' | localize }}</span>
                     </h4>
-                    <button
-                        type="button"
-                        class="btn-close"
-                        (click)="close()"
-                        [attr.aria-label]="l('Close')"
-                        [disabled]="saving"
-                    >
+                    <button type="button" class="btn-close" (click)="close()" [attr.aria-label]="l('Close')"
+                        [disabled]="saving">
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group mb-1">
-                        <label>{{"Name" | localize}}</label>
-                        <input #nameInput id="name" class="form-control" type="text" name="name" >
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-8 row">
+                            <div>
+                                <div class="form-group mb-1">
+                                    <label>{{"Name" | localize}}</label>
+                                    <input #nameInput id="name" class="form-control" type="text" formControlName="name"
+                                        name="name" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>{{"Unit" | localize}}</label>
+                                <select placeholder="Select Unit" class="form-control" #unitIdInput
+                                    formControlName="unitId" id="unitId" name="unitId">
+                                    <option *ngFor="let unitItem of unitList" value="{{ unitItem.id }}">
+                                        {{ unitItem.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group mb-1">
-                        <label>{{"Application" | localize}}</label>
-                        <select placeholder="Select Application" class="form-control"  name="applicationId">
-                            <option *ngFor="let application of applicationList" value="{{ application.id }}">
-                                {{ application.name }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group mb-1">
-                        <label>{{"Description" | localize}}</label>
-                         <input class="form-control" type="text" name="description">
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-8 row">
+                            <div class="form-group mb-1">
+                                <label>{{"Technique" | localize}}</label>
+                                <select placeholder="Select Technique" class="form-control" #technique
+                                    formControlName="techniqueId" id="techniqueId" name="techniqueId">
+                                    <option *ngFor="let unitItem of unitList" value="{{ unitItem.id }}">
+                                        {{ unitItem.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label></label>
+                                <label class="form-check form-check-custom form-check-solid py-1 mt-2">
+                                    <input id="isDefaultTechnique" type="checkbox" name="isDefaultTechnique" class="form-check-input btn-danger"
+                                        formControlName="isDefaultTechnique" />
+                                    <span class="form-check-label">
+                                        {{ 'DefaultTechnique' | localize }}
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        [disabled]="saving"
-                        type="button"
-                        class="btn btn-light-primary font-weight-bold"
-                        (click)="close()"
-                    >
+                    <button [disabled]="saving" type="button" class="btn btn-light-primary font-weight-bold"
+                        (click)="close()">
                         {{ 'Cancel' | localize }}
                     </button>
-                    <button
-                        type="submit"
-                        class="btn btn-primary font-weight-bold"
-                        [buttonBusy]="saving"
-                        [busyText]="l('SavingWithThreeDot')"
-                    >
+                    <button type="submit" class="btn btn-primary font-weight-bold" [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')">
                         <i class="fa fa-save"></i>
                         <span>{{ 'Save' | localize }}</span>
                     </button>

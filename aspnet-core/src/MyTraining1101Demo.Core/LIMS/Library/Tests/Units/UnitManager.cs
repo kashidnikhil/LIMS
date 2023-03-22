@@ -8,7 +8,6 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
-    using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
@@ -125,6 +124,23 @@
                 Logger.Error(ex.Message, ex);
                 throw ex;
             }
+        }
+
+        public async Task<IList<UnitDto>> GetUnitListFromDB()
+        {
+            try
+            {
+                var unitQuery = this._unitRepository.GetAll()
+                    .Where(x => !x.IsDeleted);
+
+                return new List<UnitDto>(ObjectMapper.Map<List<UnitDto>>(unitQuery));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+
         }
 
         public async Task<bool> RestoreUnit(Guid unitId)

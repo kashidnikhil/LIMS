@@ -138,7 +138,6 @@
                 Logger.Error(ex.Message, ex);
                 throw ex;
             }
-
         }
 
         public async Task<bool> RevokeApplication(Guid applicationId)

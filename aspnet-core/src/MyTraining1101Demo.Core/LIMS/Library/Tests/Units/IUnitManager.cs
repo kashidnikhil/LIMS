@@ -5,6 +5,7 @@
     using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IUnitManager : IDomainService
@@ -15,6 +16,8 @@
         Task<bool> DeleteUnitFromDB(Guid unitId);
 
         Task<UnitDto> GetUnitByIdFromDB(Guid unitId);
+
+        Task<IList<UnitDto>> GetUnitListFromDB();
 
         Task<bool> RestoreUnit(Guid unitId);
     }

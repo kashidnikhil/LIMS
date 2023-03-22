@@ -1319,6 +1319,7 @@
 	  <text name="CreateNewTest">Create new test</text>
 	  <text name="EditTest">Edit test</text>
 	  <text name="TestDeleteWarningMessage">Test {0} will be deleted.</text>
-
+	  <text name="DefaultTechnique">Default Technique</text>
+	  
   </texts>
 </localizationDictionary>

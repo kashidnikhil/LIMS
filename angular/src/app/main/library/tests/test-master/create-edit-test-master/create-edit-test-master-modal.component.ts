@@ -1,7 +1,7 @@
 import { Component, Injector, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { AppComponentBase } from "@shared/common/app-component-base";
-import { ApplicationsDto, TestMasterDto, TestMasterServiceProxy } from "@shared/service-proxies/service-proxies";
+import { ApplicationsDto, ApplicationsServiceProxy, TestMasterDto, TestMasterServiceProxy, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -18,19 +18,22 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
     editMode : boolean = false;
     testMasterForm!: FormGroup;
 
-
+    unitList : UnitDto[] = [];
     applicationList : ApplicationsDto[] = [];
 
     constructor(
         injector: Injector,
         private _testMasterService: TestMasterServiceProxy,
+        private _unitService : UnitServiceProxy,
+        private _applicationService : ApplicationsServiceProxy,
         private formBuilder: FormBuilder
     ) {
         super(injector);
     }
 
 
-    show(testMasterId?: string): void {
+    async show(testMasterId?: string) {
+        await this.loadDropdownList();
         if (!testMasterId) {
             let testMasterItem : TestMasterDto = new TestMasterDto();
             this.initialiseTestMasterForm(testMasterItem);
@@ -49,17 +52,43 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
         }        
     }
 
+    async loadDropdownList(){
+        await this.loadUnitList();
+        await this.loadApplicationList();
+    }
+
+    async loadUnitList(){
+        let unitList = await this._unitService.getUnitList().toPromise();
+        if(unitList.length > 0){
+            this.unitList = [];
+            unitList.forEach((unitItem : UnitDto) => {
+                this.unitList.push(unitItem);
+            });
+        }
+    }
+
+    async loadApplicationList(){
+        let applicationList = await this._applicationService.getApplicationList().toPromise();
+        if(applicationList.length > 0){
+            this.applicationList = [];
+            applicationList.forEach((applicationItem : ApplicationsDto) => {
+                this.applicationList.push(applicationItem);
+            });
+        }
+    }
+
     initialiseTestMasterForm(testItem : TestMasterDto){
         this.testMasterForm = this.formBuilder.group({
             name: new FormControl(testItem.name, []),
+            unitId: new FormControl(testItem.unitId, []),
             techniqueId: new FormControl(testItem.techniqueId, []),
             isDefaultTechnique: new FormControl(testItem.isDefaultTechnique, []),
             applicationId: new FormControl(testItem.applicationId, []),
-            method: new FormControl(testItem.method, []),
-            methodDescription: new FormControl(testItem.methodDescription, []),
-            isSC: new FormControl(testItem.isSC, []),
-            rate: new FormControl(testItem.rate, []),
-            id: new FormControl(testItem.id, []),
+            // method: new FormControl(testItem.method, []),
+            // methodDescription: new FormControl(testItem.methodDescription, []),
+            // isSC: new FormControl(testItem.isSC, []),
+            // rate: new FormControl(testItem.rate, []),
+            // id: new FormControl(testItem.id, []),
             // customerAddresses: customerItem.id ? this.formBuilder.array(
             //     customerItem.customerAddresses.map((x : CustomerAddressDto) => 
             //         this.createCustomerAddress(x)
