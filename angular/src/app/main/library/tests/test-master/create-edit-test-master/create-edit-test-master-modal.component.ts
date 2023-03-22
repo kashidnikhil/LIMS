@@ -1,7 +1,7 @@
 import { Component, Injector, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { AppComponentBase } from "@shared/common/app-component-base";
-import { ApplicationsDto, ApplicationsServiceProxy, TestMasterDto, TestMasterServiceProxy, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
+import { ApplicationsDto, ApplicationsServiceProxy, SubApplicationDto, SubApplicationServiceProxy, TechniqueDto, TechniqueServiceProxy, TestMasterDto, TestMasterServiceProxy, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -19,12 +19,16 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
     testMasterForm!: FormGroup;
 
     unitList : UnitDto[] = [];
+    techniqueList : TechniqueDto[] =[];
     applicationList : ApplicationsDto[] = [];
+    subApplicationList : SubApplicationDto[] =[];
 
     constructor(
         injector: Injector,
         private _testMasterService: TestMasterServiceProxy,
         private _unitService : UnitServiceProxy,
+        private _techniqueService: TechniqueServiceProxy,
+        private _subApplicationService : SubApplicationServiceProxy,
         private _applicationService : ApplicationsServiceProxy,
         private formBuilder: FormBuilder
     ) {
@@ -54,6 +58,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
 
     async loadDropdownList(){
         await this.loadUnitList();
+        await this.loadTechniqueList();
         await this.loadApplicationList();
     }
 
@@ -66,6 +71,16 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
             });
         }
     }
+
+     async loadTechniqueList(){
+        let techniqueList = await this._techniqueService.getTechniqueList().toPromise();
+        if(techniqueList.length > 0){
+            this.techniqueList = [];
+            techniqueList.forEach((tehniqueItem : TechniqueDto) => {
+                this.techniqueList.push(tehniqueItem);
+            });
+        }
+     }
 
     async loadApplicationList(){
         let applicationList = await this._applicationService.getApplicationList().toPromise();
@@ -84,8 +99,8 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
             techniqueId: new FormControl(testItem.techniqueId, []),
             isDefaultTechnique: new FormControl(testItem.isDefaultTechnique, []),
             applicationId: new FormControl(testItem.applicationId, []),
-            // method: new FormControl(testItem.method, []),
-            // methodDescription: new FormControl(testItem.methodDescription, []),
+            method: new FormControl(testItem.method, []),
+            methodDescription: new FormControl(testItem.methodDescription, []),
             // isSC: new FormControl(testItem.isSC, []),
             // rate: new FormControl(testItem.rate, []),
             // id: new FormControl(testItem.id, []),
@@ -105,6 +120,16 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
     close(): void {
         this.active = false;
         this.modal.hide();
+    }
+
+    async onApplicationSelect(applicationId : string){
+        this.subApplicationList = [];
+        let subApplicationList = await this._subApplicationService.getSubApplicationList(applicationId).toPromise();
+        if(subApplicationList.length > 0){
+            subApplicationList.forEach((subApplicationItem : SubApplicationDto) => {
+                this.subApplicationList.push(subApplicationItem);
+            });
+        }
     }
 
     save() : void {

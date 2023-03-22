@@ -42,8 +42,8 @@
                                 <label>{{"Technique" | localize}}</label>
                                 <select placeholder="Select Technique" class="form-control" #technique
                                     formControlName="techniqueId" id="techniqueId" name="techniqueId">
-                                    <option *ngFor="let unitItem of unitList" value="{{ unitItem.id }}">
-                                        {{ unitItem.name }}
+                                    <option *ngFor="let techniqueItem of techniqueList" value="{{ techniqueItem.id }}">
+                                        {{ techniqueItem.name }}
                                     </option>
                                 </select>
                             </div>
@@ -58,6 +58,46 @@
                                         {{ 'DefaultTechnique' | localize }}
                                     </span>
                                 </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-5 row">
+                            <div class="form-group mb-1">
+                                <label>{{"Application" | localize}}</label>
+                                <select placeholder="Select Application" class="form-control" #technique
+                                    formControlName="applicationId" id="applicationId" name="applicationId" (change)="onApplicationSelect($event.target.value)" >
+                                    <option *ngFor="let applicationItem of applicationList" value="{{ applicationItem.id }}">
+                                        {{ applicationItem.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label>{{"Method" | localize}}</label>
+                                <input #methodInput id="method" class="form-control" type="text" formControlName="method"
+                                    name="method" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-4 row">
+                            <div class="mb-1">
+                                <label>{{"SubApplications" | localize}}</label>
+                                <select placeholder="Select Sub Application" class="form-control" #subApplication
+                                    id="subApplicationId" name="subApplicationId" (change)="onApplicationSelect($event.target.value)" >
+                                    <option *ngFor="let subApplicationItem of subApplicationList" value="{{ subApplicationItem.id }}">
+                                        {{ subApplicationItem.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>{{"MethodDescription" | localize}}</label>
+                                <input #methodDescriptionInput id="methodDescription" class="form-control" type="text" formControlName="methodDescription"
+                                    name="methodDescription" />
                             </div>
                         </div>
                     </div>

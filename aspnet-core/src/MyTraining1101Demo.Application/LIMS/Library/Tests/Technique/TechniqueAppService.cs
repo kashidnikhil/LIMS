@@ -3,8 +3,10 @@
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Techniques;
+    using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class TechniqueAppService : MyTraining1101DemoAppServiceBase, ITechniqueAppService
@@ -82,6 +84,20 @@
             try
             {
                 var response = await this._techniqueManager.RestoreTechnique(techniquelId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<IList<TechniqueDto>> GetTechniqueList()
+        {
+            try
+            {
+                var response = await this._techniqueManager.GetTechniqueListFromDB();
                 return response;
             }
             catch (Exception ex)

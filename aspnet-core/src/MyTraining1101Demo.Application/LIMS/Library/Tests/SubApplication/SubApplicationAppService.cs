@@ -5,6 +5,7 @@
     using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class SubApplicationAppService : MyTraining1101DemoAppServiceBase, ISubApplicationAppService
@@ -63,6 +64,20 @@
                 throw ex;
             }
 
+        }
+
+        public async Task<List<SubApplicationDto>> GetSubApplicationList(Guid applicationId)
+        {
+            try
+            {
+                var response = await this._subApplicationManager.GetSubApplicationListFromDB(applicationId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
         }
 
         public async Task<SubApplicationDto> GetSubApplicationById(Guid subApplicationId)

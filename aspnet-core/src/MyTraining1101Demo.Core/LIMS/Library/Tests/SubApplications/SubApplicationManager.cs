@@ -129,6 +129,22 @@
             }
         }
 
+        public async Task<List<SubApplicationDto>> GetSubApplicationListFromDB(Guid applicationId)
+        {
+            try
+            {
+                var subApplicationItems = await this._subApplicationsRepository.GetAll().Where(x=> x.ApplicationId == applicationId && !x.IsDeleted).ToListAsync();
+
+                return ObjectMapper.Map <List<SubApplicationDto>> (subApplicationItems);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
         public async Task<bool> RestoreSubApplication(Guid subApplicationId)
         {
             try

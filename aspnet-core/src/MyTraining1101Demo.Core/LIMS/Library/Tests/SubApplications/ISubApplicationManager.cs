@@ -5,6 +5,7 @@
     using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface ISubApplicationManager : IDomainService
@@ -18,5 +19,7 @@
         Task<SubApplicationDto> GetSubApplicationByIdFromDB(Guid subApplicationId);
 
         Task<bool> RestoreSubApplication(Guid subApplicationId);
+
+        Task<List<SubApplicationDto>> GetSubApplicationListFromDB(Guid applicationId);
     }
 }

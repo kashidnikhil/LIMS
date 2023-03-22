@@ -9,6 +9,7 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
@@ -124,6 +125,23 @@
                 Logger.Error(ex.Message, ex);
                 throw ex;
             }
+        }
+
+        public async Task<IList<TechniqueDto>> GetTechniqueListFromDB()
+        {
+            try
+            {
+                var techniqueQuery = this._techniqueRepository.GetAll()
+                    .Where(x => !x.IsDeleted);
+
+                return new List<TechniqueDto>(ObjectMapper.Map<List<TechniqueDto>>(techniqueQuery));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+
         }
 
         public async Task<bool> RestoreTechnique(Guid techniqueId)

@@ -4,6 +4,7 @@
     using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface ITechniqueAppService
@@ -16,5 +17,7 @@
         Task<TechniqueDto> GetTechniqueById(Guid techniqueId);
 
         Task<bool> RestoreTechnique(Guid techniquelId);
+
+        Task<IList<TechniqueDto>> GetTechniqueList();
     }
 }

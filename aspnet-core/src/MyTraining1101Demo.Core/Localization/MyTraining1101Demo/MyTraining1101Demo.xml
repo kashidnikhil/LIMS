@@ -1320,6 +1320,9 @@
 	  <text name="EditTest">Edit test</text>
 	  <text name="TestDeleteWarningMessage">Test {0} will be deleted.</text>
 	  <text name="DefaultTechnique">Default Technique</text>
+	  <text name="Method">Method</text>
+	  <text name="MethodDescription">Method Description</text>
+	  <text name="IsSC">Is SC</text>
 	  
   </texts>
 </localizationDictionary>
