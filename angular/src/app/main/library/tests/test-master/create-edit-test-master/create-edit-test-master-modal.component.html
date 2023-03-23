@@ -108,8 +108,8 @@
                             <div class="form-group">
                                 <label></label>
                                 <label class="form-check form-check-custom form-check-solid py-1 mt-2">
-                                    <input id="isSC" type="checkbox" name="isSC"
-                                        class="form-check-input btn-danger" formControlName="isSC" />
+                                    <input id="isSC" type="checkbox" name="isSC" class="form-check-input btn-danger"
+                                        formControlName="isSC" />
                                     <span class="form-check-label">
                                         {{ 'SC' | localize }}
                                     </span>
@@ -123,11 +123,20 @@
                                     name="rate" />
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-5">
+                            <div class="mt-5">
+                                <input type="file" class="form-control" accept=".xlsx,.xls" (change)="onExcelFileUpload($event)" multiple="false"/>
+                                <!-- <p-fileUpload #excelFile name="myfile[]" mode="basic" chooseLabel="Upload" multiple="false"
+                                    accept=".xlsx,.xls" maxFileSize="1000000" class="btn btn-primary font-weight-bold"
+                                    (uploadHandler)="onExcelFileUpload($event)"></p-fileUpload> -->
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label>{{"MethodDescription" | localize}}</label>
-                                <input #methodDescriptionInput id="methodDescription" class="form-control" type="text"
-                                    formControlName="methodDescription" name="methodDescription" />
+                                <label>{{"Worksheet" | localize}}</label>
+                                <select class="form-control" id="worksheetName"  #worksheetName formControlName="worksheetName"  name="worksheetName" >
+                                    <option *ngFor="let sheet of currentUploadedExcelSheets" value="sheet.value"> {{sheet.title}}</option>
+                                </select>
                             </div>
                         </div>
                     </div>

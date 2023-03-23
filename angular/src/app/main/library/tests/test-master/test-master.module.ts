@@ -5,7 +5,7 @@ import { TestMasterRoutingModule } from "./test-master-routing.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { TestMasterListComponent } from "./test-master-list/test-master-list.component";
 import { CreateOrEditTestModalComponent } from "./create-edit-test-master/create-edit-test-master-modal.component";
-
+import { FileUploadModule as PrimeNgFileUploadModule } from 'primeng/fileupload';
 @NgModule({
     declarations: [
         TestMasterListComponent,
@@ -15,7 +15,8 @@ import { CreateOrEditTestModalComponent } from "./create-edit-test-master/create
         AppSharedModule,  
         TestMasterRoutingModule,
         SubheaderModule,
-        ReactiveFormsModule 
+        ReactiveFormsModule,
+        PrimeNgFileUploadModule 
     ],
     providers: [],
 })

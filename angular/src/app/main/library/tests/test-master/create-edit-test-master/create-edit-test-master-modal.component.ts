@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { AppComponentBase } from "@shared/common/app-component-base";
 import { ApplicationsDto, ApplicationsServiceProxy, SubApplicationDto, SubApplicationServiceProxy, TechniqueDto, TechniqueServiceProxy, TestMasterDto, TestMasterServiceProxy, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import * as XLSX from 'xlsx';
 
 @Component({
     selector: 'create-edit-test-modal',
@@ -22,6 +23,11 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
     techniqueList : TechniqueDto[] =[];
     applicationList : ApplicationsDto[] = [];
     subApplicationList : SubApplicationDto[] =[];
+
+    worksheetList: any = [];
+    currentWorkBook : XLSX.WorkBook = {SheetNames : [], Sheets : {}};
+    currentUploadedExcelSheets : any[] = []; // this variable should only have an array of title value pair. Where title would be a sheet name and vlaue should be indexNumber of the sheet.
+
 
     constructor(
         injector: Injector,
@@ -102,7 +108,8 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
             method: new FormControl(testItem.method, []),
             methodDescription: new FormControl(testItem.methodDescription, []),
             isSC: new FormControl(testItem.isSC, []),
-            // rate: new FormControl(testItem.rate, []),
+            rate: new FormControl(testItem.rate, []),
+            worksheetName :  new FormControl('', []),
             // id: new FormControl(testItem.id, []),
             // customerAddresses: customerItem.id ? this.formBuilder.array(
             //     customerItem.customerAddresses.map((x : CustomerAddressDto) => 
@@ -131,6 +138,34 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
             });
         }
     }
+
+    onExcelFileUpload(evt: any) {
+        /* wire up file reader */
+        const target: DataTransfer = <DataTransfer>(evt.target);
+        if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+        const reader: FileReader = new FileReader();
+        reader.onload = (e: any) => {
+          /* read workbook */
+          const bstr: string = e.target.result;
+          this.currentWorkBook = XLSX.read(bstr, { type: 'binary' });
+          let tempSheetNameList = this.currentWorkBook.SheetNames;
+    
+          //This exercise is required because we need to give the user a flexibility to select a sheet from the uploaded excel file. This is for giving a custom selection of excel, data cell for fetching the data
+          if(tempSheetNameList.length > 0){
+            this.currentUploadedExcelSheets = [];
+            for ( let i: number = 0; i < tempSheetNameList.length ; i++){
+              let sheetItem = { title : tempSheetNameList[i], value : i};
+              this.currentUploadedExcelSheets.push(sheetItem);
+            }
+            console.log(this.currentUploadedExcelSheets);
+          }
+          /* grab first sheet */
+          // const wsname: string = wb.SheetNames[0];
+          // const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+    
+        };
+        reader.readAsBinaryString(target.files[0]);
+      }
 
     save() : void {
 
