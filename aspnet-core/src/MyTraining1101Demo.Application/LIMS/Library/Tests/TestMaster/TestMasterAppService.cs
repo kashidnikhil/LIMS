@@ -3,16 +3,19 @@
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestSubApplications;
     using System;
     using System.Threading.Tasks;
 
     public class TestMasterAppService : MyTraining1101DemoAppServiceBase, ITestMasterAppService
     {
         private readonly ITestMasterManager _testMasterManager;
+        private readonly ITestSubApplicationManager _testSubApplicationManager;
        
-        public TestMasterAppService(ITestMasterManager testMasterManager)
+        public TestMasterAppService(ITestMasterManager testMasterManager, ITestSubApplicationManager testSubApplicationManager)
         {
             _testMasterManager = testMasterManager;
+            _testSubApplicationManager = testSubApplicationManager;
         }
 
 
@@ -38,14 +41,15 @@
 
                 if (insertedOrUpdatedTestMasterId != Guid.Empty)
                 {
-                    //if (input.CustomerAddresses != null && input.CustomerAddresses.Count > 0)
-                    //{
-                    //    input.CustomerAddresses.ForEach(customerAddress => {
-                    //        customerAddress.CustomerId = insertedOrUpdatedCustomerId;
-                    //    });
-                    //    await this._customerAddressManager.BulkInsertOrUpdateCustomerAddresses(input.CustomerAddresses);
-                    //}
-                  
+                    if (input.TestSubApplications != null && input.TestSubApplications.Count > 0)
+                    {
+                        input.TestSubApplications.ForEach(testSubApplicationItem =>
+                        {
+                            testSubApplicationItem.TestId = insertedOrUpdatedTestMasterId;
+                        });
+                        await this._testSubApplicationManager.BulkInsertOrUpdateTestSubApplications(input.TestSubApplications);
+                    }
+
                 }
                 return insertedOrUpdatedTestMasterId;
             }

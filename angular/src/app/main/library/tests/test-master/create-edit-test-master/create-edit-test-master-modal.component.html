@@ -140,6 +140,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-7">
+                            <p-table [value]="products" styleClass="p-datatable-gridlines" > [<!--tableStyle]="{ 'min-width': '50rem' }" -->
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Sub Application</th>
+                                        <th>NABL</th>
+                                        <th>MOEF</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-product>
+                                    <tr>
+                                        <td>{{ product.code }}</td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.category }}</td>
+                                        <td>{{ product.category }}</td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="summary"> Footer </ng-template>
+                            </p-table>
+                        </div>
+                        
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-light-primary font-weight-bold"

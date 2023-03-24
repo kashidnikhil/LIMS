@@ -39,4 +39,7 @@
     <ProjectReference Include="..\MyTraining1101Demo.Application.Shared\MyTraining1101Demo.Application.Shared.csproj" />
     <ProjectReference Include="..\MyTraining1101Demo.Core.Shared\MyTraining1101Demo.Core.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LIMS\Library\Tests\TestMasters\TestVariable\" />
+  </ItemGroup>
 </Project>

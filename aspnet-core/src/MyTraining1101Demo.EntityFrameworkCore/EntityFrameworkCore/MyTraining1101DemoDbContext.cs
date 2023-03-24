@@ -88,6 +88,9 @@ namespace MyTraining1101Demo.EntityFrameworkCore
 
         public virtual DbSet<Test> Tests { get; set; }
 
+        public virtual DbSet<TestSubApplication> TestSubApplications { get; set; }
+
+        public virtual DbSet<TestVariable> TestVariables { get; set; }
 
         public MyTraining1101DemoDbContext(DbContextOptions<MyTraining1101DemoDbContext> options)
             : base(options)

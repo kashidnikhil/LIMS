@@ -30,14 +30,14 @@
         {
             try
             {
-                Guid customerAddressId = Guid.Empty;
+                Guid customerId = Guid.Empty;
                 var mappedCustomerAddresses = ObjectMapper.Map<List<CustomerAddress>>(customerAddressInputList);
                 for (int i = 0; i < mappedCustomerAddresses.Count; i++)
                 {
-                    customerAddressId = (Guid)mappedCustomerAddresses[i].CustomerId;
+                    customerId = (Guid)mappedCustomerAddresses[i].CustomerId;
                     await this.InsertOrUpdateCustomerAddressIntoDB(mappedCustomerAddresses[i]);
                 }
-                return customerAddressId;
+                return customerId;
             }
             catch (Exception ex)
             {

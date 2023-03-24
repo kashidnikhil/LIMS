@@ -10,4 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MyTraining1101Demo.Core.Shared\MyTraining1101Demo.Core.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LIMS\Library\Tests\TestMasters\Dto\TestVariables\" />
+  </ItemGroup>
 </Project>

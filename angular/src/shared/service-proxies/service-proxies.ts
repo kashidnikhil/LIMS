@@ -33916,6 +33916,7 @@ export class TestMasterInputDto implements ITestMasterInputDto {
     worksheetName!: string | undefined;
     isSC!: boolean;
     rate!: number;
+    testSubApplications!: TestSubApplicationInputDto[] | undefined;
     applicationId!: string | undefined;
     unitId!: string | undefined;
     techniqueId!: string | undefined;
@@ -33939,6 +33940,11 @@ export class TestMasterInputDto implements ITestMasterInputDto {
             this.worksheetName = _data["worksheetName"];
             this.isSC = _data["isSC"];
             this.rate = _data["rate"];
+            if (Array.isArray(_data["testSubApplications"])) {
+                this.testSubApplications = [] as any;
+                for (let item of _data["testSubApplications"])
+                    this.testSubApplications!.push(TestSubApplicationInputDto.fromJS(item));
+            }
             this.applicationId = _data["applicationId"];
             this.unitId = _data["unitId"];
             this.techniqueId = _data["techniqueId"];
@@ -33962,6 +33968,11 @@ export class TestMasterInputDto implements ITestMasterInputDto {
         data["worksheetName"] = this.worksheetName;
         data["isSC"] = this.isSC;
         data["rate"] = this.rate;
+        if (Array.isArray(this.testSubApplications)) {
+            data["testSubApplications"] = [];
+            for (let item of this.testSubApplications)
+                data["testSubApplications"].push(item.toJSON());
+        }
         data["applicationId"] = this.applicationId;
         data["unitId"] = this.unitId;
         data["techniqueId"] = this.techniqueId;
@@ -33978,6 +33989,7 @@ export interface ITestMasterInputDto {
     worksheetName: string | undefined;
     isSC: boolean;
     rate: number;
+    testSubApplications: TestSubApplicationInputDto[] | undefined;
     applicationId: string | undefined;
     unitId: string | undefined;
     techniqueId: string | undefined;
@@ -34041,6 +34053,58 @@ export interface ITestMasterListDto {
     unitName: string | undefined;
     applicationName: string | undefined;
     techniqueName: string | undefined;
+}
+
+export class TestSubApplicationInputDto implements ITestSubApplicationInputDto {
+    id!: string | undefined;
+    isMOEF!: boolean;
+    isNABL!: boolean;
+    subApplicationId!: string | undefined;
+    testId!: string | undefined;
+
+    constructor(data?: ITestSubApplicationInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.isMOEF = _data["isMOEF"];
+            this.isNABL = _data["isNABL"];
+            this.subApplicationId = _data["subApplicationId"];
+            this.testId = _data["testId"];
+        }
+    }
+
+    static fromJS(data: any): TestSubApplicationInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TestSubApplicationInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["isMOEF"] = this.isMOEF;
+        data["isNABL"] = this.isNABL;
+        data["subApplicationId"] = this.subApplicationId;
+        data["testId"] = this.testId;
+        return data;
+    }
+}
+
+export interface ITestSubApplicationInputDto {
+    id: string | undefined;
+    isMOEF: boolean;
+    isNABL: boolean;
+    subApplicationId: string | undefined;
+    testId: string | undefined;
 }
 
 export class ThemeFooterSettingsDto implements IThemeFooterSettingsDto {

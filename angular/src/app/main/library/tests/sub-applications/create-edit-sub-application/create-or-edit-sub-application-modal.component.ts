@@ -21,6 +21,7 @@ export class CreateOrEditApplicationModalComponent extends AppComponentBase {
     saving = false;
     subApplicationItem : SubApplicationDto = new SubApplicationDto();
     applicationList : ApplicationsDto[] = [];
+
     
     constructor(
         injector: Injector,
