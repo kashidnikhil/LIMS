@@ -40,6 +40,6 @@
     <ProjectReference Include="..\MyTraining1101Demo.Core.Shared\MyTraining1101Demo.Core.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="LIMS\Library\Tests\TestMasters\TestVariable\" />
+    <EditorConfigFiles Remove="C:\Users\Akhilesh Bulbule\source\repos\LIMS\aspnet-core\src\MyTraining1101Demo.Core\LIMS\Library\Tests\TestMasters\TestVariables\.editorconfig" />
   </ItemGroup>
 </Project>

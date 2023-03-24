@@ -8,9 +8,11 @@ namespace MyTraining1101Demo.LIMS.Library.Tests.TestMasters
     [Table("TestVariable")]
     public class TestVariable : FullAuditedEntity<Guid>
     {
-       public string Variable { get; set; }
+        public string Variable { get; set; }
 
-       public string Description { get; set; }
+        public string Description { get; set; }
+
+        public string CellValue { get; set; }
 
         public virtual Guid? TestId { get; set; }
         public virtual Test Test { get; set; }
