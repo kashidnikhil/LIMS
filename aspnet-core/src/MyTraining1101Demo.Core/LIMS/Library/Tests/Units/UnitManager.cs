@@ -15,7 +15,7 @@
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
-
+    
     public class UnitManager : MyTraining1101DemoDomainServiceBase, IUnitManager
     {
         private readonly IRepository<Unit, Guid> _unitRepository;

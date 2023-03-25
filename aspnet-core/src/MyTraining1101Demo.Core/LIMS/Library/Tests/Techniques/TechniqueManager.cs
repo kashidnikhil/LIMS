@@ -55,6 +55,7 @@
 
         }
 
+
         [UnitOfWork]
         public async Task<ResponseDto> InsertOrUpdateTechniqueIntoDB(TechniqueInputDto input)
         {
