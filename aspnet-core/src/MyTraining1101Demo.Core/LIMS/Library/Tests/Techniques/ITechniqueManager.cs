@@ -17,6 +17,7 @@
 
         Task<TechniqueDto> GetTechniqueByIdFromDB(Guid techniqueId);
 
+
         Task<IList<TechniqueDto>> GetTechniqueListFromDB();
 
         Task<bool> RestoreTechnique(Guid techniqueId);
