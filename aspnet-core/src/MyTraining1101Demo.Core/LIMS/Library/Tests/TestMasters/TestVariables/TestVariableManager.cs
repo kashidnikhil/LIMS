@@ -2,18 +2,15 @@
 using Abp.Domain.Uow;
 using Microsoft.Extensions.Configuration;
 using MyTraining1101Demo.Configuration;
-using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestSubApplications;
 using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestVariables;
-using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestSubApplications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestVariables
 {
-    public class TestVariableManager : MyTraining1101DemoDomainServiceBase //, ITestSubApplicationManager
+    public class TestVariableManager : MyTraining1101DemoDomainServiceBase, ITestVariableManager
     {
         private readonly IRepository<TestVariable, Guid> _testVariableRepository;
         private readonly IConfigurationRoot _appConfiguration;

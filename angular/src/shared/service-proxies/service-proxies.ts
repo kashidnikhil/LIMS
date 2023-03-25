@@ -33840,6 +33840,8 @@ export class TestMasterDto implements ITestMasterDto {
     worksheetName!: string | undefined;
     isSC!: boolean;
     rate!: number;
+    testSubApplications!: TestSubApplicationDto[] | undefined;
+    testVariables!: TestVariableDto[] | undefined;
     applicationId!: string | undefined;
     unitId!: string | undefined;
     techniqueId!: string | undefined;
@@ -33863,6 +33865,16 @@ export class TestMasterDto implements ITestMasterDto {
             this.worksheetName = _data["worksheetName"];
             this.isSC = _data["isSC"];
             this.rate = _data["rate"];
+            if (Array.isArray(_data["testSubApplications"])) {
+                this.testSubApplications = [] as any;
+                for (let item of _data["testSubApplications"])
+                    this.testSubApplications!.push(TestSubApplicationDto.fromJS(item));
+            }
+            if (Array.isArray(_data["testVariables"])) {
+                this.testVariables = [] as any;
+                for (let item of _data["testVariables"])
+                    this.testVariables!.push(TestVariableDto.fromJS(item));
+            }
             this.applicationId = _data["applicationId"];
             this.unitId = _data["unitId"];
             this.techniqueId = _data["techniqueId"];
@@ -33886,6 +33898,16 @@ export class TestMasterDto implements ITestMasterDto {
         data["worksheetName"] = this.worksheetName;
         data["isSC"] = this.isSC;
         data["rate"] = this.rate;
+        if (Array.isArray(this.testSubApplications)) {
+            data["testSubApplications"] = [];
+            for (let item of this.testSubApplications)
+                data["testSubApplications"].push(item.toJSON());
+        }
+        if (Array.isArray(this.testVariables)) {
+            data["testVariables"] = [];
+            for (let item of this.testVariables)
+                data["testVariables"].push(item.toJSON());
+        }
         data["applicationId"] = this.applicationId;
         data["unitId"] = this.unitId;
         data["techniqueId"] = this.techniqueId;
@@ -33902,6 +33924,8 @@ export interface ITestMasterDto {
     worksheetName: string | undefined;
     isSC: boolean;
     rate: number;
+    testSubApplications: TestSubApplicationDto[] | undefined;
+    testVariables: TestVariableDto[] | undefined;
     applicationId: string | undefined;
     unitId: string | undefined;
     techniqueId: string | undefined;
@@ -33917,6 +33941,7 @@ export class TestMasterInputDto implements ITestMasterInputDto {
     isSC!: boolean;
     rate!: number;
     testSubApplications!: TestSubApplicationInputDto[] | undefined;
+    testVariables!: TestVariableInputDto[] | undefined;
     applicationId!: string | undefined;
     unitId!: string | undefined;
     techniqueId!: string | undefined;
@@ -33944,6 +33969,11 @@ export class TestMasterInputDto implements ITestMasterInputDto {
                 this.testSubApplications = [] as any;
                 for (let item of _data["testSubApplications"])
                     this.testSubApplications!.push(TestSubApplicationInputDto.fromJS(item));
+            }
+            if (Array.isArray(_data["testVariables"])) {
+                this.testVariables = [] as any;
+                for (let item of _data["testVariables"])
+                    this.testVariables!.push(TestVariableInputDto.fromJS(item));
             }
             this.applicationId = _data["applicationId"];
             this.unitId = _data["unitId"];
@@ -33973,6 +34003,11 @@ export class TestMasterInputDto implements ITestMasterInputDto {
             for (let item of this.testSubApplications)
                 data["testSubApplications"].push(item.toJSON());
         }
+        if (Array.isArray(this.testVariables)) {
+            data["testVariables"] = [];
+            for (let item of this.testVariables)
+                data["testVariables"].push(item.toJSON());
+        }
         data["applicationId"] = this.applicationId;
         data["unitId"] = this.unitId;
         data["techniqueId"] = this.techniqueId;
@@ -33990,6 +34025,7 @@ export interface ITestMasterInputDto {
     isSC: boolean;
     rate: number;
     testSubApplications: TestSubApplicationInputDto[] | undefined;
+    testVariables: TestVariableInputDto[] | undefined;
     applicationId: string | undefined;
     unitId: string | undefined;
     techniqueId: string | undefined;
@@ -34055,6 +34091,62 @@ export interface ITestMasterListDto {
     techniqueName: string | undefined;
 }
 
+export class TestSubApplicationDto implements ITestSubApplicationDto {
+    id!: string;
+    isMOEF!: boolean;
+    isNABL!: boolean;
+    testId!: string;
+    subApplicationId!: string;
+    name!: string | undefined;
+
+    constructor(data?: ITestSubApplicationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.isMOEF = _data["isMOEF"];
+            this.isNABL = _data["isNABL"];
+            this.testId = _data["testId"];
+            this.subApplicationId = _data["subApplicationId"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): TestSubApplicationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TestSubApplicationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["isMOEF"] = this.isMOEF;
+        data["isNABL"] = this.isNABL;
+        data["testId"] = this.testId;
+        data["subApplicationId"] = this.subApplicationId;
+        data["name"] = this.name;
+        return data;
+    }
+}
+
+export interface ITestSubApplicationDto {
+    id: string;
+    isMOEF: boolean;
+    isNABL: boolean;
+    testId: string;
+    subApplicationId: string;
+    name: string | undefined;
+}
+
 export class TestSubApplicationInputDto implements ITestSubApplicationInputDto {
     id!: string | undefined;
     isMOEF!: boolean;
@@ -34104,6 +34196,110 @@ export interface ITestSubApplicationInputDto {
     isMOEF: boolean;
     isNABL: boolean;
     subApplicationId: string | undefined;
+    testId: string | undefined;
+}
+
+export class TestVariableDto implements ITestVariableDto {
+    id!: string;
+    variable!: string | undefined;
+    description!: string | undefined;
+    cellValue!: string | undefined;
+    testId!: string;
+
+    constructor(data?: ITestVariableDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.variable = _data["variable"];
+            this.description = _data["description"];
+            this.cellValue = _data["cellValue"];
+            this.testId = _data["testId"];
+        }
+    }
+
+    static fromJS(data: any): TestVariableDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TestVariableDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["variable"] = this.variable;
+        data["description"] = this.description;
+        data["cellValue"] = this.cellValue;
+        data["testId"] = this.testId;
+        return data;
+    }
+}
+
+export interface ITestVariableDto {
+    id: string;
+    variable: string | undefined;
+    description: string | undefined;
+    cellValue: string | undefined;
+    testId: string;
+}
+
+export class TestVariableInputDto implements ITestVariableInputDto {
+    id!: string | undefined;
+    variable!: string | undefined;
+    description!: string | undefined;
+    cellValue!: string | undefined;
+    testId!: string | undefined;
+
+    constructor(data?: ITestVariableInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.variable = _data["variable"];
+            this.description = _data["description"];
+            this.cellValue = _data["cellValue"];
+            this.testId = _data["testId"];
+        }
+    }
+
+    static fromJS(data: any): TestVariableInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TestVariableInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["variable"] = this.variable;
+        data["description"] = this.description;
+        data["cellValue"] = this.cellValue;
+        data["testId"] = this.testId;
+        return data;
+    }
+}
+
+export interface ITestVariableInputDto {
+    id: string | undefined;
+    variable: string | undefined;
+    description: string | undefined;
+    cellValue: string | undefined;
     testId: string | undefined;
 }
 

@@ -4,6 +4,7 @@
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestSubApplications;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestVariables;
     using System;
     using System.Threading.Tasks;
 
@@ -11,11 +12,13 @@
     {
         private readonly ITestMasterManager _testMasterManager;
         private readonly ITestSubApplicationManager _testSubApplicationManager;
-       
-        public TestMasterAppService(ITestMasterManager testMasterManager, ITestSubApplicationManager testSubApplicationManager)
+        private readonly ITestVariableManager _testVariableManager;
+
+        public TestMasterAppService(ITestMasterManager testMasterManager, ITestSubApplicationManager testSubApplicationManager, ITestVariableManager testVariableManager)
         {
             _testMasterManager = testMasterManager;
             _testSubApplicationManager = testSubApplicationManager;
+            _testVariableManager = testVariableManager;
         }
 
 
@@ -48,6 +51,15 @@
                             testSubApplicationItem.TestId = insertedOrUpdatedTestMasterId;
                         });
                         await this._testSubApplicationManager.BulkInsertOrUpdateTestSubApplications(input.TestSubApplications);
+                    }
+
+                    if (input.TestVariables != null && input.TestVariables.Count > 0)
+                    {
+                        input.TestVariables.ForEach(testVariableItem =>
+                        {
+                            testVariableItem.TestId = insertedOrUpdatedTestMasterId;
+                        });
+                        await this._testVariableManager.BulkInsertOrUpdateTestVariables(input.TestVariables);
                     }
 
                 }
@@ -90,10 +102,9 @@
 
                 if (testMasterItem.Id != Guid.Empty)
                 {
-                    //customerItem.CustomerAddresses = await this._customerAddressManager.GetCustomerAddressListFromDB(customerId);
-                    //customerItem.CustomerContactPersons = await this._customerContactPersonManager.GetContactPersonListFromDB(customerId);
-                    //customerItem.CustomerPOs = await this._customerPOManager.GetCustomerPOListFromDB(customerId);
-                }
+                    testMasterItem.TestSubApplications = await this._testSubApplicationManager.GetTestSubApplicationListFromDB(testMasterItem.Id);
+                    testMasterItem.TestVariables = await this._testVariableManager.GetTestVariableListFromDB(testMasterItem.Id);
+                 }
 
                 return testMasterItem;
             }

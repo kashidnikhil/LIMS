@@ -127,7 +127,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
             worksheetName :  new FormControl('', []),
             id: new FormControl(testItem.id, []),
             // testVariables: testItem.id ? this.formBuilder.array(
-            //     testItem.customerAddresses.map((x : CustomerAddressDto) => 
+            //     testItem..map((x : CustomerAddressDto) => 
             //         this.createTestVariables(x)
             //       )
             // ) : this.formBuilder.array([this.createTestVariables(addressItem)])
