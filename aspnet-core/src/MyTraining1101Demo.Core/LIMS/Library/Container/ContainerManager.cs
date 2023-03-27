@@ -61,16 +61,30 @@
             {
                 Guid containerId = Guid.Empty;
                 var containerItem = await this._containerRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (containerItem != null && input.Id != containerItem.Id)
+                if (containerItem != null)
                 {
-                    return new ResponseDto
+                    if (input.Id != containerItem.Id)
                     {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = containerItem.Name,
-                        IsExistingDataAlreadyDeleted = containerItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = containerItem.Id
-                    };
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = containerItem.Name,
+                            IsExistingDataAlreadyDeleted = containerItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = containerItem.Id
+                        };
+                    }
+                    else {
+                        containerItem.Name = input.Name;
+                        containerItem.Description = input.Description;
+                        containerId = await this._containerRepository.InsertOrUpdateAndGetIdAsync(containerItem);
+                        return new ResponseDto
+                        {
+                            Id = containerId,
+                            DataMatchFound = false
+                        };
+                    }
+
                 }
                 else
                 {

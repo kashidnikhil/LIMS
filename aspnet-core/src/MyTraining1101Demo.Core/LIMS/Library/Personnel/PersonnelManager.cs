@@ -61,17 +61,31 @@
             {
                 Guid personnelId = Guid.Empty;
                 var personnelItem = await this._personnelRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (personnelItem != null && input.Id != personnelItem.Id)
+                if (personnelItem != null)
                 {
-                    //if incoming data matches the existing data and 
-                    return new ResponseDto
+                    if (input.Id != personnelItem.Id)
                     {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = personnelItem.Name,
-                        IsExistingDataAlreadyDeleted = personnelItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = personnelItem.Id
-                    };
+                        //if incoming data matches the existing data and 
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = personnelItem.Name,
+                            IsExistingDataAlreadyDeleted = personnelItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = personnelItem.Id
+                        };
+                    }
+                    else {
+                        personnelItem.Name = input.Name;
+                        personnelItem.Description = input.Description;
+                        personnelId = await this._personnelRepository.InsertOrUpdateAndGetIdAsync(personnelItem);
+                        return new ResponseDto
+                        {
+                            Id = personnelId,
+                            DataMatchFound = false
+                        };
+                    }
+
                 }
                 else
                 {

@@ -32,8 +32,8 @@
                         <input #nameInput id="name" class="form-control" type="text" [(ngModel)]="taxItem.name" name="name"  required>
                     </div>
                     <div class="form-group">
-                        <label>{{"Description" | localize}}</label>
-                         <input class="form-control" type="text" name="description"  [(ngModel)]="taxItem.description" required>
+                        <label>{{"Percentage" | localize}}</label>
+                         <input class="form-control" pattern="^([1-9][0-9]?|100)$" type="number" name="percentage"  [(ngModel)]="taxItem.percentage" required>
                     </div>
                 </div>
                 <div class="modal-footer">

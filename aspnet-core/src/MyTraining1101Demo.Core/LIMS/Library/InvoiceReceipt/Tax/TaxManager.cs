@@ -61,16 +61,30 @@
             {
                 Guid taxId = Guid.Empty;
                 var taxItem = await this._taxRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (taxItem != null && input.Id != taxItem.Id)
+                if (taxItem != null)
                 {
-                    return new ResponseDto
+                    if (input.Id != taxItem.Id)
                     {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = taxItem.Name,
-                        IsExistingDataAlreadyDeleted = taxItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = taxItem.Id
-                    };
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = taxItem.Name,
+                            IsExistingDataAlreadyDeleted = taxItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = taxItem.Id
+                        };
+                    }
+                    else {
+                        taxItem.Name = input.Name;
+                        taxItem.Percentage = input.Percentage;
+                        taxId = await this._taxRepository.InsertOrUpdateAndGetIdAsync(taxItem);
+                        return new ResponseDto
+                        {
+                            Id = taxId,
+                            DataMatchFound = false
+                        };
+                    }
+
                 }
                 else
                 {

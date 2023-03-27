@@ -61,16 +61,29 @@
             {
                 Guid standardReferenceId = Guid.Empty;
                 var standardReferenceItem = await this._standardReferenceRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (standardReferenceItem != null && input.Id != standardReferenceItem.Id)
+                if (standardReferenceItem != null)
                 {
-                    return new ResponseDto
+                    if (input.Id != standardReferenceItem.Id)
                     {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = standardReferenceItem.Name,
-                        IsExistingDataAlreadyDeleted = standardReferenceItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = standardReferenceItem.Id
-                    };
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = standardReferenceItem.Name,
+                            IsExistingDataAlreadyDeleted = standardReferenceItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = standardReferenceItem.Id
+                        };
+                    }
+                    else {
+                        standardReferenceItem.Name = input.Name;
+                        standardReferenceItem.Description = input.Description;
+                        standardReferenceId = await this._standardReferenceRepository.InsertOrUpdateAndGetIdAsync(standardReferenceItem);
+                        return new ResponseDto
+                        {
+                            Id = standardReferenceId,
+                            DataMatchFound = false
+                        };
+                    }
                 }
                 else
                 {

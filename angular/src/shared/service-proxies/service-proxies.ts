@@ -32972,7 +32972,7 @@ export interface ISwitchToLinkedAccountOutput {
 export class TaxDto implements ITaxDto {
     id!: string;
     name!: string | undefined;
-    description!: string | undefined;
+    percentage!: number;
 
     constructor(data?: ITaxDto) {
         if (data) {
@@ -32987,7 +32987,7 @@ export class TaxDto implements ITaxDto {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
-            this.description = _data["description"];
+            this.percentage = _data["percentage"];
         }
     }
 
@@ -33002,7 +33002,7 @@ export class TaxDto implements ITaxDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
-        data["description"] = this.description;
+        data["percentage"] = this.percentage;
         return data;
     }
 }
@@ -33010,13 +33010,13 @@ export class TaxDto implements ITaxDto {
 export interface ITaxDto {
     id: string;
     name: string | undefined;
-    description: string | undefined;
+    percentage: number;
 }
 
 export class TaxInputDto implements ITaxInputDto {
     id!: string | undefined;
     name!: string | undefined;
-    description!: string | undefined;
+    percentage!: number;
 
     constructor(data?: ITaxInputDto) {
         if (data) {
@@ -33031,7 +33031,7 @@ export class TaxInputDto implements ITaxInputDto {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
-            this.description = _data["description"];
+            this.percentage = _data["percentage"];
         }
     }
 
@@ -33046,7 +33046,7 @@ export class TaxInputDto implements ITaxInputDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
-        data["description"] = this.description;
+        data["percentage"] = this.percentage;
         return data;
     }
 }
@@ -33054,7 +33054,7 @@ export class TaxInputDto implements ITaxInputDto {
 export interface ITaxInputDto {
     id: string | undefined;
     name: string | undefined;
-    description: string | undefined;
+    percentage: number;
 }
 
 export class TechniqueDto implements ITechniqueDto {

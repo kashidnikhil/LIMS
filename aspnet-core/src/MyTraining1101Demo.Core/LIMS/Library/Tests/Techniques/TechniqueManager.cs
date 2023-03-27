@@ -63,16 +63,29 @@
             {
                 Guid techniqueId = Guid.Empty;
                 var techniqueItem = await this._techniqueRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (techniqueItem != null && input.Id != techniqueItem.Id)
+                if (techniqueItem != null)
                 {
-                    return new ResponseDto
-                    {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = techniqueItem.Name,
-                        IsExistingDataAlreadyDeleted = techniqueItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = techniqueItem.Id
-                    };
+                    if (input.Id != techniqueItem.Id) {
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = techniqueItem.Name,
+                            IsExistingDataAlreadyDeleted = techniqueItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = techniqueItem.Id
+                        };
+                    }
+                    else {
+                        techniqueItem.Name = input.Name;
+                        techniqueItem.Description = input.Description;
+                        techniqueId = await this._techniqueRepository.InsertOrUpdateAndGetIdAsync(techniqueItem);
+                        return new ResponseDto
+                        {
+                            Id = techniqueId,
+                            DataMatchFound = false
+                        };
+                    }
+                    
                 }
                 else
                 {

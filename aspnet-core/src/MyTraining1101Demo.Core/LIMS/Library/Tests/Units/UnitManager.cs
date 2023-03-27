@@ -61,16 +61,29 @@
             {
                 Guid unitId = Guid.Empty;
                 var unitItem = await this._unitRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (unitItem != null && input.Id != unitItem.Id)
+                if (unitItem != null)
                 {
-                    return new ResponseDto
+                    if (input.Id != unitItem.Id)
                     {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = unitItem.Name,
-                        IsExistingDataAlreadyDeleted = unitItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = unitItem.Id
-                    };
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = unitItem.Name,
+                            IsExistingDataAlreadyDeleted = unitItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = unitItem.Id
+                        };
+                    }
+                    else {
+                        unitItem.Name = input.Name;
+                        unitItem.Description = input.Description;
+                        unitId = await this._unitRepository.InsertOrUpdateAndGetIdAsync(unitItem);
+                        return new ResponseDto
+                        {
+                            Id = unitId,
+                            DataMatchFound = false
+                        };
+                    }
                 }
                 else
                 {

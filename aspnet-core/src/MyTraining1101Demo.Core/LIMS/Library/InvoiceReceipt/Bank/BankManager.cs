@@ -61,17 +61,33 @@
             {
                 Guid bankId = Guid.Empty;
                 var bankItem = await this._bankRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (bankItem != null && input.Id != bankItem.Id)
+                if (bankItem != null)
                 {
-                    //if incoming data matches the existing data and 
-                    return new ResponseDto
+                    if (input.Id != bankItem.Id)
                     {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = bankItem.Name,
-                        IsExistingDataAlreadyDeleted = bankItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = bankItem.Id
-                    };
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = bankItem.Name,
+                            IsExistingDataAlreadyDeleted = bankItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = bankItem.Id
+                        };
+                    }
+                    else {
+
+                        bankItem.Name = input.Name;
+                        bankItem.Description = input.Description;
+                        bankId = await this._bankRepository.InsertOrUpdateAndGetIdAsync(bankItem);
+                        return new ResponseDto
+                        {
+                            Id = bankId,
+                            DataMatchFound = false
+                        };
+
+                    }
+                    //if incoming data matches the existing data and 
+
                 }
                 else
                 {

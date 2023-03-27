@@ -61,15 +61,31 @@
             {
                 Guid applicationId = Guid.Empty;
                 var applicationItem = await this._applicationsRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (applicationItem != null && input.Id != applicationItem.Id)
+                if (applicationItem != null)
                 {
-                    return new ResponseDto {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = applicationItem.Name,
-                        IsExistingDataAlreadyDeleted = applicationItem.IsDeleted ,
-                        DataMatchFound = true,
-                        RestoringItemId = applicationItem.Id
-                    };
+
+                    if (input.Id != applicationItem.Id)
+                    {
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = applicationItem.Name,
+                            IsExistingDataAlreadyDeleted = applicationItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = applicationItem.Id
+                        };
+                    }
+                    else {
+                        applicationItem.Name = input.Name;
+                        applicationItem.Description = input.Description;
+                        applicationId = await this._applicationsRepository.InsertOrUpdateAndGetIdAsync(applicationItem);
+                        return new ResponseDto
+                        {
+                            Id = applicationId,
+                            DataMatchFound = false
+                        };
+                    }
+                    
                 }
                 else {
                     var mappedApplicationItem = ObjectMapper.Map<Applications>(input);

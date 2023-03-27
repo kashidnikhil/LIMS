@@ -61,16 +61,29 @@
             {
                 Guid chargeId = Guid.Empty;
                 var chargeItem = await this._chargesRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (chargeItem != null && input.Id != chargeItem.Id)
+                if (chargeItem != null)
                 {
-                    return new ResponseDto
+                    if (input.Id != chargeItem.Id)
                     {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = chargeItem.Name,
-                        IsExistingDataAlreadyDeleted = chargeItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = chargeItem.Id
-                    };
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = chargeItem.Name,
+                            IsExistingDataAlreadyDeleted = chargeItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = chargeItem.Id
+                        };
+                    }
+                    else {
+                        chargeItem.Name = input.Name;
+                        chargeItem.Description = input.Description;
+                        chargeId = await this._chargesRepository.InsertOrUpdateAndGetIdAsync(chargeItem);
+                        return new ResponseDto
+                        {
+                            Id = chargeId,
+                            DataMatchFound = false
+                        };
+                    }
                 }
                 else
                 {

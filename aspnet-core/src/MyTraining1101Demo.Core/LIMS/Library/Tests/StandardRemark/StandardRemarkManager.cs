@@ -61,16 +61,30 @@
             {
                 Guid standardRemarkId = Guid.Empty;
                 var standardRemarkItem = await this._standardRemarkRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (standardRemarkItem != null && input.Id != standardRemarkItem.Id)
+                if (standardRemarkItem != null)
                 {
-                    return new ResponseDto
+                    if (input.Id != standardRemarkItem.Id) {
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = standardRemarkItem.Name,
+                            IsExistingDataAlreadyDeleted = standardRemarkItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = standardRemarkItem.Id
+                        };
+                    }
+                    else
                     {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = standardRemarkItem.Name,
-                        IsExistingDataAlreadyDeleted = standardRemarkItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = standardRemarkItem.Id
-                    };
+                        standardRemarkItem.Name = input.Name;
+                        standardRemarkItem.Description = input.Description;
+                        standardRemarkId = await this._standardRemarkRepository.InsertOrUpdateAndGetIdAsync(standardRemarkItem);
+                        return new ResponseDto
+                        {
+                            Id = standardRemarkId,
+                            DataMatchFound = false
+                        };
+                    }
+                   
                 }
                 else
                 {

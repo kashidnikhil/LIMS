@@ -64,16 +64,30 @@
             {
                 Guid subAppplicationId = Guid.Empty;
                 var subApplicationItem = await this._subApplicationsRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (subApplicationItem != null && input.Id != subApplicationItem.Id)
+                if (subApplicationItem != null)
                 {
-                    return new ResponseDto
-                    {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = subApplicationItem.Name,
-                        IsExistingDataAlreadyDeleted = subApplicationItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = subApplicationItem.Id
-                    };
+                    if (input.Id != subApplicationItem.Id) {
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = subApplicationItem.Name,
+                            IsExistingDataAlreadyDeleted = subApplicationItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = subApplicationItem.Id
+                        };
+                    }
+                    else{
+                        subApplicationItem.ApplicationId = input.ApplicationId;
+                        subApplicationItem.Name = input.Name;
+                        subApplicationItem.Description = input.Description; 
+                        subAppplicationId = await this._subApplicationsRepository.InsertOrUpdateAndGetIdAsync(subApplicationItem);
+                        return new ResponseDto
+                        {
+                            Id = subAppplicationId,
+                            DataMatchFound = false
+                        };
+                    }
+                   
                 }
                 else
                 {

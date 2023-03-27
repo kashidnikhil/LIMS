@@ -30,7 +30,7 @@ export class CreateOrEditTaxModalComponent extends AppComponentBase {
 
     show(taxId?: string): void {
         if (!taxId) {
-            this.taxItem = new TaxDto({id : null, name: "", description: ""}); 
+            this.taxItem = new TaxDto({id : null, name: "", percentage : 0}); 
             this.active = true;
             this.modal.show();
         }

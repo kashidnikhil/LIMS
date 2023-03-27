@@ -61,17 +61,31 @@
             {
                 Guid sourceId = Guid.Empty;
                 var sourceItem = await this._sourceRepository.GetAll().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name.ToLower().Trim() == input.Name.ToLower().Trim());
-                if (sourceItem != null && input.Id != sourceItem.Id)
+                if (sourceItem != null)
                 {
-                    //if incoming data matches the existing data and 
-                    return new ResponseDto
+                    if (input.Id != sourceItem.Id)
                     {
-                        Id = input.Id == Guid.Empty ? null : input.Id,
-                        Name = sourceItem.Name,
-                        IsExistingDataAlreadyDeleted = sourceItem.IsDeleted,
-                        DataMatchFound = true,
-                        RestoringItemId = sourceItem.Id
-                    };
+                        //if incoming data matches the existing data and 
+                        return new ResponseDto
+                        {
+                            Id = input.Id == Guid.Empty ? null : input.Id,
+                            Name = sourceItem.Name,
+                            IsExistingDataAlreadyDeleted = sourceItem.IsDeleted,
+                            DataMatchFound = true,
+                            RestoringItemId = sourceItem.Id
+                        };
+                    }
+                    else {
+                        sourceItem.Name = input.Name;
+                        sourceItem.Description = input.Description;
+                        sourceId = await this._sourceRepository.InsertOrUpdateAndGetIdAsync(sourceItem);
+                        return new ResponseDto
+                        {
+                            Id = sourceId,
+                            DataMatchFound = false
+                        };
+                    }
+
                 }
                 else
                 {
