@@ -1,7 +1,7 @@
 import { Component, Injector, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { AppComponentBase } from "@shared/common/app-component-base";
-import { ApplicationsDto, ApplicationsServiceProxy, SubApplicationDto, SubApplicationServiceProxy, TechniqueDto, TechniqueServiceProxy, TestMasterDto, TestMasterServiceProxy, TestVariableDto, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
+import { ApplicationsDto, ApplicationsServiceProxy, SubApplicationDto, SubApplicationServiceProxy, TechniqueDto, TechniqueServiceProxy, TestMasterDto, TestMasterServiceProxy, TestSubApplicationDto, TestVariableDto, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import * as XLSX from 'xlsx';
 
@@ -126,10 +126,30 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
             applicationId: new FormControl(testItem.applicationId, []),
             method: new FormControl(testItem.method, []),
             methodDescription: new FormControl(testItem.methodDescription, []),
+            worksheetName :  new FormControl(testItem.worksheetName, []),
             isSC: new FormControl(testItem.isSC, []),
             rate: new FormControl(testItem.rate, []),
-            worksheetName :  new FormControl('', []),
-            id: new FormControl(testItem.id, [])
+            id: new FormControl(testItem.id, []),
+            testSubApplications : testItem.id ?  this.formBuilder.array(
+                testItem.testSubApplications.map((x : TestSubApplicationDto) => 
+                    this.createTestSubApplications(x))
+            ) : this.formBuilder.array([])
+           
+        });
+    }
+
+    get testSubApplications(): FormArray{
+        return (<FormArray>this.testMasterForm.get('testSubApplications'));
+    }
+
+    createTestSubApplications(subApplicationItem : TestSubApplicationDto) : FormGroup {
+        return this.formBuilder.group({
+            id: new FormControl(subApplicationItem.id, []),
+            subApplicationId: new FormControl(subApplicationItem.subApplicationId, []),
+            subApplicationName : new FormControl(subApplicationItem.name, []),
+            isNABL: new FormControl(subApplicationItem.isNABL, []),
+            isMOEF: new FormControl(subApplicationItem.isMOEF, []),
+            testId: new FormControl(subApplicationItem.testId, [])
         });
     }
 
@@ -174,6 +194,13 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
                 this.subApplicationList.push(subApplicationItem);
             });
         }
+    }
+
+    onSubApplicationSelect(subApplicationId : string){
+        let subApplication = this.subApplicationList.find(x=> x.id == subApplicationId);
+        let subApplicationItem : TestSubApplicationDto = new TestSubApplicationDto({id : "",isMOEF : false, isNABL : false, name: subApplication.name,subApplicationId : subApplicationId,testId: "" });
+        let subApplicationForm = this.createTestSubApplications(subApplicationItem);
+        this.testSubApplications.push(subApplicationForm);
     }
 
     onExcelFileUpload(evt: any) {

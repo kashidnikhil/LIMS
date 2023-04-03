@@ -87,7 +87,7 @@
                                 <label>{{"SubApplications" | localize}}</label>
                                 <select placeholder="Select Sub Application" class="form-control" #subApplication
                                     id="subApplicationId" name="subApplicationId"
-                                    (change)="onApplicationSelect($event.target.value)">
+                                    (change)="onSubApplicationSelect($event.target.value)">
                                     <option *ngFor="let subApplicationItem of subApplicationList"
                                         value="{{ subApplicationItem.id }}">
                                         {{ subApplicationItem.name }}
@@ -104,9 +104,8 @@
                         </div>
                     </div>
                     <div class="col-md-12 row mb-4">
-                        <div class="col-md-7">
-                            <p-table [value]="products" styleClass="p-datatable-gridlines">
-                                [<!--tableStyle]="{ 'min-width': '50rem' }" -->
+                        <div class="col-md-7" formArrayName="testSubApplications">
+                            <p-table [value]="testSubApplications.controls" styleClass="p-datatable-gridlines">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th class="text-center">Sub Application</th>
@@ -114,12 +113,11 @@
                                         <th class="text-center">MOEF</th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
-                                    <tr>
-                                        <td>{{ product.code }}</td>
-                                        <td>{{ product.name }}</td>
-                                        <td>{{ product.category }}</td>
-                                        <td>{{ product.category }}</td>
+                                <ng-template pTemplate="body" let-testSubApplication let-rowIndex="rowIndex">
+                                    <tr [formGroupName]="rowIndex">
+                                        <td class="text-center"> <label>{{testSubApplication.value.subApplicationName}}</label></td>
+                                        <td class="text-center"> <input type="radio" name="rowIndex" [value]="testSubApplication.isNABL"></td>
+                                        <td class="text-center"><input type="radio" name="rowIndex" [value]="testSubApplication.isMOEF" ></td>
                                     </tr>
                                 </ng-template>
                                 <!-- <ng-template pTemplate="summary"> Footer </ng-template> -->
