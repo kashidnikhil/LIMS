@@ -169,8 +169,8 @@
                             class="p-button-rounded p-button-text" (click)="addTestVariable()" label="Add"></button>
                     </div>
                     <div class="d-flex justify-content-end mb-4" *ngIf="currentUploadedExcelSheets.length > 0">
-                        <div class="col-md-10">
-                            <p-table [value]="testMasterInput.testVariables" styleClass="p-datatable-gridlines" [tableStyle]="{ 'max-width': '30rem' }">
+                        <div class="col-md-10" formArrayName="testVariables">
+                            <p-table [value]="testVariables.controls" styleClass="p-datatable-gridlines" [tableStyle]="{ 'max-width': '30rem' }">
                                <ng-template pTemplate="header">
                                     <tr>
                                         <th class="text-center">Variable</th>
@@ -179,16 +179,16 @@
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-testVariable let-editing="editing"
-                                    let-rowIndex="rowIndex">
-                                    <tr>
+                                let-rowIndex="rowIndex">
+                                    <tr [formGroupName]="rowIndex">
                                         <td>
-                                            <input pInputText type="text" class="form-control" [(ngModel)]="testVariable.variable">
+                                            <input pInputText type="text" class="form-control" formControlName="variable" [(ngModel)]="testVariable.value.variable">
                                         </td>
                                         <td>
-                                            <input pInputText type="text" class="form-control" [(ngModel)]="testVariable.description">
+                                            <input pInputText type="text" class="form-control" formControlName="description" [(ngModel)]="testVariable.value.description">
                                         </td>
                                         <td>
-                                            <input pInputText type="text" class="form-control" [(ngModel)]="testVariable.cellValue">
+                                            <input pInputText type="text" class="form-control" formControlName="cellValue" [(ngModel)]="testVariable.value.cellValue">
                                         </td>
                                     </tr>
                                 </ng-template>

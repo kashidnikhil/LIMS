@@ -118,7 +118,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
     }
 
     initialiseTestMasterForm(testItem : TestMasterDto){
-        let testVariableItem: TestVariableDto = new TestVariableDto();
+        //let testVariableItem: TestVariableDto = new TestVariableDto();
         this.testMasterForm = this.formBuilder.group({
             name: new FormControl(testItem.name, []),
             unitId: new FormControl(testItem.unitId, []),
@@ -134,7 +134,11 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
             testSubApplications : testItem.id ?  this.formBuilder.array(
                 testItem.testSubApplications.map((x : TestSubApplicationDto) => 
                     this.createTestSubApplications(x))
-            ) : this.formBuilder.array([])
+            ) : this.formBuilder.array([]),
+            testVariables : testItem.id ?  this.formBuilder.array(
+                testItem.testVariables.map((x : TestVariableDto) => 
+                    this.createTestVariables(x))
+            ) : this.formBuilder.array([]),
            
         });
     }
@@ -178,12 +182,8 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
 
     addTestVariable() {
         let testVariableItem : TestVariableDto = new TestVariableDto();
-        if(!this.testMasterInput.testVariables){
-            this.testMasterInput.testVariables = [];
-        }
-        this.testMasterInput.testVariables.push(testVariableItem);
-        // let testVariableForm = this.createTestVariables(testVariableItem);
-        // this.testVariables.push(testVariableForm);
+        let testVariableForm = this.createTestVariables(testVariableItem);
+        this.testVariables.push(testVariableForm);
     }
 
 
