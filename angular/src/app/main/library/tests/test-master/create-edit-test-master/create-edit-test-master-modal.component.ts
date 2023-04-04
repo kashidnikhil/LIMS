@@ -198,10 +198,14 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
     }
 
     onSubApplicationSelect(subApplicationId : string){
-        let subApplication = this.subApplicationList.find(x=> x.id == subApplicationId);
-        let subApplicationItem : TestSubApplicationDto = new TestSubApplicationDto({id : "",isMOEF : false, isNABL : false, name: subApplication.name,subApplicationId : subApplicationId,testId: "" });
-        let subApplicationForm = this.createTestSubApplications(subApplicationItem);
-        this.testSubApplications.push(subApplicationForm);
+        let tempSubApplicationList = this.testSubApplications.value;
+        let existingSubApplicationItem = tempSubApplicationList.some( item => item.subApplicationId ==  subApplicationId);
+        if(!existingSubApplicationItem){
+            let subApplication = this.subApplicationList.find(x=> x.id == subApplicationId);
+            let subApplicationItem : TestSubApplicationDto = new TestSubApplicationDto({id : "",isMOEF : false, isNABL : false, name: subApplication.name,subApplicationId : subApplicationId,testId: "" });
+            let subApplicationForm = this.createTestSubApplications(subApplicationItem);
+            this.testSubApplications.push(subApplicationForm);
+        }
     }
 
     onExcelFileUpload(evt: any) {
