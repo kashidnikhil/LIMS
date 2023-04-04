@@ -158,7 +158,7 @@
                                 <label>{{"Worksheet" | localize}}</label>
                                 <select class="form-control" id="worksheetName" #worksheetName
                                     formControlName="worksheetName" name="worksheetName">
-                                    <option *ngFor="let sheet of currentUploadedExcelSheets" value="sheet.value">
+                                    <option *ngFor="let sheet of currentUploadedExcelSheets" value="{{sheet.value}}">
                                         {{sheet.title}}</option>
                                 </select>
                             </div>

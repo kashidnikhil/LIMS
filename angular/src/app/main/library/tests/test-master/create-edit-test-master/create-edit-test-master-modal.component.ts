@@ -223,7 +223,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
           if(tempSheetNameList.length > 0){
             this.currentUploadedExcelSheets = [];
             for ( let i: number = 0; i < tempSheetNameList.length ; i++){
-              let sheetItem = { title : tempSheetNameList[i], value : i};
+              let sheetItem = { title : tempSheetNameList[i], value : tempSheetNameList[i]};
               this.currentUploadedExcelSheets.push(sheetItem);
             }
           }
