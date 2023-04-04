@@ -143,11 +143,32 @@
             }
         }
 
-        public async Task<List<SubApplicationDto>> GetSubApplicationListFromDB(Guid applicationId)
+        public async Task<List<SubApplicationListDto>> GetSubApplicationsListFromDB()
         {
             try
             {
-                var subApplicationItems = await this._subApplicationsRepository.GetAll().Where(x=> x.ApplicationId == applicationId && !x.IsDeleted).ToListAsync();
+                var subApplicationQuery = this._subApplicationsRepository.GetAllIncluding(x => x.Application)
+                    .Where(x => !x.IsDeleted)
+                    .ToListAsync();
+
+               
+                return new List<SubApplicationListDto>(ObjectMapper.Map<List<SubApplicationListDto>>(subApplicationQuery));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+
+        }
+
+        public async Task<List<SubApplicationDto>> GetSubApplicationListFromDB(Guid? applicationId)
+        {
+            try
+            {
+                var subApplicationItems = await this._subApplicationsRepository.GetAll()
+                    .WhereIf(applicationId != null, item => item.ApplicationId == applicationId)
+                    .ToListAsync();
 
                 return ObjectMapper.Map <List<SubApplicationDto>> (subApplicationItems);
 

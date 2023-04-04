@@ -20,6 +20,7 @@
 
         Task<bool> RestoreSubApplication(Guid subApplicationId);
 
-        Task<List<SubApplicationDto>> GetSubApplicationListFromDB(Guid applicationId);
+        Task<List<SubApplicationDto>> GetSubApplicationListFromDB(Guid? applicationId);
+
     }
 }

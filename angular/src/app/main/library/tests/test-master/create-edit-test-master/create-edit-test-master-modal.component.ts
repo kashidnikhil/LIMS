@@ -1,8 +1,9 @@
-import { Component, Injector, ViewChild, ViewEncapsulation } from "@angular/core";
+import { Component, EventEmitter, Injector, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { AppComponentBase } from "@shared/common/app-component-base";
-import { ApplicationsDto, ApplicationsServiceProxy, SubApplicationDto, SubApplicationServiceProxy, TechniqueDto, TechniqueServiceProxy, TestMasterDto, TestMasterServiceProxy, TestSubApplicationDto, TestVariableDto, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
+import { ApplicationsDto, ApplicationsServiceProxy, SubApplicationDto, SubApplicationServiceProxy, TechniqueDto, TechniqueServiceProxy, TestMasterDto, TestMasterInputDto, TestMasterServiceProxy, TestSubApplicationDto, TestVariableDto, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { finalize } from "rxjs/operators";
 import * as XLSX from 'xlsx';
 
 export interface Product {
@@ -26,7 +27,7 @@ export interface Product {
 })
 export class CreateOrEditTestModalComponent extends AppComponentBase {
     @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
-
+    @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
     active = false;
     saving = false;
     editMode : boolean = false;
@@ -122,13 +123,13 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
             name: new FormControl(testItem.name, []),
             unitId: new FormControl(testItem.unitId, []),
             techniqueId: new FormControl(testItem.techniqueId, []),
-            isDefaultTechnique: new FormControl(testItem.isDefaultTechnique, []),
+            isDefaultTechnique: new FormControl(testItem.isDefaultTechnique ? testItem.isDefaultTechnique : false, []),
             applicationId: new FormControl(testItem.applicationId, []),
             method: new FormControl(testItem.method, []),
             methodDescription: new FormControl(testItem.methodDescription, []),
             worksheetName :  new FormControl(testItem.worksheetName, []),
-            isSC: new FormControl(testItem.isSC, []),
-            rate: new FormControl(testItem.rate, []),
+            isSC: new FormControl(testItem.isSC ? testItem.isSC : false, []),
+            rate: new FormControl(testItem.rate ? testItem.rate : 0.0, []),
             id: new FormControl(testItem.id, []),
             testSubApplications : testItem.id ?  this.formBuilder.array(
                 testItem.testSubApplications.map((x : TestSubApplicationDto) => 
@@ -304,6 +305,23 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
     }
 
     save() : void {
-
+        if(this.testMasterForm.valid){
+            let input = new TestMasterInputDto();
+            input = this.testMasterForm.value;
+            this.saving = true;
+           
+            this._testMasterService
+                .insertOrUpdateTest(input)
+                .pipe(
+                    finalize(() => {
+                        this.saving = false;
+                    })
+                )
+                .subscribe(() => {
+                    this.notify.info(this.l('SavedSuccessfully'));
+                    this.close();
+                    this.modalSave.emit(null);
+                });
+        }
     }
 }

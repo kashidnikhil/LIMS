@@ -66,7 +66,7 @@
 
         }
 
-        public async Task<List<SubApplicationDto>> GetSubApplicationList(Guid applicationId)
+        public async Task<List<SubApplicationDto>> GetSubApplicationList(Guid? applicationId)
         {
             try
             {
