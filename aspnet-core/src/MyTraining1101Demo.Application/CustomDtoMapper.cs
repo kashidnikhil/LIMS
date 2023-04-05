@@ -80,6 +80,7 @@ namespace MyTraining1101Demo
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestSubApplications;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestVariables;
+    using MyTraining1101Demo.LIMS.Shared;
 
     internal static class CustomDtoMapper
     {
@@ -293,6 +294,11 @@ namespace MyTraining1101Demo
 
             configuration.CreateMap<Test, TestMasterDto>()
                      .ReverseMap();
+
+            configuration.CreateMap<Test, DropdownDto>()
+                        .ForMember(dto => dto.Value, options => options.MapFrom(x => x.Id))
+                        .ForMember(dto => dto.Title, options => options.MapFrom(x => x.Name))
+                        .ReverseMap();
 
             configuration.CreateMap<TestVariable, TestVariableInputDto>()
                      .ReverseMap();

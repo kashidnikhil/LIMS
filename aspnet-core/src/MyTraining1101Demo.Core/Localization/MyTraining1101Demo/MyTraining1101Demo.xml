@@ -1323,6 +1323,7 @@
 	  <text name="Method">Method</text>
 	  <text name="MethodDescription">Method Description</text>
 	  <text name="SC">SC</text>
-	  
+	  <text name="CopyTestFrom">Copy Test From</text> 
+
   </texts>
 </localizationDictionary>

@@ -9,6 +9,8 @@
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerMasters;
+    using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -99,6 +101,24 @@
                 var testMasterItem = await this._testMasterRepository.GetAsync(testMasterId);
 
                 return ObjectMapper.Map<TestMasterDto>(testMasterItem);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<List<DropdownDto>> GetTesMasterListFromDB()
+        {
+            try
+            {
+                var testMasterItems = await this._testMasterRepository.GetAll()
+                    .Where(testMasterItem => !testMasterItem.IsDeleted)
+                    .ToListAsync();
+
+                return ObjectMapper.Map<List<DropdownDto>>(testMasterItems);
 
             }
             catch (Exception ex)

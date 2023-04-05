@@ -1,11 +1,14 @@
 ﻿namespace MyTraining1101Demo.LIMS.Library.Tests.TestMaster
 {
     using Abp.Application.Services.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestSubApplications;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestVariables;
+    using MyTraining1101Demo.LIMS.Shared;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class TestMasterAppService : MyTraining1101DemoAppServiceBase, ITestMasterAppService
@@ -107,6 +110,20 @@
                  }
 
                 return testMasterItem;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public async Task<List<DropdownDto>> GetTestMasterList()
+        {
+            try
+            {
+                var response = await this._testMasterManager.GetTesMasterListFromDB();
+                return response;
             }
             catch (Exception ex)
             {

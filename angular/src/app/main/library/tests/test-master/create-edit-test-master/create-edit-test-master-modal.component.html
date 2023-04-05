@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 row mb-4">
-                        <div class="col-md-8 row">
+                        <div class="col-md-5 row">
                             <div class="form-group mb-1">
                                 <label>{{"Technique" | localize}}</label>
                                 <select placeholder="Select Technique" class="form-control" #technique
@@ -46,7 +46,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label></label>
                                 <label class="form-check form-check-custom form-check-solid py-1 mt-2">
@@ -56,6 +56,22 @@
                                         {{ 'DefaultTechnique' | localize }}
                                     </span>
                                 </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>{{ 'CopyTestFrom' | localize }}</label>
+                                <p-autoComplete [(ngModel)]="selectedTestMaster" [ngModelOptions]="{standalone: true}" [suggestions]="filteredTestMasterList" (completeMethod)="filterTestMasterList($event)"
+                                field="title" [minLength]="1"></p-autoComplete>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary font-weight-bold mt-5"
+                                (click)="loadSelectedTestMasterData()">
+                                {{ 'Apply' | localize }}
+                            </button>
                             </div>
                         </div>
                     </div>
