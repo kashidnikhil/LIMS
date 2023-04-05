@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 row mb-4">
+                    <div class="col-md-12 row mb-4" *ngIf="testSubApplications.controls.length > 0">
                         <div class="col-md-7" formArrayName="testSubApplications">
                             <p-table [value]="testSubApplications.controls" styleClass="p-datatable-gridlines">
                                 <ng-template pTemplate="header">
