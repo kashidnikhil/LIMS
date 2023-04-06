@@ -65,6 +65,10 @@ import { RouterModule } from '@angular/router';
                         loadChildren: () => import('./library/tests/test-master/test-master.module').then(m => m.TestMasterModule)
                     },
                     {
+                        path: 'test-plans',
+                        loadChildren: () => import('./library/tests/test-plan/test-plan.module').then(m => m.TestPlanModule)
+                    },
+                    {
                         path: 'units',
                         loadChildren: () => import('./library/tests/units/units.module').then(m => m.UnitsModule)
                     },                  
