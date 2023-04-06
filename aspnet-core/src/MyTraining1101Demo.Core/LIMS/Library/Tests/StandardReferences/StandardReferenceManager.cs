@@ -1,4 +1,4 @@
-﻿namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReference
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReferences
 {
     using Abp.Application.Services.Dto;
     using Abp.Domain.Repositories;
@@ -8,7 +8,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using MyTraining1101Demo.Configuration;
-    using MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.StandardReferences.Dto;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;

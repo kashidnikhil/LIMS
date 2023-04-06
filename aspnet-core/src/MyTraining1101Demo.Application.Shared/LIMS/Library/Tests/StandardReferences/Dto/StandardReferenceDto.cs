@@ -1,4 +1,4 @@
-﻿namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReferences.Dto
 {
 
     using System;

@@ -1,12 +1,10 @@
 ﻿using Abp.Application.Services.Dto;
-using MyTraining1101Demo.LIMS.Library.Personnel.Dto;
-using MyTraining1101Demo.LIMS.Library.Personnel;
-using System.Threading.Tasks;
-using System;
-using MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto;
+using MyTraining1101Demo.LIMS.Library.Tests.StandardReferences.Dto;
 using MyTraining1101Demo.LIMS.Shared;
+using System;
+using System.Threading.Tasks;
 
-namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReference
+namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReferences
 {
     public class StandardReferenceAppService : MyTraining1101DemoAppServiceBase, IStandardReferenceAppService
     {

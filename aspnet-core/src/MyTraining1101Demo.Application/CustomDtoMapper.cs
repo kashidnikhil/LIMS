@@ -53,16 +53,21 @@ namespace MyTraining1101Demo
     using MyTraining1101Demo.LIMS.Library.Personnel.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Application;
     using MyTraining1101Demo.LIMS.Library.Tests.Application.Dto;
-    using MyTraining1101Demo.LIMS.Library.Tests.StandardReference;
-    using MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.StandardReferences;
+    using MyTraining1101Demo.LIMS.Library.Tests.StandardReferences.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark;
     using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.SubApplications;
     using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
-    using MyTraining1101Demo.LIMS.Library.Tests.Technique;
     using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
-    using MyTraining1101Demo.LIMS.Library.Tests.Units;
+    using MyTraining1101Demo.LIMS.Library.Tests.Techniques;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestSubApplications;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestVariables;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
     using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.Units;
+    using MyTraining1101Demo.LIMS.Shared;
     using MyTraining1101Demo.Localization.Dto;
     using MyTraining1101Demo.MultiTenancy;
     using MyTraining1101Demo.MultiTenancy.Dto;
@@ -75,12 +80,6 @@ namespace MyTraining1101Demo
     using MyTraining1101Demo.PhoneBook.Dto;
     using MyTraining1101Demo.Sessions.Dto;
     using MyTraining1101Demo.WebHooks.Dto;
-    using MyTraining1101Demo.LIMS.Library.Tests.Techniques;
-    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
-    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
-    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestSubApplications;
-    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestVariables;
-    using MyTraining1101Demo.LIMS.Shared;
 
     internal static class CustomDtoMapper
     {

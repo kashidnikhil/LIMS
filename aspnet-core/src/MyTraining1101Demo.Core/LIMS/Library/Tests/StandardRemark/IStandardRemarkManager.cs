@@ -2,7 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using Abp.Domain.Services;
-    using MyTraining1101Demo.LIMS.Library.Tests.StandardReference.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.StandardReferences.Dto;
 
     using System.Threading.Tasks;
 

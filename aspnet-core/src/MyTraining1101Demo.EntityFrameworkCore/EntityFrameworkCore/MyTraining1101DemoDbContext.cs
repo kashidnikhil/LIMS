@@ -15,7 +15,6 @@ using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax;
 using MyTraining1101Demo.LIMS.Library.Personnel;
 using MyTraining1101Demo.LIMS.Library.Tests.Application;
-using MyTraining1101Demo.LIMS.Library.Tests.StandardReference;
 using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark;
 using MyTraining1101Demo.LIMS.Library.Tests.SubApplications;
 using MyTraining1101Demo.LIMS.Library.Tests.Units;
@@ -26,6 +25,9 @@ using MyTraining1101Demo.PhoneBook;
 using MyTraining1101Demo.Storage;
 using MyTraining1101Demo.LIMS.Library.Tests.Techniques;
 using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
+using MyTraining1101Demo.LIMS.Library.Tests.StandardReferences;
+using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanMaster;
+using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanTestMasterMapping;
 
 namespace MyTraining1101Demo.EntityFrameworkCore
 {
@@ -91,6 +93,10 @@ namespace MyTraining1101Demo.EntityFrameworkCore
         public virtual DbSet<TestSubApplication> TestSubApplications { get; set; }
 
         public virtual DbSet<TestVariable> TestVariables { get; set; }
+
+        public virtual DbSet<TestPlan> TestPlans { get; set; }
+
+        public virtual DbSet<TestPlanTestMaster> TestPlanTestMasters { get; set; }
 
         public MyTraining1101DemoDbContext(DbContextOptions<MyTraining1101DemoDbContext> options)
             : base(options)

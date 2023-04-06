@@ -1,4 +1,4 @@
-﻿namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReference
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReferences
 {
     using Abp.Domain.Entities.Auditing;
     using System;
