@@ -182,6 +182,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
                 //It is to make new entry when an existing test is being newly copied
                 if (testMasterItem.testSubApplications && testMasterItem.testSubApplications.length > 0) {
                     testMasterItem.testSubApplications.forEach(subApplicationItem => {
+                        subApplicationItem.testId = null;
                         subApplicationItem.id = null;
                     });
                 }
@@ -189,6 +190,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
                 //It is to make new entry when an existing test is being newly copied
                 if (testMasterItem.testVariables && testMasterItem.testVariables.length > 0) {
                     testMasterItem.testVariables.forEach(testVariableItem => {
+                        testVariableItem.testId = null;
                         testVariableItem.id = null;
                     });
                 }
