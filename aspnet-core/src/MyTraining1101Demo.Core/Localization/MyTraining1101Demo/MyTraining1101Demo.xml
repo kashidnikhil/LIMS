@@ -1324,6 +1324,13 @@
 	  <text name="MethodDescription">Method Description</text>
 	  <text name="SC">SC</text>
 	  <text name="CopyTestFrom">Copy Test From</text> 
-
+	  
+	   <!-- Test section-->
+	  <text name="TestPlans">Test Plans</text>
+	  <text name="TestPlansHeaderInfo">Manage test plans.</text>
+	  <text name="CreateNewTestPlan">Create new test plan</text>
+	  <text name="EditTestPlan">Edit test plan</text>
+	  <text name="TestPlanDeleteWarningMessage">Test plan {0} will be deleted.</text>
+	 
   </texts>
 </localizationDictionary>

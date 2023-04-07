@@ -68,7 +68,7 @@ export class TestPlanListComponent extends AppComponentBase implements AfterView
     }
 
     deleteTestMaster(testPlanItem: TestPlanMasterDto): void {
-        this.message.confirm(this.l('TestDeleteWarningMessage', testPlanItem.name), this.l('AreYouSure'), (isConfirmed) => {
+        this.message.confirm(this.l('TestPlanDeleteWarningMessage', testPlanItem.name), this.l('AreYouSure'), (isConfirmed) => {
             if (isConfirmed) {
                 this._testPlanService.deleteTestPlanMasterData(testPlanItem.id).subscribe(() => {
                     this.reloadPage();

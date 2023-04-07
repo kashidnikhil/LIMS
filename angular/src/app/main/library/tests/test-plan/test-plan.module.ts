@@ -5,9 +5,11 @@ import { TestPlanRoutingModule } from "./test-plan-routing.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FileUploadModule as PrimeNgFileUploadModule } from 'primeng/fileupload';
 import { TestPlanListComponent } from "./test-plan-list/test-plan-list.component";
+import { CreateOrEditTestPlanModalComponent } from "./create-edit-test-plan/create-edit-test-plan-modal.component";
 @NgModule({
     declarations: [
-        TestPlanListComponent
+        TestPlanListComponent,
+        CreateOrEditTestPlanModalComponent
     ],
     imports: [
         AppSharedModule,  

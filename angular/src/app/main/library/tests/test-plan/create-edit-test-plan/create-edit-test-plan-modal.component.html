@@ -1,0 +1,144 @@
+<div appBsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade create-or-edit-user-modal"
+    tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true"
+    [config]="{ backdrop: 'static', keyboard: !saving }">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" [formGroup]="testMasterForm" novalidate (ngSubmit)="save()">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="editMode">{{ 'EditTestPlan' | localize }}:</span>
+                        <span *ngIf="!editMode">{{ 'TestPlanDeleteWarningMessage' | localize }}</span>
+                    </h4>
+                    <button type="button" class="btn-close" (click)="close()" [attr.aria-label]="l('Close')"
+                        [disabled]="saving">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-8 row">
+                            <div class="form-group mb-1">
+                                <label>{{"Name" | localize}}</label>
+                                <input #nameInput id="name" class="form-control" type="text" formControlName="name"
+                                    name="name" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label></label>
+                                <label class="form-check form-check-custom form-check-solid py-1 mt-2">
+                                    <input id="isDefaultTechnique" type="checkbox" name="isDefaultTechnique"
+                                        class="form-check-input btn-danger" formControlName="isDefaultTechnique" />
+                                    <span class="form-check-label">
+                                        {{ 'DefaultTechnique' | localize }}
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>{{ 'CopyTestFrom' | localize }}</label>
+                                <p-autoComplete [(ngModel)]="selectedTestMaster" [ngModelOptions]="{standalone: true}" [suggestions]="filteredTestMasterList" (completeMethod)="filterTestMasterList($event)"
+                                field="title" [minLength]="1"></p-autoComplete>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary font-weight-bold mt-5"
+                                (click)="loadSelectedTestMasterData()">
+                                {{ 'Apply' | localize }}
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-5 row">
+                            <div class="form-group mb-1">
+                                <label>{{"Application" | localize}}</label>
+                                <select placeholder="Select Application" class="form-control" #application
+                                    formControlName="applicationId" id="applicationId" name="applicationId">
+                                    <!-- (change)="onApplicationSelect($event.target.value)" -->
+                                    <option *ngFor="let applicationItem of applicationList"
+                                        value="{{ applicationItem.id }}">
+                                        {{ applicationItem.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label>{{"Method" | localize}}</label>
+                                <input #methodInput id="method" class="form-control" type="text"
+                                    formControlName="method" name="method" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>{{"MethodDescription" | localize}}</label>
+                                <input #methodDescriptionInput id="methodDescription" class="form-control" type="text"
+                                    formControlName="methodDescription" name="methodDescription" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mb-4" *ngIf="testSubApplications.controls.length > 0">
+                        <div class="col-md-7" formArrayName="testSubApplications">
+                            <p-table [value]="testSubApplications.controls" styleClass="p-datatable-gridlines">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th class="text-center">Sub Application</th>
+                                        <th class="text-center">NABL</th>
+                                        <th class="text-center">MOEF</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-testSubApplication let-rowIndex="rowIndex">
+                                    <tr [formGroupName]="rowIndex">
+                                        <td class="text-center"> <label>{{testSubApplication.value.subApplicationName}}</label></td>
+                                        <td class="text-center"> <input type="radio" name="rowIndex" (change)="testSubApplication.value.isNABL = true" [checked]="testSubApplication.value.isNABL == true" [value]="testSubApplication.value.isNABL"></td>
+                                        <td class="text-center"> <input type="radio" name="rowIndex" (change)="testSubApplication.value.isMOEF = true" [checked]="testSubApplication.value.isMOEF == true" [value]="testSubApplication.value.isMOEF" ></td>
+                                    </tr>
+                                </ng-template>
+                                <!-- <ng-template pTemplate="summary"> Footer </ng-template> -->
+                            </p-table>
+                        </div>
+                    </div>
+                    <div class="col-md-12 row mb-4">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label></label>
+                                <label class="form-check form-check-custom form-check-solid py-1 mt-2">
+                                    <input id="isSC" type="checkbox" name="isSC" class="form-check-input btn-danger"
+                                        formControlName="isSC" />
+                                    <span class="form-check-label">
+                                        {{ 'SC' | localize }}
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group mb-1">
+                                <label>{{"Rate" | localize}}</label>
+                                <input #rateInput id="rate" class="form-control" type="number" formControlName="rate"
+                                    name="rate" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-light-primary font-weight-bold"
+                        (click)="close()">
+                        {{ 'Cancel' | localize }}
+                    </button>
+                    <button type="submit" class="btn btn-primary font-weight-bold" [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-save"></i>
+                        <span>{{ 'Save' | localize }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

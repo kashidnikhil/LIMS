@@ -1,6 +1,6 @@
 <div [@routerTransition]>
     <div class="content d-flex flex-column flex-column-fluid">
-        <sub-header [title]="'Tests' | localize" [description]="'TestsHeaderInfo' | localize">
+        <sub-header [title]="'TestPlans' | localize" [description]="'TestPlansHeaderInfo' | localize">
             <div role="actions">
                 <button
                     (click)="createCustomer()"
@@ -8,7 +8,7 @@
                 >
                 <!-- *ngIf="'Pages.Administration.Users.Create' | permission" -->
                     <i class="fa fa-plus"></i>
-                    {{ 'CreateNewTest' | localize }}
+                    {{ 'CreateNewTestPlan' | localize }}
                 </button>
             </div>
         </sub-header>
@@ -193,6 +193,6 @@
                 </div>
             </div>
         </div>
-        <!-- <create-edit-test-modal #createOrEditTestPlanModal (modalSave)="getTestPlans()"></create-edit-test-modal> -->
+        <!-- <create-edit-test-plan-modal #createOrEditTestPlanModal (modalSave)="getTestPlans()"></create-edit-test-plan-modal> -->
     </div>
 </div>
