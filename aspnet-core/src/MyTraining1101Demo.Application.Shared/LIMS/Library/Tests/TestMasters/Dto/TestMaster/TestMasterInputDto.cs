@@ -1,11 +1,10 @@
-﻿using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
-using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestSubApplications;
-using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestVariables;
-using System;
-using System.Collections.Generic;
-
-namespace MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster
 {
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestSubApplications;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestVariables;
+    using System;
+    using System.Collections.Generic;
+
     public class TestMasterInputDto
     {
         public Guid? Id { get; set; }

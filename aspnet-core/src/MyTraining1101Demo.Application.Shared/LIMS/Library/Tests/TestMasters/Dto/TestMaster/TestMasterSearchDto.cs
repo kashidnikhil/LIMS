@@ -1,4 +1,4 @@
-﻿namespace MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster
 {
     using Abp.Runtime.Validation;
     using MyTraining1101Demo.Dto;

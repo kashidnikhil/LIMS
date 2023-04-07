@@ -3,6 +3,7 @@
     using Abp.Application.Services.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestSubApplications;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestVariables;

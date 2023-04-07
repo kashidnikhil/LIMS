@@ -2,6 +2,7 @@
 {
     using Abp.Application.Services.Dto;
     using Abp.Domain.Services;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;

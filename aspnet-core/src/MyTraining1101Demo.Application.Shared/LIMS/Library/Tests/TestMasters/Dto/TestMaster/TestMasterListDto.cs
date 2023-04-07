@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster
 {
+    using System;
+
     public class TestMasterListDto
     {
         public Guid Id { get; set; }

@@ -1,11 +1,9 @@
-﻿namespace MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster
 {
-    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerPOs;
-    using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto;
-    using System;
-    using System.Collections.Generic;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestSubApplications;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestVariables;
+    using System;
+    using System.Collections.Generic;
 
     public class TestMasterDto
     {

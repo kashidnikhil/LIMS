@@ -10,6 +10,7 @@
     using MyTraining1101Demo.Configuration;
     using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster.Dto.CustomerMasters;
     using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
     using System.Collections.Generic;

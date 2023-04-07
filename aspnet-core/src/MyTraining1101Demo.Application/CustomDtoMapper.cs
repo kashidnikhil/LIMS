@@ -62,6 +62,7 @@ namespace MyTraining1101Demo
     using MyTraining1101Demo.LIMS.Library.Tests.Technique.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Techniques;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestSubApplications;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestVariables;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
