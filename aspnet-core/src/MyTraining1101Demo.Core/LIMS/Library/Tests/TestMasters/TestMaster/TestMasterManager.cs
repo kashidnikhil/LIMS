@@ -128,5 +128,23 @@
                 throw ex;
             }
         }
+
+        public async Task<List<TestMasterDto>> GetTestListFromDB()
+        {
+            try
+            {
+                var testMasterItems = await this._testMasterRepository.GetAll()
+                    .Where(testMasterItem => !testMasterItem.IsDeleted)
+                    .ToListAsync();
+
+                return ObjectMapper.Map<List<TestMasterDto>>(testMasterItems);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
     }
 }

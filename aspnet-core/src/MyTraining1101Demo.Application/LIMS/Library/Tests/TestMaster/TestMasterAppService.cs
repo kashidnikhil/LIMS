@@ -132,5 +132,19 @@
                 throw ex;
             }
         }
+
+        public async Task<List<TestMasterDto>> GetTestList()
+        {
+            try
+            {
+                var response = await this._testMasterManager.GetTestListFromDB();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
     }
 }

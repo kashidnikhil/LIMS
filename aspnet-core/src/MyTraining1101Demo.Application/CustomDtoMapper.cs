@@ -65,7 +65,10 @@ namespace MyTraining1101Demo
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestSubApplications;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestVariables;
-    using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.Dto.TestPlanMaster;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.Dto.TestPlanTestMaster;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanMaster;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanTestMasters;
     using MyTraining1101Demo.LIMS.Library.Tests.Unit.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.Units;
     using MyTraining1101Demo.LIMS.Shared;
@@ -311,6 +314,18 @@ namespace MyTraining1101Demo
                   .ForMember(dto => dto.TechniqueName, options => options.MapFrom(x => x.Technique.Name))
                   .ForMember(dto => dto.UnitName, options => options.MapFrom(x => x.Unit.Name))
                   .ReverseMap();
+
+            configuration.CreateMap<TestPlan, TestPlanMasterInputDto>()
+                      .ReverseMap();
+
+            configuration.CreateMap<TestPlan, TestPlanMasterDto>()
+                     .ReverseMap();
+
+            configuration.CreateMap<TestPlanTestMaster, TestPlanTestMasterInputDto>()
+                     .ReverseMap();
+
+            configuration.CreateMap<TestPlanTestMaster, TestPlanTestMasterDto>()
+                     .ReverseMap();
 
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
         }

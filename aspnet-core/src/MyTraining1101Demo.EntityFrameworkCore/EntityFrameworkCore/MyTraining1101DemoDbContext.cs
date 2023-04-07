@@ -8,26 +8,26 @@ using MyTraining1101Demo.Chat;
 using MyTraining1101Demo.Editions;
 using MyTraining1101Demo.Friendships;
 using MyTraining1101Demo.LIMS.Library.Container;
-using MyTraining1101Demo.LIMS.Library.Customers.Source;
 using MyTraining1101Demo.LIMS.Library.Customers.CustomerMaster;
+using MyTraining1101Demo.LIMS.Library.Customers.Source;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Bank;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Charges;
 using MyTraining1101Demo.LIMS.Library.InvoiceReceipt.Tax;
 using MyTraining1101Demo.LIMS.Library.Personnel;
 using MyTraining1101Demo.LIMS.Library.Tests.Application;
+using MyTraining1101Demo.LIMS.Library.Tests.StandardReferences;
 using MyTraining1101Demo.LIMS.Library.Tests.StandardRemark;
 using MyTraining1101Demo.LIMS.Library.Tests.SubApplications;
+using MyTraining1101Demo.LIMS.Library.Tests.Techniques;
+using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
+using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanMaster;
+using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanTestMasters;
 using MyTraining1101Demo.LIMS.Library.Tests.Units;
 using MyTraining1101Demo.MultiTenancy;
 using MyTraining1101Demo.MultiTenancy.Accounting;
 using MyTraining1101Demo.MultiTenancy.Payments;
 using MyTraining1101Demo.PhoneBook;
 using MyTraining1101Demo.Storage;
-using MyTraining1101Demo.LIMS.Library.Tests.Techniques;
-using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
-using MyTraining1101Demo.LIMS.Library.Tests.StandardReferences;
-using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanMaster;
-using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanTestMasterMapping;
 
 namespace MyTraining1101Demo.EntityFrameworkCore
 {

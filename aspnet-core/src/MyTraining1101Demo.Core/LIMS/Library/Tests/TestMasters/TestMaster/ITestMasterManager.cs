@@ -19,5 +19,7 @@
         Task<TestMasterDto> GetTestMasterByIdFromDB(Guid testMasterId);
 
         Task<List<DropdownDto>> GetTesMasterListFromDB();
+
+        Task<List<TestMasterDto>> GetTestListFromDB();
     }
 }
