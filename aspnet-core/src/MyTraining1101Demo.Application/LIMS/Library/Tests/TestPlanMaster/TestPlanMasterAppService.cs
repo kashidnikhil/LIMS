@@ -1,19 +1,13 @@
-﻿using Abp.Application.Services.Dto;
-using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster;
-using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
-using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestSubApplications;
-using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestVariables;
-using MyTraining1101Demo.LIMS.Library.Tests.TestPlans;
-using MyTraining1101Demo.LIMS.Shared;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
-using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanMaster;
-using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanTestMasters;
-using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.Dto.TestPlanMaster;
-
-namespace MyTraining1101Demo.LIMS.Library.Tests.TestPlanMaster
+﻿namespace MyTraining1101Demo.LIMS.Library.Tests.TestPlanMaster
 {
+    using Abp.Application.Services.Dto;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestPlans;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.Dto.TestPlanMaster;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanMaster;
+    using MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanTestMasters;
+    using System;
+    using System.Threading.Tasks;
+
     public class TestPlanMasterAppService : MyTraining1101DemoAppServiceBase, ITestPlanMasterAppService
     {
         private readonly ITestPlanMasterManager _testPlanMasterManager;
@@ -99,7 +93,7 @@ namespace MyTraining1101Demo.LIMS.Library.Tests.TestPlanMaster
 
                 if (testPlanMasterItem.Id != Guid.Empty)
                 {
-                    testPlanMasterItem.TestPlanTestMasterList = await this._testPlanTestMasterManager.GetTestPlanTestMasterListFromDB(testPlanMasterItem.Id);
+                    testPlanMasterItem.TestPlanTestMasters = await this._testPlanTestMasterManager.GetTestPlanTestMasterListFromDB(testPlanMasterItem.Id);
                 }
 
                 return testPlanMasterItem;

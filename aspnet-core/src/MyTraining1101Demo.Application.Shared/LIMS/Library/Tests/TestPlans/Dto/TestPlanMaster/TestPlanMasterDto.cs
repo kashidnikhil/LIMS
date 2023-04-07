@@ -10,7 +10,7 @@
         public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public IList<TestPlanTestMasterDto> TestPlanTestMasterList { get; set; } 
+        public IList<TestPlanTestMasterDto> TestPlanTestMasters { get; set; } 
 
         public virtual Guid? ApplicationsId { get; set; }
 
