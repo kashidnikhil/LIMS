@@ -244,6 +244,16 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
         this.testVariables.push(testVariableForm);
     }
 
+    deleteSubApplicationItem(indexValue: number){
+        const testSubApplicationArray = this.testSubApplications;
+        testSubApplicationArray.removeAt(indexValue);
+    }
+
+    deleteTestVariableItem(indexValue: number){
+        const testVariableArray = this.testVariables;
+        testVariableArray.removeAt(indexValue);
+    }
+
 
     async onApplicationSelect(applicationId: string) {
         this.subApplicationList = [];
