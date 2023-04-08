@@ -3,11 +3,11 @@
     [config]="{ backdrop: 'static', keyboard: !saving }">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form *ngIf="active" [formGroup]="testMasterForm" novalidate (ngSubmit)="save()">
+            <form *ngIf="active && testPlanMasterForm" [formGroup]="testPlanMasterForm" novalidate (ngSubmit)="save()">
                 <div class="modal-header">
                     <h4 class="modal-title">
                         <span *ngIf="editMode">{{ 'EditTestPlan' | localize }}:</span>
-                        <span *ngIf="!editMode">{{ 'TestPlanDeleteWarningMessage' | localize }}</span>
+                        <span *ngIf="!editMode">{{ 'CreateNewTestPlan' | localize }}</span>
                     </h4>
                     <button type="button" class="btn-close" (click)="close()" [attr.aria-label]="l('Close')"
                         [disabled]="saving">
@@ -38,16 +38,15 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>{{ 'CopyTestFrom' | localize }}</label>
+                                <label>{{ 'Test' | localize }}</label>
                                 <p-autoComplete [(ngModel)]="selectedTestMaster" [ngModelOptions]="{standalone: true}" [suggestions]="filteredTestMasterList" (completeMethod)="filterTestMasterList($event)"
-                                field="title" [minLength]="1"></p-autoComplete>
+                                field="name" [minLength]="1"></p-autoComplete>
                             </div>
                         </div>
                         
                         <div class="col-md-1">
                             <div class="form-group">
-                                <button type="button" class="btn btn-primary font-weight-bold mt-5"
-                                (click)="loadSelectedTestMasterData()">
+                                <button type="button" class="btn btn-primary font-weight-bold mt-5">
                                 {{ 'Apply' | localize }}
                             </button>
                             </div>
@@ -75,18 +74,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 row mb-4">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label>{{"MethodDescription" | localize}}</label>
-                                <input #methodDescriptionInput id="methodDescription" class="form-control" type="text"
-                                    formControlName="methodDescription" name="methodDescription" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 row mb-4" *ngIf="testSubApplications.controls.length > 0">
-                        <div class="col-md-7" formArrayName="testSubApplications">
-                            <p-table [value]="testSubApplications.controls" styleClass="p-datatable-gridlines">
+                    <div class="col-md-12 row mb-4" *ngIf="testPlanTestMasters.controls.length > 0">
+                        <div class="col-md-7" formArrayName="testPlanTestMasters">
+                            <p-table [value]="testPlanTestMasters.controls" styleClass="p-datatable-gridlines">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th class="text-center">Sub Application</th>
@@ -103,27 +93,6 @@
                                 </ng-template>
                                 <!-- <ng-template pTemplate="summary"> Footer </ng-template> -->
                             </p-table>
-                        </div>
-                    </div>
-                    <div class="col-md-12 row mb-4">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label></label>
-                                <label class="form-check form-check-custom form-check-solid py-1 mt-2">
-                                    <input id="isSC" type="checkbox" name="isSC" class="form-check-input btn-danger"
-                                        formControlName="isSC" />
-                                    <span class="form-check-label">
-                                        {{ 'SC' | localize }}
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group mb-1">
-                                <label>{{"Rate" | localize}}</label>
-                                <input #rateInput id="rate" class="form-control" type="number" formControlName="rate"
-                                    name="rate" />
-                            </div>
                         </div>
                     </div>
                 </div>

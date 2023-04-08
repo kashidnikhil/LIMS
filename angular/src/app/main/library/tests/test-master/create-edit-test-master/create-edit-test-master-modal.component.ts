@@ -6,18 +6,6 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from "rxjs/operators";
 import * as XLSX from 'xlsx';
 
-export interface Product {
-    id?: string;
-    code?: string;
-    name?: string;
-    description?: string;
-    price?: number;
-    quantity?: number;
-    inventoryStatus?: string;
-    category?: string;
-    image?: string;
-    rating?: number;
-}
 
 @Component({
     selector: 'create-edit-test-modal',
@@ -46,9 +34,7 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
     worksheetList: any = [];
     currentWorkBook: XLSX.WorkBook = { SheetNames: [], Sheets: {} };
     currentUploadedExcelSheets: any[] = []; // this variable should only have an array of title value pair. Where title would be a sheet name and vlaue should be indexNumber of the sheet.
-    products: Product[];
-
-
+   
     constructor(
         injector: Injector,
         private _testMasterService: TestMasterServiceProxy,
@@ -65,7 +51,6 @@ export class CreateOrEditTestModalComponent extends AppComponentBase {
     async show(testMasterId?: string) {
         this.currentUploadedExcelSheets = [];
         await this.loadDropdownList();
-        this.products = this.getProductsData();
         if (!testMasterId) {
             let testMasterItem: TestMasterDto = new TestMasterDto();
             this.initialiseTestMasterForm(testMasterItem);

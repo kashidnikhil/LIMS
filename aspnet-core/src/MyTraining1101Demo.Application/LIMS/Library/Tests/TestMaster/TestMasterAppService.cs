@@ -1,7 +1,6 @@
 ﻿namespace MyTraining1101Demo.LIMS.Library.Tests.TestMaster
 {
     using Abp.Application.Services.Dto;
-    using MyTraining1101Demo.LIMS.Library.Tests.SubApplications.Dto;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.Dto.TestMaster;
     using MyTraining1101Demo.LIMS.Library.Tests.TestMasters.TestMaster;
@@ -133,7 +132,7 @@
             }
         }
 
-        public async Task<List<TestMasterDto>> GetTestList()
+        public async Task<List<TestMasterListDto>> GetTestList()
         {
             try
             {

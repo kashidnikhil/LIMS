@@ -15934,7 +15934,7 @@ export class TestMasterServiceProxy {
     /**
      * @return Success
      */
-    getTestList(): Observable<TestMasterDto[]> {
+    getTestList(): Observable<TestMasterListDto[]> {
         let url_ = this.baseUrl + "/api/services/app/TestMaster/GetTestList";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -15953,14 +15953,14 @@ export class TestMasterServiceProxy {
                 try {
                     return this.processGetTestList(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<TestMasterDto[]>;
+                    return _observableThrow(e) as any as Observable<TestMasterListDto[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<TestMasterDto[]>;
+                return _observableThrow(response_) as any as Observable<TestMasterListDto[]>;
         }));
     }
 
-    protected processGetTestList(response: HttpResponseBase): Observable<TestMasterDto[]> {
+    protected processGetTestList(response: HttpResponseBase): Observable<TestMasterListDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -15974,7 +15974,7 @@ export class TestMasterServiceProxy {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(TestMasterDto.fromJS(item));
+                    result200!.push(TestMasterListDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -15986,7 +15986,7 @@ export class TestMasterServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<TestMasterDto[]>(null as any);
+        return _observableOf<TestMasterListDto[]>(null as any);
     }
 }
 
@@ -34551,7 +34551,7 @@ export interface ITestMasterListDto {
 export class TestPlanMasterDto implements ITestPlanMasterDto {
     id!: string;
     name!: string | undefined;
-    testPlanTestMasterList!: TestPlanTestMasterDto[] | undefined;
+    testPlanTestMasters!: TestPlanTestMasterDto[] | undefined;
     applicationsId!: string | undefined;
     standardReferenceId!: string | undefined;
     creationTime!: DateTime;
@@ -34569,10 +34569,10 @@ export class TestPlanMasterDto implements ITestPlanMasterDto {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
-            if (Array.isArray(_data["testPlanTestMasterList"])) {
-                this.testPlanTestMasterList = [] as any;
-                for (let item of _data["testPlanTestMasterList"])
-                    this.testPlanTestMasterList!.push(TestPlanTestMasterDto.fromJS(item));
+            if (Array.isArray(_data["testPlanTestMasters"])) {
+                this.testPlanTestMasters = [] as any;
+                for (let item of _data["testPlanTestMasters"])
+                    this.testPlanTestMasters!.push(TestPlanTestMasterDto.fromJS(item));
             }
             this.applicationsId = _data["applicationsId"];
             this.standardReferenceId = _data["standardReferenceId"];
@@ -34591,10 +34591,10 @@ export class TestPlanMasterDto implements ITestPlanMasterDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
-        if (Array.isArray(this.testPlanTestMasterList)) {
-            data["testPlanTestMasterList"] = [];
-            for (let item of this.testPlanTestMasterList)
-                data["testPlanTestMasterList"].push(item.toJSON());
+        if (Array.isArray(this.testPlanTestMasters)) {
+            data["testPlanTestMasters"] = [];
+            for (let item of this.testPlanTestMasters)
+                data["testPlanTestMasters"].push(item.toJSON());
         }
         data["applicationsId"] = this.applicationsId;
         data["standardReferenceId"] = this.standardReferenceId;
@@ -34606,7 +34606,7 @@ export class TestPlanMasterDto implements ITestPlanMasterDto {
 export interface ITestPlanMasterDto {
     id: string;
     name: string | undefined;
-    testPlanTestMasterList: TestPlanTestMasterDto[] | undefined;
+    testPlanTestMasters: TestPlanTestMasterDto[] | undefined;
     applicationsId: string | undefined;
     standardReferenceId: string | undefined;
     creationTime: DateTime;

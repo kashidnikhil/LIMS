@@ -20,6 +20,6 @@
 
         Task<List<DropdownDto>> GetTesMasterListFromDB();
 
-        Task<List<TestMasterDto>> GetTestListFromDB();
+        Task<List<TestMasterListDto>> GetTestListFromDB();
     }
 }

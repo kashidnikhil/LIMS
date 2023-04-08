@@ -1,22 +1,9 @@
 import { Component, EventEmitter, Injector, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { AppComponentBase } from "@shared/common/app-component-base";
-import { ApplicationsDto, ApplicationsServiceProxy, DropdownDto, SubApplicationDto, SubApplicationServiceProxy, TechniqueDto, TechniqueServiceProxy, TestMasterDto, TestMasterInputDto, TestMasterServiceProxy, TestSubApplicationDto, TestVariableDto, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
+import { ApplicationsDto, ApplicationsServiceProxy, DropdownDto, TestMasterDto, TestMasterInputDto, TestMasterListDto, TestMasterServiceProxy, TestPlanMasterDto, TestPlanMasterInputDto, TestPlanMasterServiceProxy, TestPlanTestMasterDto, TestPlanTestMasterInputDto, TestSubApplicationDto, TestVariableDto, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from "rxjs/operators";
-
-export interface Product {
-    id?: string;
-    code?: string;
-    name?: string;
-    description?: string;
-    price?: number;
-    quantity?: number;
-    inventoryStatus?: string;
-    category?: string;
-    image?: string;
-    rating?: number;
-}
 
 @Component({
     selector: 'create-edit-test-plan-modal',
@@ -30,18 +17,17 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
     active = false;
     saving = false;
     editMode: boolean = false;
-    testMasterForm!: FormGroup;
-    testMasterList: DropdownDto[] = [];
-    filteredTestMasterList: DropdownDto[] = [];
-    selectedTestMaster: DropdownDto;
+    testPlanMasterForm!: FormGroup;
+    testMasterList: TestMasterListDto[] = [];
+    filteredTestMasterList: TestMasterListDto[] = [];
+    selectedTestMaster: TestMasterListDto;
 
     applicationList: ApplicationsDto[] = [];
     testMasterInput: TestMasterDto = new TestMasterDto();
 
-
-
     constructor(
         injector: Injector,
+        private _testPlanMasterService: TestPlanMasterServiceProxy,
         private _testMasterService: TestMasterServiceProxy,
         private _applicationService: ApplicationsServiceProxy,
         private formBuilder: FormBuilder
@@ -50,17 +36,17 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
     }
 
 
-    async show(testMasterId?: string) {
+    async show(testPlanMasterId?: string) {
         await this.loadDropdownList();
-        if (!testMasterId) {
-            let testMasterItem: TestMasterDto = new TestMasterDto();
-            this.initialiseTestMasterForm(testMasterItem);
+        if (!testPlanMasterId) {
+            let testMasterItem: TestPlanMasterDto = new TestPlanMasterDto();
+            this.initialiseTestPlanMasterForm(testMasterItem);
             this.editMode = false;
             this.active = true;
             this.modal.show();
         }
         else {
-            this.loadTestMasterData(testMasterId, false);
+            this.loadTestMasterData(testPlanMasterId);
             this.editMode = true;
             this.active = true;
             this.modal.show();
@@ -83,21 +69,21 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
     }
 
     async loadTestMasterList() {
-        let testMasterList = await this._testMasterService.getTestMasterList().toPromise();
+        let testMasterList = await this._testMasterService.getTestList().toPromise();
         if (testMasterList.length > 0) {
             this.testMasterList = [];
-            testMasterList.forEach((testMasterItem: DropdownDto) => {
+            testMasterList.forEach((testMasterItem: TestMasterListDto) => {
                 this.testMasterList.push(testMasterItem);
             });
         }
     }
 
     filterTestMasterList(event) {
-        let filtered: DropdownDto[] = [];
+        let filtered: TestMasterListDto[] = [];
         let query = event.query;
         for (let i = 0; i < this.testMasterList.length; i++) {
             let testMasterItem = this.testMasterList[i];
-            if (testMasterItem.title.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            if (testMasterItem.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
                 filtered.push(testMasterItem);
             }
         }
@@ -105,77 +91,38 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
         this.filteredTestMasterList = filtered;
     }
 
-    initialiseTestMasterForm(testItem: TestMasterDto) {
-        this.testMasterForm = this.formBuilder.group({
-            name: new FormControl(testItem.name, []),
-            unitId: new FormControl(testItem.unitId, []),
-            techniqueId: new FormControl(testItem.techniqueId, []),
-            isDefaultTechnique: new FormControl(testItem.isDefaultTechnique ? testItem.isDefaultTechnique : false, []),
-            applicationId: new FormControl(testItem.applicationId, []),
-            method: new FormControl(testItem.method, []),
-            methodDescription: new FormControl(testItem.methodDescription, []),
-            worksheetName: new FormControl(testItem.worksheetName, []),
-            isSC: new FormControl(testItem.isSC ? testItem.isSC : false, []),
-            rate: new FormControl(testItem.rate ? testItem.rate : 0.0, []),
-            id: new FormControl(testItem.id, []),
-            testSubApplications: testItem.testSubApplications && testItem.testSubApplications.length > 0 ? this.formBuilder.array(
-                testItem.testSubApplications.map((x: TestSubApplicationDto) =>
-                    this.createTestSubApplications(x))
-            ) : this.formBuilder.array([]),
-            testVariables: testItem.testVariables && testItem.testVariables.length > 0 ? this.formBuilder.array(
-                testItem.testVariables.map((x: TestVariableDto) =>
-                    this.createTestVariables(x))
-            ) : this.formBuilder.array([]),
-
+    initialiseTestPlanMasterForm(testPlanItem: TestPlanMasterDto) {
+        this.testPlanMasterForm = this.formBuilder.group({
+            id: new FormControl(testPlanItem.id, []),
+            name: new FormControl(testPlanItem.name, []),
+            applicationsId: new FormControl(testPlanItem.applicationsId, []),
+            standardReferenceId : new FormControl(testPlanItem.standardReferenceId, []),
+            testPlanTestMasters: testPlanItem.testPlanTestMasters && testPlanItem.testPlanTestMasters.length > 0 ? this.formBuilder.array(
+                testPlanItem.testPlanTestMasters.map((x: TestPlanTestMasterDto) =>
+                    this.createTestMasters(x))
+            ) : this.formBuilder.array([])
         });
     }
 
-    loadSelectedTestMasterData() {
-        if (this.selectedTestMaster.value) {
-            this.loadTestMasterData(this.selectedTestMaster.value, true);
-            this.selectedTestMaster = new DropdownDto();
-        }
-    }
-
-    loadTestMasterData(testMasterId: string, isTestDataCopied: boolean) {
-        this._testMasterService.getTestMasterById(testMasterId).subscribe((response: TestMasterDto) => {
-            let testMasterItem = response;
-            if (isTestDataCopied) {
-                testMasterItem.id = null;
-
-                //It is to make new entry when an existing test is being newly copied
-                if (testMasterItem.testSubApplications && testMasterItem.testSubApplications.length > 0) {
-                    testMasterItem.testSubApplications.forEach(subApplicationItem => {
-                        subApplicationItem.testId = null;
-                        subApplicationItem.id = null;
-                    });
-                }
-
-                //It is to make new entry when an existing test is being newly copied
-                if (testMasterItem.testVariables && testMasterItem.testVariables.length > 0) {
-                    testMasterItem.testVariables.forEach(testVariableItem => {
-                        testVariableItem.testId = null;
-                        testVariableItem.id = null;
-                    });
-                }
-            }
-            this.initialiseTestMasterForm(testMasterItem);
-
+    loadTestMasterData(testPlanMasterId: string) {
+        this._testPlanMasterService.getTestPlanMasterById(testPlanMasterId).subscribe((response: TestPlanMasterDto) => {
+            let testPlanMasterItem = response;
+            this.initialiseTestPlanMasterForm(testPlanMasterItem);
         });
     }
 
-    get testSubApplications(): FormArray {
-        return (<FormArray>this.testMasterForm.get('testSubApplications'));
-    }
+    createTestMasters(testPlanTestMasterItem: TestPlanTestMasterDto): FormGroup {
 
-    createTestSubApplications(subApplicationItem: TestSubApplicationDto): FormGroup {
+        let existingTestMasterItem = this.testMasterList.find(x=> x.id == testPlanTestMasterItem.testId);
+
         return this.formBuilder.group({
-            id: new FormControl(subApplicationItem.id, []),
-            subApplicationId: new FormControl(subApplicationItem.subApplicationId, []),
-            subApplicationName: new FormControl(subApplicationItem.name, []),
-            isNABL: new FormControl(subApplicationItem.isNABL, []),
-            isMOEF: new FormControl(subApplicationItem.isMOEF, []),
-            testId: new FormControl(subApplicationItem.testId, [])
+            id: new FormControl(testPlanTestMasterItem.id, []),
+            testName : new FormControl(existingTestMasterItem? existingTestMasterItem.name : '', []),
+            unitName: new FormControl(existingTestMasterItem? existingTestMasterItem.unitName : '', []),
+            techniqueName : new FormControl(existingTestMasterItem? existingTestMasterItem.techniqueName : '', []),
+            rate : new FormControl(existingTestMasterItem? existingTestMasterItem.rate : '', []),
+            method : new FormControl(existingTestMasterItem? existingTestMasterItem.method : '', []),
+            testId: new FormControl(testPlanTestMasterItem.testId, [])
         });
     }
 
@@ -188,8 +135,8 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
         });
     }
 
-    get testVariables(): FormArray {
-        return (<FormArray>this.testMasterForm.get('testVariables'));
+    get testPlanTestMasters(): FormArray {
+        return (<FormArray>this.testPlanMasterForm.get('testPlanTestMasters'));
     }
 
     onShown(): void {
@@ -197,7 +144,6 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
     }
 
     close(): void {
-        this.selectedTestMaster = new DropdownDto();
         this.active = false;
         this.modal.hide();
     }
@@ -205,18 +151,18 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
     addTestVariable() {
         let testVariableItem: TestVariableDto = new TestVariableDto();
         let testVariableForm = this.createTestVariables(testVariableItem);
-        this.testVariables.push(testVariableForm);
+        this.testPlanTestMasters.push(testVariableForm);
     }
 
 
     save(): void {
-        if (this.testMasterForm.valid) {
-            let input = new TestMasterInputDto();
-            input = this.testMasterForm.value;
+        if (this.testPlanMasterForm.valid) {
+            let input = new TestPlanMasterInputDto ();
+            input = this.testPlanMasterForm.value;
             this.saving = true;
 
-            this._testMasterService
-                .insertOrUpdateTest(input)
+            this._testPlanMasterService
+                .insertOrUpdateTestPlan(input)
                 .pipe(
                     finalize(() => {
                         this.saving = false;

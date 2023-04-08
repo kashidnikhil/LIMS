@@ -129,15 +129,17 @@
             }
         }
 
-        public async Task<List<TestMasterDto>> GetTestListFromDB()
+        public async Task<List<TestMasterListDto>> GetTestListFromDB()
         {
             try
             {
-                var testMasterItems = await this._testMasterRepository.GetAll()
+                var testMasterItems = await this._testMasterRepository.GetAllIncluding(x => x.Unit)
+                    .Include(x => x.Application)
+                    .Include(x => x.Technique)
                     .Where(testMasterItem => !testMasterItem.IsDeleted)
                     .ToListAsync();
 
-                return ObjectMapper.Map<List<TestMasterDto>>(testMasterItems);
+                return ObjectMapper.Map<List<TestMasterListDto>>(testMasterItems);
 
             }
             catch (Exception ex)
