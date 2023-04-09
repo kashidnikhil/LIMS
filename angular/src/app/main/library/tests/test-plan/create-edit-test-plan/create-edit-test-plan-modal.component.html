@@ -26,7 +26,7 @@
                             <div class="form-group mb-1">
                                 <label>{{"Application" | localize}}</label>
                                 <select placeholder="Select Application" class="form-control" #application
-                                    formControlName="applicationId" id="applicationId" name="applicationId">
+                                    formControlName="applicationsId" id="applicationsId" name="applicationsId">
                                     <!-- (change)="onApplicationSelect($event.target.value)" -->
                                     <option *ngFor="let applicationItem of applicationList"
                                         value="{{ applicationItem.id }}">
@@ -45,39 +45,52 @@
                             </div>
                         </div>
                         
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <div class="form-group">
-                                <button type="button" class="btn btn-primary font-weight-bold mt-5">
-                                {{ 'Apply' | localize }}
+                                <button type="button" class="btn btn-primary font-weight-bold mt-5" (click)="addTestMaster()">
+                                {{ 'AddTest' | localize }}
                             </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12 row mb-4">
                         
-                        <div class="col-md-7">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label>{{"Method" | localize}}</label>
-                                <input #methodInput id="method" class="form-control" type="text"
-                                    formControlName="method" name="method" />
+                                <label>{{"StandardReference" | localize}}</label>
+                                <select placeholder="Select Standard Reference" class="form-control" #standardReferenceIdInput
+                                    formControlName="standardReferenceId" id="standardReferenceId" name="standardReferenceId">
+                                    <option *ngFor="let standardReferenceItem of standardReferenceList" value="{{ standardReferenceItem.value }}">
+                                        {{ standardReferenceItem.title }}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 row mb-4" *ngIf="testPlanTestMasters.controls.length > 0">
-                        <div class="col-md-7" formArrayName="testPlanTestMasters">
+                        <div formArrayName="testPlanTestMasters">
                             <p-table [value]="testPlanTestMasters.controls" styleClass="p-datatable-gridlines">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th class="text-center">Sub Application</th>
-                                        <th class="text-center">NABL</th>
-                                        <th class="text-center">MOEF</th>
+                                        <th class="text-center">Test Name</th>
+                                        <th class="text-center">Unit</th>
+                                        <th class="text-center">Technique</th>
+                                        <th class="text-center">Limit</th>
+                                        <th class="text-center">Rate</th>
+                                        <th class="text-center">Method</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-testSubApplication let-rowIndex="rowIndex">
+                                <ng-template pTemplate="body" let-testItem let-rowIndex="rowIndex">
                                     <tr [formGroupName]="rowIndex">
-                                        <td class="text-center"> <label>{{testSubApplication.value.subApplicationName}}</label></td>
-                                        <td class="text-center"> <input type="radio" name="rowIndex" (change)="testSubApplication.value.isNABL = true" [checked]="testSubApplication.value.isNABL == true" [value]="testSubApplication.value.isNABL"></td>
-                                        <td class="text-center"> <input type="radio" name="rowIndex" (change)="testSubApplication.value.isMOEF = true" [checked]="testSubApplication.value.isMOEF == true" [value]="testSubApplication.value.isMOEF" ></td>
+                                        <td class="text-center"> <label>{{testItem.value.testName}}</label></td>
+                                        <td class="text-center"> <label>{{testItem.value.unitName}}</label></td>
+                                        <td class="text-center"> <label>{{testItem.value.techniqueName}}</label></td>
+                                        <td class="text-center">         
+                                            <input pInputText type="text" class="form-control" formControlName="limit" [(ngModel)]="testItem.value.limit">
+                                        </td>
+                                        <td class="text-center"> <label>{{testItem.value.rate}}</label></td>
+                                        <td class="text-center"> <label>{{testItem.value.method}}</label></td>
+                                        <td class="text-center"> <i class="fa fa-trash" *ngIf="!testItem.value.id" (click)="deleteTestMasterItem(rowIndex)"></i></td>
+                             
                                     </tr>
                                 </ng-template>
                                 <!-- <ng-template pTemplate="summary"> Footer </ng-template> -->

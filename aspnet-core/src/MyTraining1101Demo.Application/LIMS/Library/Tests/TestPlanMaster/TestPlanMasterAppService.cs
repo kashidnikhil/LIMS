@@ -47,9 +47,9 @@
 
                     if (input.TestPlanTestMasters != null && input.TestPlanTestMasters.Count > 0)
                     {
-                        input.TestPlanTestMasters.ForEach(testVariableItem =>
+                        input.TestPlanTestMasters.ForEach(testPlanTestMasterItem =>
                         {
-                            testVariableItem.TestPlanId = insertedOrUpdatedTestPlanMasterId;
+                            testPlanTestMasterItem.TestPlanId = insertedOrUpdatedTestPlanMasterId;
                         });
                         await this._testPlanTestMasterManager.BulkInsertOrUpdateTestPlanTestMaster(input.TestPlanTestMasters);
                     }

@@ -1159,6 +1159,7 @@
 	  
 	  <!-- Standard References section-->
 	  <text name="StandardReferences">Standard References</text>
+	  <text name="StandardReference">Standard Reference</text>
 	  <text name="StandardReferencesHeaderInfo">Manage standard references.</text>
 	  <text name="CreateNewStandardReference">Create new standard reference</text>
 	  <text name="EditStandardReference">Edit standard reference</text>
@@ -1323,6 +1324,7 @@
 	  <text name="Method">Method</text>
 	  <text name="MethodDescription">Method Description</text>
 	  <text name="SC">SC</text>
+	  <text name="AddTest">Add Test</text>
 	  <text name="CopyTestFrom">Copy Test From</text> 
 	  
 	   <!-- Test section-->

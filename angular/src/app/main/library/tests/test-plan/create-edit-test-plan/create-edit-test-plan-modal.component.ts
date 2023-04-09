@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Injector, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { AppComponentBase } from "@shared/common/app-component-base";
-import { ApplicationsDto, ApplicationsServiceProxy, DropdownDto, TestMasterDto, TestMasterInputDto, TestMasterListDto, TestMasterServiceProxy, TestPlanMasterDto, TestPlanMasterInputDto, TestPlanMasterServiceProxy, TestPlanTestMasterDto, TestPlanTestMasterInputDto, TestSubApplicationDto, TestVariableDto, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
+import { ApplicationsDto, ApplicationsServiceProxy, DropdownDto, StandardReferenceServiceProxy, TestMasterDto, TestMasterInputDto, TestMasterListDto, TestMasterServiceProxy, TestPlanMasterDto, TestPlanMasterInputDto, TestPlanMasterServiceProxy, TestPlanTestMasterDto, TestPlanTestMasterInputDto, TestSubApplicationDto, TestVariableDto, UnitDto, UnitServiceProxy } from "@shared/service-proxies/service-proxies";
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from "rxjs/operators";
 
@@ -21,12 +21,14 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
     testMasterList: TestMasterListDto[] = [];
     filteredTestMasterList: TestMasterListDto[] = [];
     selectedTestMaster: TestMasterListDto;
+    standardReferenceList : DropdownDto[] =[];
 
     applicationList: ApplicationsDto[] = [];
     testMasterInput: TestMasterDto = new TestMasterDto();
 
     constructor(
         injector: Injector,
+        private _standardReferenceService: StandardReferenceServiceProxy,
         private _testPlanMasterService: TestPlanMasterServiceProxy,
         private _testMasterService: TestMasterServiceProxy,
         private _applicationService: ApplicationsServiceProxy,
@@ -56,6 +58,7 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
     async loadDropdownList() {
         await this.loadApplicationList();
         await this.loadTestMasterList();
+        await this.loadStandardReferenceList();
     }
 
     async loadApplicationList() {
@@ -64,6 +67,16 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
             this.applicationList = [];
             applicationList.forEach((applicationItem: ApplicationsDto) => {
                 this.applicationList.push(applicationItem);
+            });
+        }
+    }
+
+    async loadStandardReferenceList() {
+        let tempStandardReferenceList = await this._standardReferenceService.getStandardReferenceList().toPromise();
+        if (tempStandardReferenceList.length > 0) {
+            this.standardReferenceList = [];
+            tempStandardReferenceList.forEach((standardReferenceItem: DropdownDto) => {
+                this.standardReferenceList.push(standardReferenceItem);
             });
         }
     }
@@ -120,20 +133,18 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
             testName : new FormControl(existingTestMasterItem? existingTestMasterItem.name : '', []),
             unitName: new FormControl(existingTestMasterItem? existingTestMasterItem.unitName : '', []),
             techniqueName : new FormControl(existingTestMasterItem? existingTestMasterItem.techniqueName : '', []),
+            limit : new FormControl(testPlanTestMasterItem.limit,[]),
             rate : new FormControl(existingTestMasterItem? existingTestMasterItem.rate : '', []),
             method : new FormControl(existingTestMasterItem? existingTestMasterItem.method : '', []),
             testId: new FormControl(testPlanTestMasterItem.testId, [])
         });
     }
 
-    createTestVariables(testVariable: TestVariableDto): FormGroup {
-        return this.formBuilder.group({
-            id: new FormControl(testVariable.id, []),
-            variable: new FormControl(testVariable.variable, []),
-            description: new FormControl(testVariable.description, []),
-            cellValue: new FormControl(testVariable.cellValue, [])
-        });
+    deleteTestMasterItem(indexValue: number){
+        const testSubApplicationArray = this.testPlanTestMasters;
+        testSubApplicationArray.removeAt(indexValue);
     }
+
 
     get testPlanTestMasters(): FormArray {
         return (<FormArray>this.testPlanMasterForm.get('testPlanTestMasters'));
@@ -148,12 +159,18 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
         this.modal.hide();
     }
 
-    addTestVariable() {
-        let testVariableItem: TestVariableDto = new TestVariableDto();
-        let testVariableForm = this.createTestVariables(testVariableItem);
-        this.testPlanTestMasters.push(testVariableForm);
+    addTestMaster() {    
+        if(this.selectedTestMaster && this.selectedTestMaster.id ){
+            let testPlanTestMasterList = this.testPlanTestMasters.value;
+            let existingTestPlanTestMasterItem = testPlanTestMasterList.some(x=> x.testId == this.selectedTestMaster.id);
+            if(!existingTestPlanTestMasterItem){
+                let testPlanTestMasterItem: TestPlanTestMasterDto = new TestPlanTestMasterDto();
+                testPlanTestMasterItem.testId = this.selectedTestMaster.id;
+                let testPlanTestMasterForm = this.createTestMasters(testPlanTestMasterItem);
+                this.testPlanTestMasters.push(testPlanTestMasterForm);
+            }
+        }
     }
-
 
     save(): void {
         if (this.testPlanMasterForm.valid) {

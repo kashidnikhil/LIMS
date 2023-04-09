@@ -10,6 +10,8 @@ namespace MyTraining1101Demo.LIMS.Library.Tests.TestPlans.TestPlanTestMasters
     [Table("TestPlanTestMaster")]
     public class TestPlanTestMaster : FullAuditedEntity<Guid>
     {
+        public string Limit { get; set; }
+
         public virtual Guid? TestPlanId { get; set; }
         public virtual TestPlan TestPlan { get; set; }
 
