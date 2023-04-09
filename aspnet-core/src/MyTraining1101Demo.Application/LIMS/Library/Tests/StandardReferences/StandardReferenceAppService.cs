@@ -2,6 +2,7 @@
 using MyTraining1101Demo.LIMS.Library.Tests.StandardReferences.Dto;
 using MyTraining1101Demo.LIMS.Shared;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReferences
@@ -81,6 +82,19 @@ namespace MyTraining1101Demo.LIMS.Library.Tests.StandardReferences
             try
             {
                 var response = await this._standardReferenceManager.RestoreStandardReference(standardReferenceId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+        public async Task<List<DropdownDto>> GetStandardReferenceList()
+        {
+            try
+            {
+                var response = await this._standardReferenceManager.GetStandardReferenceListFromDB();
                 return response;
             }
             catch (Exception ex)

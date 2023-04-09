@@ -4,6 +4,7 @@
     using MyTraining1101Demo.LIMS.Library.Tests.StandardReferences.Dto;
     using MyTraining1101Demo.LIMS.Shared;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IStandardReferenceAppService
@@ -16,5 +17,7 @@
         Task<StandardReferenceDto> GetStandardReferenceById(Guid standardReferenceId);
 
         Task<bool> RestoreStandardReference(Guid standardReferenceId);
+
+        Task<List<DropdownDto>> GetStandardReferenceList();
     }
 }

@@ -17,25 +17,26 @@
                     <div class="col-md-12 row mb-4">
                         <div class="col-md-8 row">
                             <div class="form-group mb-1">
-                                <label>{{"Name" | localize}}</label>
+                                <label>{{"TestPlanName" | localize}}</label>
                                 <input #nameInput id="name" class="form-control" type="text" formControlName="name"
                                     name="name" />
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12 row mb-4">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label></label>
-                                <label class="form-check form-check-custom form-check-solid py-1 mt-2">
-                                    <input id="isDefaultTechnique" type="checkbox" name="isDefaultTechnique"
-                                        class="form-check-input btn-danger" formControlName="isDefaultTechnique" />
-                                    <span class="form-check-label">
-                                        {{ 'DefaultTechnique' | localize }}
-                                    </span>
-                                </label>
+                        <div class="col-md-4 row">
+                            <div class="form-group mb-1">
+                                <label>{{"Application" | localize}}</label>
+                                <select placeholder="Select Application" class="form-control" #application
+                                    formControlName="applicationId" id="applicationId" name="applicationId">
+                                    <!-- (change)="onApplicationSelect($event.target.value)" -->
+                                    <option *ngFor="let applicationItem of applicationList"
+                                        value="{{ applicationItem.id }}">
+                                        {{ applicationItem.name }}
+                                    </option>
+                                </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-12 row mb-4">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>{{ 'Test' | localize }}</label>
@@ -53,19 +54,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 row mb-4">
-                        <div class="col-md-5 row">
-                            <div class="form-group mb-1">
-                                <label>{{"Application" | localize}}</label>
-                                <select placeholder="Select Application" class="form-control" #application
-                                    formControlName="applicationId" id="applicationId" name="applicationId">
-                                    <!-- (change)="onApplicationSelect($event.target.value)" -->
-                                    <option *ngFor="let applicationItem of applicationList"
-                                        value="{{ applicationItem.id }}">
-                                        {{ applicationItem.name }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
+                        
                         <div class="col-md-7">
                             <div class="form-group">
                                 <label>{{"Method" | localize}}</label>

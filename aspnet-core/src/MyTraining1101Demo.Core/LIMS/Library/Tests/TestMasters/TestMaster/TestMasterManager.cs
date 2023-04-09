@@ -111,7 +111,7 @@
             }
         }
 
-        public async Task<List<DropdownDto>> GetTesMasterListFromDB()
+        public async Task<List<DropdownDto>> GetTestMasterListFromDB()
         {
             try
             {

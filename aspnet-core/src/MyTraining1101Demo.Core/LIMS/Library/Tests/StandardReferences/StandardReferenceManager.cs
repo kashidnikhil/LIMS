@@ -157,5 +157,23 @@
                 throw ex;
             }
         }
+
+        public async Task<List<DropdownDto>> GetStandardReferenceListFromDB()
+        {
+            try
+            {
+                var testMasterItems = await this._standardReferenceRepository.GetAll()
+                    .Where(standardReferenceItem => !standardReferenceItem.IsDeleted)
+                    .ToListAsync();
+
+                return ObjectMapper.Map<List<DropdownDto>>(testMasterItems);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
     }
 }

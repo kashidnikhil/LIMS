@@ -122,7 +122,7 @@
         {
             try
             {
-                var response = await this._testMasterManager.GetTesMasterListFromDB();
+                var response = await this._testMasterManager.GetTestMasterListFromDB();
                 return response;
             }
             catch (Exception ex)

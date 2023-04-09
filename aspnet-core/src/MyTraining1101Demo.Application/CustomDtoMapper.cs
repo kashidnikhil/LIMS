@@ -235,6 +235,11 @@ namespace MyTraining1101Demo
             configuration.CreateMap<StandardReference, StandardReferenceDto>().ReverseMap();
             configuration.CreateMap<StandardReference, StandardReferenceInputDto>().ReverseMap();
 
+            configuration.CreateMap<StandardReference, DropdownDto>()
+                        .ForMember(dto => dto.Value, options => options.MapFrom(x => x.Id))
+                        .ForMember(dto => dto.Title, options => options.MapFrom(x => x.Name))
+                        .ReverseMap();
+
             configuration.CreateMap<StandardRemark, StandardRemarkDto>().ReverseMap();
             configuration.CreateMap<StandardRemark, StandardRemarkInputDto>().ReverseMap();
 
