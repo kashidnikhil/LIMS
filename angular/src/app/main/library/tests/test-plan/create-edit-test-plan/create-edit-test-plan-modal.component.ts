@@ -145,7 +145,6 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
         testSubApplicationArray.removeAt(indexValue);
     }
 
-
     get testPlanTestMasters(): FormArray {
         return (<FormArray>this.testPlanMasterForm.get('testPlanTestMasters'));
     }
@@ -174,7 +173,7 @@ export class CreateOrEditTestPlanModalComponent extends AppComponentBase {
 
     save(): void {
         if (this.testPlanMasterForm.valid) {
-            let input = new TestPlanMasterInputDto ();
+            let input = new TestPlanMasterInputDto();
             input = this.testPlanMasterForm.value;
             this.saving = true;
 
